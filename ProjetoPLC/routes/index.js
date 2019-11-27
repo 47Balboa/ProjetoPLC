@@ -6,4 +6,8 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Pri2019 _ 2020' });
 });
 
+router.get('/login', function (req, res, next) {
+  res.render('login');
+});
+
 module.exports = router;
