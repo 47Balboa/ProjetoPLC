@@ -3,6 +3,11 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var mongoose = require('mongoose');
+
+mongoose.connect('mongodb+srv://taliban:pri20192020@pri2019-oycpr.mongodb.net/test?retryWrites=true&w=majority', {dbName:"pri2019", useUnifiedTopology: true, useNewUrlParser: true})
+        .then(() => console.log("--> MongoAtlasDB connected\n"))
+        .catch(() => console.log("--> MongoAtlasDB connection refused\n"))
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
