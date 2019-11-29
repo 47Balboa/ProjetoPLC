@@ -11,6 +11,7 @@ mongoose.connect('mongodb+srv://taliban:pri20192020@pri2019-oycpr.mongodb.net/te
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+console.log(typeof(indexRouter)+"<-");
 
 var app = express();
 

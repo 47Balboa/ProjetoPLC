@@ -1,0 +1,34 @@
+.example
+  h2 
+    background: black
+    color: white
+  display: flex
+  flex-direction: column
+
+  
+.example-layout
+  display: flex
+  flex-direction: column
+  
+  header
+    padding: 20px
+    height: 5vh
+    font-size: 40px
+    font-weight: 900
+    background: #ff9933
+    color: white
+    text-shadow: 2px 2px black
+    
+  .row
+    display: flex
+    flex-grow: 1
+    .col-1
+      background: lightblue
+      flex-grow: 1
+    .col-2
+      background: strawberry
+      width: 160px
+      order: -1
+    .col-3
+      background: peachpuff
+      width: 160px

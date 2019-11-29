@@ -10,6 +10,8 @@ router.get('/',function(req,res){
 })
 
 
+
+
 /* GET users listing. */
 router.get('/register', function (req, res, next) {
   res.render('index');
@@ -41,6 +43,6 @@ router.get('/register', function (req, res, next) {
             })
         }
       });
-  });
+  },function(rew){});
 
 module.exports = router;
