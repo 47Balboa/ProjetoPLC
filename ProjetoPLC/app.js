@@ -5,9 +5,9 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require('mongoose');
 
-mongoose.connect('mongodb+srv://taliban:pri20192020@pri2019-oycpr.mongodb.net/test?retryWrites=true&w=majority', {dbName:"pri2019", useUnifiedTopology: true, useNewUrlParser: true})
+mongoose.connect('mongodb+srv://mercy:mercy123@pri2019-oycpr.mongodb.net/test?retryWrites=true&w=majority', {dbName:"pri2019", useUnifiedTopology: true, useNewUrlParser: true})
         .then(() => console.log("--> MongoAtlasDB connected\n"))
-        .catch(() => console.log("--> MongoAtlasDB connection refused\n"))
+        .catch((error) => console.log("--> MongoAtlasDB connection refused\n" + error))
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
