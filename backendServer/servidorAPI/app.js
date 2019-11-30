@@ -6,11 +6,13 @@ var cors = require('cors');
 
 var app = express();
 
+
 // Conexão base de dados
 var mongoose = require('mongoose');
 mongoose.connect('mongodb+srv://taliban:pri20192020@pri2019-oycpr.mongodb.net/test?retryWrites=true&w=majority', {dbName:"pri2019", useUnifiedTopology: true, useNewUrlParser: true})
         .then(() => console.log("--> MongoAtlasDB connected\n"))
         .catch((error) => console.log("--> MongoAtlasDB connection refused\n" + error))
+
 
 
 // Routes
