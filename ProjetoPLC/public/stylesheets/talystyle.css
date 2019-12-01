@@ -1,34 +1,33 @@
-.example
-  h2 
-    background: black
-    color: white
-  display: flex
-  flex-direction: column
+.photoDiv{
+  min-height: 35vh;
+  background: forestgreen;
+  flex-direction: column;
+}
 
-  
-.example-layout
-  display: flex
-  flex-direction: column
-  
-  header
-    padding: 20px
-    height: 5vh
-    font-size: 40px
-    font-weight: 900
-    background: #ff9933
-    color: white
-    text-shadow: 2px 2px black
-    
-  .row
-    display: flex
-    flex-grow: 1
-    .col-1
-      background: lightblue
-      flex-grow: 1
-    .col-2
-      background: strawberry
-      width: 160px
-      order: -1
-    .col-3
-      background: peachpuff
-      width: 160px
+html {
+  height: 100%;
+}
+body {
+  min-height: 90%;
+}
+.bodyDiv{
+  display: flex;
+  min-height: 60vh;
+  background: black;
+}
+
+.avatar {
+  text-align: center;
+  padding: 20px;
+}
+.avatar img{
+  display: inline-block;
+  max-width:200px;
+  max-height:200px;
+  width: auto;
+  height: auto;
+
+  border-style: solid;
+  border-radius: 50%;
+  border-width: 3px;
+}
