@@ -1,0 +1,29 @@
+extends profile_layout
+
+block content
+    #MyModal.modal
+        span.close &times;
+        img#img01.modal-content()
+        #caption
+    .photoDiv
+        .avatar
+            img(src='/images/ggg.png' alt="avatar" id="1mymodal" onclick="imgGrow('" + user.nome + "','" + user.apelido + "')")
+            h1= user.nome + " " + user.apelido
+    .dropdown-divider
+    .bodyDiv
+        .row1
+            img(src='/images/university.png')
+            .template
+                h3 Licenciatura Engenharia Informática
+                h4 3º Ano 
+            .divider.div-transparent
+            p Olá sou o joãozito e gosto muito de saltar a corda, sou bom aluno porque nao vou para as aulas limar as unhas como certas pessoas welelele"
+            .divider.div-transparent
+            p METER MAIS MERDITAS AQUI
+        .row2
+            .navigationBar
+                .col1 Publicações
+                .col1 Fotos
+                .col1 Amigos
+            .notnavigation
+        

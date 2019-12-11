@@ -1,0 +1,75 @@
+
+/* principal caixa que obtem o espaço todo senão virem o background a verde e porque as outras caixas ocupam o resto do background */
+
+.maindiv{
+  display: flex;
+  flex-direction: column;
+  background: green;
+}
+
+
+
+/*  O .header sem nada define a caixa laranja que vai ter os objetos. Ele vai ter 2 caixas, caixa1 (h2) e caixa2(h3)
+    O display flex e para ser flexivel. Senao souberem a diferença entre padding e margin digam me que e importante saberem
+    o flex direction row para o que tiver dentro do header tar numa row e nao numa coluna.
+*/
+
+.header{
+    display: flex;
+    padding: 20px;
+    background: #ff9933;
+    flex-direction: row;
+}
+
+.header h2{ 
+    flex-grow:1;
+    background: black;
+    color: red;
+}
+
+.header h3{
+    background: lightblue;
+    flex-grow: 1;
+}
+
+
+
+/*caixa que vai ter a tabela e o resto que meter ele mete numa coluna */
+
+.body-box{
+    display: flex;
+    flex-direction: column;
+}
+
+.body-box header{
+    text-align: center;
+    justify-content: center;
+    font-size: 40px;
+}
+
+.row .col-1{
+    margin-top:10px;
+    margin-bottom:10px;
+    background: peachpuff;
+    flex-grow: 1;
+    font-size: 20px;
+}
+
+.row .col-2{
+    padding: 10px;
+    color: white;
+    background: black;
+    width: 60px;
+}
+
+.row .col-3{
+    
+}
+
+
+
+
+
+
+  
+
