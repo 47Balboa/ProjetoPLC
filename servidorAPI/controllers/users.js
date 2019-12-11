@@ -5,9 +5,12 @@ module.exports.listar=()=>{
 }
 
 module.exports.addUser=user=>{
-    return Users.create(user)
+    var novo = new Users(user);
+    return novo.save();
 }
 
 module.exports.getUser = email => {
-    return Users.find({email: email}).exec()
+    
+    return Users.findOne({email: email}).exec()
+
 }

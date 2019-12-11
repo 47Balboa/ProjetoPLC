@@ -3,38 +3,70 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var uuid = require('uuid/v4')
-var session = require('session')
-var Filestore = require('session-file-store');
+var session = require('express-session')
+var uuid = require('uuid');
 var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
+var LocalStrategy = require('passport-local').Strategy
 var flash = require('connect-flash');
 var app = express();
-
-// Conexão base de dados
-var mongoose = require('mongoose');
-
-mongoose.connect('mongodb+srv://taliban:pri20192020@pri2019-oycpr.mongodb.net/test?retryWrites=true&w=majority', {dbName:"pri2019", useUnifiedTopology: true, useNewUrlParser: true})
-        .then(() => console.log("--> MongoAtlasDB connected\n"))
-        .catch((error) => console.log("--> MongoAtlasDB connection refused\n" + error))
-
-
-// passport
-
-var passport
-
+var axios = require('axios');
+var FileStore = require('session-file-store')(session);
 
 // Routes
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
+var passport = require('passport');
 
+passport.use(new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
+  var token = jwt.sign({ sub: "teste token" }, 'pri', { expiresIn: 5040, issuer: "classbin", audience: "class" })
+  axios.get('http://localhost:3061/users/' + email + '?token=' + token).then(dados => {
+    const user = dados.data
+    if (!user) {
+      return done(null, false, { message: "utilizador inexistente" })
+    }
+    else {
+      if (!bcrypt.compareSync(password, user.password)) {
+        return done(null, false, { message: "password invalida" })
+      }
+      else return done(null, user)
+    }
+  }).catch(erro => {
+    done(erro);
+  })
+}))
 
+passport.deserializeUser((email, done) => {
+  axios.get('http://localhost:3061/users/' + email).then(dados => {
+    done(null, dados.data);
+  })
+    .catch(erro => {
+      done(erro, false);
+    })
+})
+
+passport.serializeUser((user, done) => {
+  done(null, user.email);
+})
 
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+
+app.use(session({
+  genid: req => {
+    return uuid();
+  },
+  store: new FileStore(),
+  secret: 'pri',
+  resave: false,
+  saveUninitialized: true
+}))
+
+app.use(passport.initialize())
+app.use(passport.session())
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -46,12 +78,12 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
