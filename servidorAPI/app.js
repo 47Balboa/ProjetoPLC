@@ -35,6 +35,7 @@ var extractFromSession = function(req){
 
 var extractFromQS = function(req){
   var token = null
+  console.log("este e o token: " + req.query.token)
   token = req.query.token
   return token
 }
@@ -42,6 +43,7 @@ var extractFromQS = function(req){
 var extractFromBody = function(req){
   var token = null
   token = req.body.token
+  
   return token
 }
 
@@ -50,16 +52,19 @@ passport.use(new JWTStrategy({
   jwtFromRequest: ExtractJWT.fromExtractors([extractFromSession, extractFromQS, extractFromBody])
 }, async (token, done) => {
   try{
+    console.log(" OLAAAAAAA")
     return done(null, token)
   }
   catch(error){
+    console.log(error + " <<<<<<<<<<------")
     return done(error)
   }
 }))
 
 
 
-
+app.use(passport.initialize())
+app.use(passport.session())
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -80,8 +85,7 @@ app.use(function(req, res, next) {
   next(createError(404));
 });
 
-app.use(passport.initialize())
-app.use(passport.session())
+
 
 // error handler
 app.use(function(err, req, res, next) {

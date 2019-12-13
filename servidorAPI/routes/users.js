@@ -12,17 +12,14 @@ router.get('/', function (req, res, next) {
 });
 
 
-router.get('/:email', passport.authenticate('jwt'),function (req, res, next) {
-  Users.getUser(req.params.email).then(dados => {
-    res.jsonp(dados)
-  }).catch(erro => {
-    res.jsonp(erro);
-  })
+router.get('/:email', passport.authenticate('jwt'),function (req, res) {
+  console.log("so par confirmar: " + req.body.email)
+ 
+
 });
 
 router.post('/register', function (req, res, next) {
 
-  console.log("so par confirmar: " + req.body.email)
   Users.getUser(req.body.email).then(dados => {
     if (dados == null) {
       Users.addUser(req.body).then(v => {
