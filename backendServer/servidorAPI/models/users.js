@@ -13,6 +13,7 @@ var userSchema = new mongoose.Schema({
     morada: String,
     posts: [String],
     friends: [String],
+    friendsRequests: [String],
     comments: [String]
 })
 

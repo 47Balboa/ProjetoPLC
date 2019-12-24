@@ -2,6 +2,10 @@ const passport = require('passport');
 const passportJWT = require("passport-jwt");
 const Users = require('../controllers/users')
 const ExtractJWT = passportJWT.ExtractJwt;
+const bcrypt = require('bcryptjs')
+const fs = require('fs')
+const publicKey = fs.readFileSync('./keys/publickey.key','utf-8')
+
 
 const LocalStrategy = require('passport-local').Strategy;
 const JWTStrategy = passportJWT.Strategy;
@@ -12,14 +16,11 @@ passport.use(new LocalStrategy({
 },
     function (email, password, done) {
         Users.getUser(email).then(dados => {
-            user = dados;
-            if(password === "12345"){
-               
-                return done(null,{message: "deu"})
-                
+            var user = dados;
+            if(bcrypt.compareSync(password,user.password)){
+                return done(null,user)
             }
             else{
-                
                 done(null,false,{message: 'Password Errada'})
             }
         }).catch(error=>{
@@ -32,17 +33,15 @@ passport.use(new LocalStrategy({
 
 passport.use(new JWTStrategy({
     jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-    secretOrKey: 'secret'
+    secretOrKey: publicKey
 },
-    function (jwtPayload, cb) {
-        console.log("cheguei a funçao jwt");
-        //find the user in db if needed
-        return UserModel.findOneById(jwtPayload.id)
-            .then(user => {
-                return cb(null, user);
-            })
-            .catch(err => {
-                return cb(err);
-            });
+    function (jwtPayload, done) {
+        Users.getUser(jwtPayload.user.email).then(dados => {
+            var user = dados;
+            return done(null,user);
+        })
+        .catch(error=>{
+            return done(error);
+        })
     }
 ));
