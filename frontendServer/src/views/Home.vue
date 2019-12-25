@@ -9,7 +9,7 @@
 
 <script>
 // @ is an alias to /src
-import SidebarMenuItem from './../components/SidebarMenuItem'
+
 
 export default {
   name: 'home',
