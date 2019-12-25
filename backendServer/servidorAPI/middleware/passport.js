@@ -15,6 +15,7 @@ passport.use(new LocalStrategy({
     passwordField: 'password'
 },
     function (email, password, done) {
+        console.log("este e o email: " +email + " e esta a pass: "+password)
         Users.getUser(email).then(dados => {
             var user = dados;
             if(bcrypt.compareSync(password,user.password)){

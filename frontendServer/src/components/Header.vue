@@ -24,26 +24,12 @@
 </template>
 
 <script>
-import axios from "axios";
+
 
 export default {
   name: "Header",
   methods: {
     submit() {
-      
-        /* eslint-disable no-console */
-        axios
-          .post("http://localhost:3061/users/login", {
-            email: "12341234",
-            password: "12345"
-          })
-          .then(res => {
-            console.log("request made " + res);
-          })
-          .catch(e => {
-            console.log("erro na resposta " + e);
-          });
-        /* eslint-enable no-console */
       
     }
   }

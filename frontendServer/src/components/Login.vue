@@ -3,8 +3,8 @@
     <v-row align="center" justify="center">
       <v-col cols="12" sm="8" md="4">
         <v-card class="elevation-12">
-          <v-toolbar color="primary" dark flat>
-            <v-toolbar-title>Login form</v-toolbar-title>
+          <v-toolbar color="purple" dark flat>
+            <v-toolbar-title>Login</v-toolbar-title>
             <v-spacer />
             <v-tooltip bottom>
               <template v-slot:activator="{ on }"></template>
@@ -31,16 +31,23 @@
                 id="email"
                 label="Email"
                 name="email"
-                prepend-icon="person"
+                prepend-icon="mdi-email"
                 type="text"
               />
 
-              <v-text-field id="password" label="Password" name="password" type="password" />
+              <v-text-field
+                id="password"
+                label="Password"
+                name="password"
+                type="password"
+                prepend-icon="mdi-lock"
+              />
             </v-form>
           </v-card-text>
           <v-card-actions>
+            <v-btn @click="submit()" color="purple">Login</v-btn>
             <v-spacer />
-            <v-btn @click="testing()" color="primary">Login</v-btn>
+            <v-btn to="/register">Sign Up</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -57,30 +64,30 @@ export default {
     submit() {
       axios
         .post("http://localhost:3061/users/login", {
-          email: this.email,
-          password: this.password
+          email: "12341234",
+          password: "12345"
         })
         .then(response => {
-          switch (response.data.status) {
+          switch (response.status) {
             case 200:
               this.setToken(response.data.token);
               this.$router.push("/home");
               break;
             default:
-              this.$router.push("login");
+              this.$router.push("/login");
           }
         });
     },
     testing() {
-        axios.get("http://localhost:3061/users").then(response => {
-          switch (response.data.status) {
-            case 200:
-              this.$router.push("/home");
-              break;
-            default:
-              this.$router.push("login");
-          }
-        });
+      axios.get("http://localhost:3061/users").then(response => {
+        switch (response.data.status) {
+          case 200:
+            this.$router.push("/home");
+            break;
+          default:
+            this.$router.push("login");
+        }
+      });
     }
   }
 };
