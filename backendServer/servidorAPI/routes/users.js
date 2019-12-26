@@ -7,7 +7,7 @@ const fs = require('fs')
 const privateKey = fs.readFileSync('./keys/privatekey.key', 'utf-8')
 const publicKey = fs.readFileSync('./keys/publickey.key', 'utf-8')
 
-
+const {uploadI, uploadF} = require('./../multer/mlt') 
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
@@ -17,6 +17,11 @@ router.get('/', function (req, res, next) {
     res.jsonp(erro)
   })
 });
+
+router.post('/image',passport.authenticate('jwt', { session: false }),uploadI.single('image'), function(req,res){
+  console.log("chegueeei  " + req.file);
+  res.status(200).jsonp({neat: "neat"})
+})
 
 
 
