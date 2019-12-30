@@ -1,4 +1,4 @@
-// Generated from C:/Users/Asus/Desktop/registo/src\Registo.g4 by ANTLR 4.7.2
+// Generated from C:/Users/Asus/Desktop/Registo/src\Registo.g4 by ANTLR 4.7.2
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -17,30 +17,30 @@ public class RegistoParser extends Parser {
 		new PredictionContextCache();
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
-		TEXT=10, NUMBER=11, DATE=12, WS=13;
+		T__9=10, TEXT=11, NUMBER=12, DATE=13, WS=14;
 	public static final int
 		RULE_registo = 0, RULE_personalData = 1, RULE_first_name = 2, RULE_last_name = 3, 
 		RULE_birthdate = 4, RULE_studentID = 5, RULE_email = 6, RULE_course = 7, 
-		RULE_location = 8;
+		RULE_location = 8, RULE_password = 9;
 	private static String[] makeRuleNames() {
 		return new String[] {
 			"registo", "personalData", "first_name", "last_name", "birthdate", "studentID", 
-			"email", "course", "location"
+			"email", "course", "location", "password"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "'['", "']'", "'Email'", "':'", "'Curso'", "'Nome'", "'Apelido'", 
-			"'DataNascimento'", "'Morada'"
+			null, "'['", "']'", "'Email'", "':'", "'Curso'", "'Password:'", "'Nome'", 
+			"'Apelido'", "'DataNascimento'", "'Morada'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, null, null, null, null, null, null, null, null, null, "TEXT", "NUMBER", 
-			"DATE", "WS"
+			null, null, null, null, null, null, null, null, null, null, null, "TEXT", 
+			"NUMBER", "DATE", "WS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -104,6 +104,9 @@ public class RegistoParser extends Parser {
 		public EmailContext email() {
 			return getRuleContext(EmailContext.class,0);
 		}
+		public PasswordContext password() {
+			return getRuleContext(PasswordContext.class,0);
+		}
 		public CourseContext course() {
 			return getRuleContext(CourseContext.class,0);
 		}
@@ -129,29 +132,42 @@ public class RegistoParser extends Parser {
 	public final RegistoContext registo() throws RecognitionException {
 		RegistoContext _localctx = new RegistoContext(_ctx, getState());
 		enterRule(_localctx, 0, RULE_registo);
+		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(18);
-			match(T__0);
-			setState(19);
-			studentID();
 			setState(20);
-			match(T__1);
+			match(T__0);
 			setState(21);
-			personalData();
+			studentID();
 			setState(22);
-			match(T__2);
+			match(T__1);
 			setState(23);
-			match(T__3);
+			personalData();
 			setState(24);
-			email();
+			match(T__2);
 			setState(25);
-			match(T__4);
-			setState(26);
 			match(T__3);
+			setState(26);
+			email();
 			setState(27);
-			course();
+			match(T__4);
+			setState(28);
+			match(T__3);
+			setState(30);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==TEXT) {
+				{
+				setState(29);
+				course();
+				}
+			}
+
+			setState(32);
+			match(T__5);
+			setState(33);
+			password();
 			}
 		}
 		catch (RecognitionException re) {
@@ -200,33 +216,58 @@ public class RegistoParser extends Parser {
 	public final PersonalDataContext personalData() throws RecognitionException {
 		PersonalDataContext _localctx = new PersonalDataContext(_ctx, getState());
 		enterRule(_localctx, 2, RULE_personalData);
+		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(29);
-			match(T__5);
-			setState(30);
-			match(T__3);
-			setState(31);
-			first_name();
-			setState(32);
-			match(T__6);
-			setState(33);
-			match(T__3);
-			setState(34);
-			last_name();
 			setState(35);
-			match(T__7);
+			match(T__6);
 			setState(36);
 			match(T__3);
 			setState(37);
-			birthdate();
+			first_name();
 			setState(38);
-			match(T__8);
+			match(T__7);
 			setState(39);
 			match(T__3);
-			setState(40);
-			location();
+			setState(41);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==TEXT) {
+				{
+				setState(40);
+				last_name();
+				}
+			}
+
+			setState(43);
+			match(T__8);
+			setState(44);
+			match(T__3);
+			setState(46);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==DATE) {
+				{
+				setState(45);
+				birthdate();
+				}
+			}
+
+			setState(48);
+			match(T__9);
+			setState(49);
+			match(T__3);
+			setState(51);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==TEXT) {
+				{
+				setState(50);
+				location();
+				}
+			}
+
 			}
 		}
 		catch (RecognitionException re) {
@@ -267,7 +308,7 @@ public class RegistoParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(42);
+			setState(53);
 			match(TEXT);
 			}
 		}
@@ -309,7 +350,7 @@ public class RegistoParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(44);
+			setState(55);
 			match(TEXT);
 			}
 		}
@@ -351,7 +392,7 @@ public class RegistoParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(46);
+			setState(57);
 			match(DATE);
 			}
 		}
@@ -393,7 +434,7 @@ public class RegistoParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(48);
+			setState(59);
 			match(NUMBER);
 			}
 		}
@@ -435,7 +476,7 @@ public class RegistoParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(50);
+			setState(61);
 			match(TEXT);
 			}
 		}
@@ -477,7 +518,7 @@ public class RegistoParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(52);
+			setState(63);
 			match(TEXT);
 			}
 		}
@@ -519,7 +560,49 @@ public class RegistoParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(54);
+			setState(65);
+			match(TEXT);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class PasswordContext extends ParserRuleContext {
+		public TerminalNode TEXT() { return getToken(RegistoParser.TEXT, 0); }
+		public PasswordContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_password; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof RegistoListener ) ((RegistoListener)listener).enterPassword(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof RegistoListener ) ((RegistoListener)listener).exitPassword(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof RegistoVisitor ) return ((RegistoVisitor<? extends T>)visitor).visitPassword(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final PasswordContext password() throws RecognitionException {
+		PasswordContext _localctx = new PasswordContext(_ctx, getState());
+		enterRule(_localctx, 18, RULE_password);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(67);
 			match(TEXT);
 			}
 		}
@@ -535,19 +618,23 @@ public class RegistoParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\17;\4\2\t\2\4\3\t"+
-		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\3\2\3\2\3\2"+
-		"\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3"+
-		"\3\3\3\3\3\3\3\3\4\3\4\3\5\3\5\3\6\3\6\3\7\3\7\3\b\3\b\3\t\3\t\3\n\3\n"+
-		"\3\n\2\2\13\2\4\6\b\n\f\16\20\22\2\2\2\61\2\24\3\2\2\2\4\37\3\2\2\2\6"+
-		",\3\2\2\2\b.\3\2\2\2\n\60\3\2\2\2\f\62\3\2\2\2\16\64\3\2\2\2\20\66\3\2"+
-		"\2\2\228\3\2\2\2\24\25\7\3\2\2\25\26\5\f\7\2\26\27\7\4\2\2\27\30\5\4\3"+
-		"\2\30\31\7\5\2\2\31\32\7\6\2\2\32\33\5\16\b\2\33\34\7\7\2\2\34\35\7\6"+
-		"\2\2\35\36\5\20\t\2\36\3\3\2\2\2\37 \7\b\2\2 !\7\6\2\2!\"\5\6\4\2\"#\7"+
-		"\t\2\2#$\7\6\2\2$%\5\b\5\2%&\7\n\2\2&\'\7\6\2\2\'(\5\n\6\2()\7\13\2\2"+
-		")*\7\6\2\2*+\5\22\n\2+\5\3\2\2\2,-\7\f\2\2-\7\3\2\2\2./\7\f\2\2/\t\3\2"+
-		"\2\2\60\61\7\16\2\2\61\13\3\2\2\2\62\63\7\r\2\2\63\r\3\2\2\2\64\65\7\f"+
-		"\2\2\65\17\3\2\2\2\66\67\7\f\2\2\67\21\3\2\2\289\7\f\2\29\23\3\2\2\2\2";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\20H\4\2\t\2\4\3\t"+
+		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\3"+
+		"\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\5\2!\n\2\3\2\3\2\3\2\3\3\3\3\3"+
+		"\3\3\3\3\3\3\3\5\3,\n\3\3\3\3\3\3\3\5\3\61\n\3\3\3\3\3\3\3\5\3\66\n\3"+
+		"\3\4\3\4\3\5\3\5\3\6\3\6\3\7\3\7\3\b\3\b\3\t\3\t\3\n\3\n\3\13\3\13\3\13"+
+		"\2\2\f\2\4\6\b\n\f\16\20\22\24\2\2\2A\2\26\3\2\2\2\4%\3\2\2\2\6\67\3\2"+
+		"\2\2\b9\3\2\2\2\n;\3\2\2\2\f=\3\2\2\2\16?\3\2\2\2\20A\3\2\2\2\22C\3\2"+
+		"\2\2\24E\3\2\2\2\26\27\7\3\2\2\27\30\5\f\7\2\30\31\7\4\2\2\31\32\5\4\3"+
+		"\2\32\33\7\5\2\2\33\34\7\6\2\2\34\35\5\16\b\2\35\36\7\7\2\2\36 \7\6\2"+
+		"\2\37!\5\20\t\2 \37\3\2\2\2 !\3\2\2\2!\"\3\2\2\2\"#\7\b\2\2#$\5\24\13"+
+		"\2$\3\3\2\2\2%&\7\t\2\2&\'\7\6\2\2\'(\5\6\4\2()\7\n\2\2)+\7\6\2\2*,\5"+
+		"\b\5\2+*\3\2\2\2+,\3\2\2\2,-\3\2\2\2-.\7\13\2\2.\60\7\6\2\2/\61\5\n\6"+
+		"\2\60/\3\2\2\2\60\61\3\2\2\2\61\62\3\2\2\2\62\63\7\f\2\2\63\65\7\6\2\2"+
+		"\64\66\5\22\n\2\65\64\3\2\2\2\65\66\3\2\2\2\66\5\3\2\2\2\678\7\r\2\28"+
+		"\7\3\2\2\29:\7\r\2\2:\t\3\2\2\2;<\7\17\2\2<\13\3\2\2\2=>\7\16\2\2>\r\3"+
+		"\2\2\2?@\7\r\2\2@\17\3\2\2\2AB\7\r\2\2B\21\3\2\2\2CD\7\r\2\2D\23\3\2\2"+
+		"\2EF\7\r\2\2F\25\3\2\2\2\6 +\60\65";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

@@ -1,0 +1,1 @@
+{"dataNasc":"12-10-1998","password":"coisas","apelido":"Pereira","curso":"Engenharia Informática","nome":"Filipa","id":81712,"email":"a81712@alunos.uminho.pt","morada":"Cabeceiras de Basto"}

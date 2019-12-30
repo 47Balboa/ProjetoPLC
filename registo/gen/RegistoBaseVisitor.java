@@ -1,4 +1,4 @@
-// Generated from C:/Users/Asus/Desktop/registo/src\Registo.g4 by ANTLR 4.7.2
+// Generated from C:/Users/Asus/Desktop/Registo/src\Registo.g4 by ANTLR 4.7.2
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
 /**
@@ -73,4 +73,11 @@ public class RegistoBaseVisitor<T> extends AbstractParseTreeVisitor<T> implement
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitLocation(RegistoParser.LocationContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitPassword(RegistoParser.PasswordContext ctx) { return visitChildren(ctx); }
 }
