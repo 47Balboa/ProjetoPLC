@@ -1,4 +1,4 @@
-// Generated from C:/Users/Asus/Desktop/Registo/src\Registo.g4 by ANTLR 4.7.2
+// Generated from C:/Users/Asus/Desktop/registo/src\Registo.g4 by ANTLR 4.7.2
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -63,10 +63,4 @@ public interface RegistoVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitLocation(RegistoParser.LocationContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link RegistoParser#password}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitPassword(RegistoParser.PasswordContext ctx);
 }
