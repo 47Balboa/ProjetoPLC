@@ -1,9 +1,8 @@
-[81712]
-Nome: "Filipa"
-Apelido: "Pereira"
-DataNascimento: 12-10-1998
-Morada: "Cabeceiras de Basto"
-Email: "a81712@alunos.uminho.pt"
+[82800]
+Nome: "Joao"
+Apelido: "Silva"
+DataNascimento: 20-07-2000
+Morada: "Braga"
+Email: "a82800@alunos.uminho.pt"
 Curso: "Engenharia Informática"
-Password: "coisas"
-
+Password: "cenas"
