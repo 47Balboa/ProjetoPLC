@@ -18,6 +18,7 @@ mongoose.connect('mongodb+srv://taliban:pri20192020@pri2019-oycpr.mongodb.net/te
 // Routes
 var usersRouter = require('./routes/users');
 var postsRouter = require('./routes/posts');
+var testRouter = require('./routes/test');
 
 
 require('./middleware/passport');
@@ -35,6 +36,7 @@ app.use(cors());
 
 app.use('/users', usersRouter);
 app.use('/posts', postsRouter);
+app.use('/test', testRouter)
 
 
 
