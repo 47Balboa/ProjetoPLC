@@ -4,7 +4,13 @@ import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify';
 
-Vue.config.productionTip = false
+import Socket from "./store/modules/socket"
+
+setInterval(() => {
+  Socket.send(`Message Number f`)
+}, 1000)
+
+
 
 new Vue({
   router,

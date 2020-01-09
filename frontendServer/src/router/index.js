@@ -3,7 +3,10 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import UserProfile from '../components/UserProfile.vue'
+import TesteChat from '../components/TesteChat.vue'
+import Friends from '../components/Friends.vue'
 import store from '../store/modules/token';
+import Utilizadores from '../components/Utilizadores.vue'
 
 Vue.use(VueRouter)
 
@@ -19,20 +22,42 @@ const isAuthenticated = (to, from, next) => {
 
 
 const routes = [
+ 
   {
-    path: '/',
+    path: '/home',
     name: 'home',
-    component: Home
+    component: Home,
+    beforeEnter: isAuthenticated
+  },
+  
+  {
+    path: '/users',
+    name: 'users',
+    component: Utilizadores,
+    beforeEnter: isAuthenticated
   },
   {
-    path: '/login',
+    path: '/friends',
+    name: 'friends',
+    component: Friends,
+    beforeEnter: isAuthenticated
+  },
+  {
+    path: '/',
     name: 'login',
     component: Login
   },
   {
     path: '/profile',
     name: 'profile',
+    beforeEnter: isAuthenticated,
     component: UserProfile
+  },
+  {
+    path: '/chat',
+    name: 'chat',
+    component: TesteChat,
+    beforeEnter: isAuthenticated
   },
   {
     path: '/about',

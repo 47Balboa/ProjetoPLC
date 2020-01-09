@@ -1,14 +1,16 @@
 <template>
-  <v-card height="calc(93.4vh)" width="300">
     <v-navigation-drawer
-      absolute
       dark
       src="https://cdn.vuetifyjs.com/images/backgrounds/bg-2.jpg"
-      width="100%"
+      min-height="100%"
       permanent
+      
+      clipped="true"
+      fixed
+      width="15%"
     >
       <v-list>
-        <v-list-item v-for="([icon, text], i) in items" :key="i" link>
+        <v-list-item v-for="([icon, text,toGo], i) in items" :to="toGo" :key="i" link>
           <v-list-item-icon>
             <v-icon>{{ icon }}</v-icon>
           </v-list-item-icon>
@@ -19,16 +21,20 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-  </v-card>
+
 </template>
 
 <script>
 export default {
   data: () => ({
     items: [
-      ["mdi-email", "Inbox"],
-      ["mdi-account-supervisor-circle", "Supervisors"],
-      ["mdi-clock-start", "Clock-in"]
+      ["mdi-home", "dummy","/dummy"],
+      ["mdi-home", "Home","/home"],
+      ["mdi-account", "Profile","/profile"],
+      ["mdi-email", "Messages","/chat"],
+      ["mdi-account-multiple-check", "Friends","/friends"],
+      ["mdi-folder", "Cadeiras","/wekeke"],
+      ["mdi-account-group", "Utilizadores", "/users"]
     ],
   })
 };

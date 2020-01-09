@@ -1,7 +1,7 @@
 <template>
   <v-container class="fill-height" fluid>
     <v-row align="center" justify="center">
-      <v-col cols="12" sm="8" md="4">
+      <v-col cols="12" sm="8" md="5" lg="4">
         <v-card class="elevation-12">
           <v-toolbar color="purple" dark flat>
             <v-toolbar-title>Login</v-toolbar-title>
@@ -28,14 +28,15 @@
           <v-card-text>
             <v-form>
               <v-text-field
+                v-model="email"
                 id="email"
                 label="Email"
                 name="email"
                 prepend-icon="mdi-email"
                 type="text"
               />
-
               <v-text-field
+                v-model="password"
                 id="password"
                 label="Password"
                 name="password"
@@ -54,18 +55,28 @@
     </v-row>
   </v-container>
 </template>
+
+
 <script>
 import axios from "axios";
 import { mapMutations } from "vuex";
+import Socket from "../store/modules/socket";
 
 export default {
+  data() {
+    return {
+      email: "",
+      password: ""
+    };
+  },
   methods: {
     ...mapMutations(["setToken"]),
     submit() {
+      Socket.send("mensagem");
       axios
         .post("http://localhost:3061/users/login", {
-          email: "12341234",
-          password: "12345"
+          email: this.email,
+          password: this.password
         })
         .then(response => {
           switch (response.status) {
@@ -74,20 +85,9 @@ export default {
               this.$router.push("/home");
               break;
             default:
-              this.$router.push("/login");
+              this.$router.push("/");
           }
         });
-    },
-    testing() {
-      axios.get("http://localhost:3061/users").then(response => {
-        switch (response.data.status) {
-          case 200:
-            this.$router.push("/home");
-            break;
-          default:
-            this.$router.push("login");
-        }
-      });
     }
   }
 };
