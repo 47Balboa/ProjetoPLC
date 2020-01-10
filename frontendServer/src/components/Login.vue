@@ -82,6 +82,7 @@ export default {
           switch (response.status) {
             case 200:
               this.setToken(response.data.token);
+              
               this.$router.push("/home");
               break;
             default:

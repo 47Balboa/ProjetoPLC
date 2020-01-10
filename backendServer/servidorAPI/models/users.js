@@ -12,6 +12,7 @@ var userSchema = new mongoose.Schema({
     curso: String,
     morada: String,
     posts: [String],
+    sentFriendRequests: [String],
     friends: [String],
     friendsRequests: [String],
     comments: [String]

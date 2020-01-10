@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 var postsSchema = new mongoose.Schema({
-    autor: {type: String, required: true},
+    id: {type: String, required: true},
     text: String,
     ficheiros: [String],
     classificadores: {type: [String],required:true},

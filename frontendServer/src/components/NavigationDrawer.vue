@@ -33,7 +33,7 @@ export default {
       ["mdi-account", "Profile","/profile"],
       ["mdi-email", "Messages","/chat"],
       ["mdi-account-multiple-check", "Friends","/friends"],
-      ["mdi-folder", "Cadeiras","/wekeke"],
+      ["mdi-folder", "Cadeiras","/dummy"],
       ["mdi-account-group", "Utilizadores", "/users"]
     ],
   })

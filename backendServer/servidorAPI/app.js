@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var logger = require('morgan');
 var cors = require('cors');
+var passport = require('passport')
 
 var app = express();
 
@@ -33,9 +34,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads',express.static(path.join(__dirname, 'uploads')));
 app.use(cors());
-
+app.use(logger('dev'));
 app.use('/users', usersRouter);
-app.use('/posts', postsRouter);
+app.use('/posts', postsRouter,passport.authenticate('jwt',{session: false}));
 
 
 

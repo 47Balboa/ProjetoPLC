@@ -7,6 +7,7 @@ import TesteChat from '../components/TesteChat.vue'
 import Friends from '../components/Friends.vue'
 import store from '../store/modules/token';
 import Utilizadores from '../components/Utilizadores.vue'
+import Dummy from '../components/Dummy.vue'
 
 Vue.use(VueRouter)
 
@@ -29,7 +30,12 @@ const routes = [
     component: Home,
     beforeEnter: isAuthenticated
   },
-  
+  {
+    path: '/dummy',
+    name: 'dummy',
+    component: Dummy,
+    beforeEnter: isAuthenticated
+  },
   {
     path: '/users',
     name: 'users',

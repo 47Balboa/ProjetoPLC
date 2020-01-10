@@ -10,7 +10,7 @@ module.exports.createPost=post=>{
 }
 
 module.exports.getPost = id => {
-    return Posts.findOne({_id: id}).exec()
+    return Posts.findOne({id: id}).exec()
 }
 
 module.exports.deletePost = id =>{

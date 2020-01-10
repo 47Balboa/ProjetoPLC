@@ -13,13 +13,16 @@ const publicKey = fs.readFileSync('./keys/publickey.key', 'utf-8')
 const { uploadI, uploadF } = require('./../multer/mlt')
 
 /* GET users listing. */
-router.get('/', function (req, res, next) {
+router.get('/', passport.authenticate('jwt', { session: false }),function (req, res, next) {
   Users.listar().then(dados => {
-    res.jsonp(dados);
+   
+    res.status(200).jsonp({data: dados,user:req.user})
   }).catch(erro => {
-    res.jsonp(erro)
+    res.status(500).jsonp(erro)
   })
 });
+
+
 
 
 router.get('/user', passport.authenticate('jwt', { session: false }), function (req, res) {
@@ -80,6 +83,16 @@ router.get('/friends', passport.authenticate('jwt', { session: false }), functio
   }
 })
 
+router.get('/getFriendsRequests',passport.authenticate('jwt', { session: false }), function (req, res) {
+  
+  Users.getFriendRequests(req.user.friendsRequests).then(dados => {
+   
+    res.status(200).jsonp(dados)
+  }).catch(erro => {
+    res.status(500).jsonp(erro)
+  })
+})
+
 router.get('/friendRequests',passport.authenticate('jwt', { session: false }), function (req, res){
   if(req.user.friendsRequests.length>0){
     getUsersRequested(req.user).then(l => {
@@ -92,8 +105,9 @@ router.get('/friendRequests',passport.authenticate('jwt', { session: false }), f
 })
 
 router.post('/sendRequest', passport.authenticate('jwt', { session: false }), function (req, res) {
-  if (Users.sendRequest(req.user.id, req.body.friend)) {
-    res.status(200).jsonp({ message: "Friend request sent" })
+  console.log(req.body.friendid.id + " --- " + req.user.id)
+  if (Users.sendRequest(req.user.id, req.body.friendid.id)) {
+    res.status(200).jsonp({sentRequests: req.user.sentFriendRequests })
   }
   else {
     res.status(500).jsonp({ message: "Error in friend request" })
@@ -101,7 +115,8 @@ router.post('/sendRequest', passport.authenticate('jwt', { session: false }), fu
 })
 
 router.post('/acceptRequest', passport.authenticate('jwt', { session: false }), function (req, res) {
-  if (Users.acceptRequest(req.user.id, req.body.friend)) {
+  console.log("cheguei aqui")
+  if (Users.acceptRequest(req.user.id, req.body.friendid.id)) {
     res.status(200).jsonp({ message: "Friend request sent" })
   }
   else {

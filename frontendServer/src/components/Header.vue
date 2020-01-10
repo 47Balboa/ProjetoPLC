@@ -23,7 +23,7 @@
         :offset-y="offsetY"
       >
         <template v-slot:activator="{ on }">
-          <v-btn color="primary" dark v-on="on">
+          <v-btn @click="getFriendsRequests" color="primary" dark v-on="on">
             <v-icon>mdi-bell</v-icon>
           </v-btn>
         </template>
@@ -31,15 +31,25 @@
           <v-list-item v-for="(item, index) in items" :key="index">
 
             <v-list-item-avatar>
-              <v-img :src="item.avatar"></v-img>
+              
+               <v-img v-if="hasAvatar(item)" :src="auxiliar(item)"></v-img>
+                <v-img v-else src="../assets/default_avatar.jpg"></v-img>
             </v-list-item-avatar>
+           
             
+  
             <v-list-item-content>
               <v-list-item-title v-text="item.nome"></v-list-item-title>
             </v-list-item-content>
+            
+             <v-divider
+          class="ma-3"
+          :inset="inset"
+          vertical
+        ></v-divider>
 
-            <v-btn x-small @click="getRequests()">Adicionar</v-btn>
-            <h6 @click="reject()" class="ma-1 text--primary" text-color="blue">Rejeitar</h6>
+            <v-btn x-small @click="acceptRequest(item)">Adicionar</v-btn>
+            <h5 @click="reject()" class="ma-1 text--primary" text-color="blue">Rejeitar</h5>
 
           </v-list-item>
         </v-list>
@@ -61,28 +71,53 @@ export default {
     ...mapGetters(["getToken"])
   },
   methods: {
-    getRequests() {
-      const url = "http://localhost:3061/users";
+    getFriendsRequests(){
+      const url = "http://localhost:3061/users/getFriendsRequests";
+    let config = {
+      headers: {
+        Authorization: "Bearer " + this.getToken
+      }
+    };
+    axios.get(url, config).then(res =>{
+      this.items = res.data
+      
+    })},
+    acceptRequest(i) {
+      const url = "http://localhost:3061/users/acceptRequest";
       let config = {
         headers: {
           Authorization: "Bearer " + this.getToken
         }
       };
-      axios.get(url, config).then(res => {
-        this.var1 = res.data;
+      axios.post(url,{friendid: i}, config).then(()=> {
+        this.getFriendsRequests();
       });
+    },  hasAvatar(i) {
+      if (i.avatar == null || i.avatar === undefined) return false;
+      else return true;
+    },
+    auxiliar(i) {
+      return "http://localhost:3061/uploads/" + i.nome + "/avatar/" + i.avatar;
     }
+  },
+  mounted: function(){
+    const url = "http://localhost:3061/users/getFriendsRequests";
+    let config = {
+      headers: {
+        Authorization: "Bearer " + this.getToken
+      }
+    };
+    axios.get(url, config).then(res =>{
+      this.items = res.data.filter(function(item){
+        return item.id !== res.data
+      })
+    })
   },
   name: "Header",
   data: () => ({
     number: 0,
     var1: [],
-    items: [
-      {
-        title: "John    dssdsss Mike",
-        avatar: "https://cdn.vuetifyjs.com/images/lists/1.jpg"
-      }
-    ]
+    items: []
   })
 };
 </script>
