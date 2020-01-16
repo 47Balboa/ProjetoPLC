@@ -83,7 +83,7 @@
         align-items: center;
         -webkit-box-shadow: 0 2px 20px 2px rgba(90, 90, 90, 0.47);
         box-shadow: 0 2px 20px 2px rgba(90, 90, 90, 0.47);
-        z-index: 5;
+       
 
         .header-title {
             padding: 10px;

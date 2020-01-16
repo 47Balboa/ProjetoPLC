@@ -5,7 +5,10 @@
         <NavigationDrawer />
       </v-col>
       <v-col>
-        <Chat
+       <v-row>
+         
+         <v-col class="pa-0" >
+            <Chat
           :participants="participants"
           :myself="myself"
           :messages="messages"
@@ -23,6 +26,13 @@
           :async-mode="asyncMode"
           :scroll-bottom="scrollBottom"
         />
+         </v-col>
+         <v-col cols="3" class="ma-0 pa-0">
+           <v-card elevation="10" height="95vh">
+             
+           </v-card>
+         </v-col>
+       </v-row>
       </v-col>
     </v-row>
   </v-container>
@@ -31,6 +41,8 @@
 <script>
 import NavigationDrawer from "./NavigationDrawer";
 import { Chat } from "vue-quick-chat";
+import {mapGetters} from 'vuex'
+import axios from 'axios'
 import 'vue-quick-chat/dist/vue-quick-chat.css';
 
 export default {
@@ -38,8 +50,27 @@ export default {
     NavigationDrawer,
     Chat
   },
+  computed:{
+    ...mapGetters(['getToken'])
+  },
   data() {
     return {
+      onMessageSubmit: (message) => {
+      // eslint-disable-next-line no-console
+        console.log("message " + JSON.stringify(message))
+          const url = "http://localhost:3061/users/sendMessage";
+        let config = {
+          headers: {
+            Authorization: "Bearer " + this.getToken
+          }
+        };
+        axios.post(url,message,config);
+      },
+      onType:(e)=>{
+        // eslint-disable-next-line no-console
+        console.log("message " + e)
+
+      },
       visible: true,
       participants: [
         {

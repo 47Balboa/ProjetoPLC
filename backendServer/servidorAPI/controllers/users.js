@@ -31,29 +31,22 @@ module.exports.deleteUser = email => {
 }
 
 module.exports.getFriendRequests = lista => {
-
     return Users.find({ id: { $in: lista } }).exec()
 }
 
 module.exports.acceptRequest = (id, friendid) => {
-
-
     return Users.findOne({ id: id }, function (err, usr) {
-        
         for (i in usr.friends) {
             if (usr.friends[i] === friendid)
                 return false;
         }
         for (i in usr.friendsRequests) {
-
             if (usr.friendsRequests[i] === friendid) {
-                
                 usr.friendsRequests.splice(i, 1)
                 usr.friends.push(friendid);
                 for (i in usr.sentFriendRequests)
                     if (usr.sentFriendRequests[i] == id)
                         usr.sentFriendRequests.splice(i, 1)
-
                 Users.findOne({ id: friendid }, function (err, usr2) {
                     for (i in usr2.friendsRequests)
                         if (usr2.friendsRequests[i] == id)
@@ -67,33 +60,37 @@ module.exports.acceptRequest = (id, friendid) => {
                     usr2.save()
                     return true
                 })
-
             }
         }
     })
 }
 
 module.exports.sendRequest = (id, friendid) => {
-    return Users.find({ id: { $in: [id, friendid] } }, function (err, usr) {
-        var usr1 = usr[0]
-        var usr2 = usr[1]
-        for (i in usr2.friendsRequests) {
-            if (usr2.friendsRequests[i] === id)
-                return false;
-        }
-        for (i in usr1.friends) {
-            if (usr1.friends[i] === id)
-                return false;
-        }
-        for (i in usr2.friends) {
-            if (usr2.friends[i] === id)
-                return false;
-        }
-        console.log(usr2)
-        usr1.friendsRequests.push(id)
-        usr2.save();
-        usr2.sentFriendRequests.push(friendid)
-        usr1.save();
-        return true;
+    return Users.findOne({ id: id }, function (err, usr1) {
+        Users.findOne({id:friendid},function(error, usr2){
+                for (i in usr2.friendsRequests) {
+                    if (usr2.friendsRequests[i] === id)
+                        return false;
+                }
+                for(i in usr1.sentFriendRequests){
+                    if(usr1.sentFriendRequests[i]==friendid)
+                        return false;
+                }
+                for (i in usr1.friends) {
+                    if (usr1.friends[i] === id)
+                        return false;
+                }
+                for (i in usr2.friends) {
+                    if (usr2.friends[i] === id)
+                        return false;
+                }
+                console.log("usr2" + usr2.email)
+                console.log("usr1" + usr1.email)
+                usr2.friendsRequests.push(id)
+                usr1.sentFriendRequests.push(friendid)
+                usr2.save();
+                usr1.save();
+                return true;
+        })
     })
 }

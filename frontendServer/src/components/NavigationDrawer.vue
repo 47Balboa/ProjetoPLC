@@ -5,7 +5,7 @@
       min-height="100%"
       permanent
       
-      clipped="true"
+      clipped
       fixed
       width="15%"
     >
@@ -28,7 +28,7 @@
 export default {
   data: () => ({
     items: [
-      ["mdi-home", "dummy","/dummy"],
+      ["mdi-home", "Complexity","/complex"],
       ["mdi-home", "Home","/home"],
       ["mdi-account", "Profile","/profile"],
       ["mdi-email", "Messages","/chat"],

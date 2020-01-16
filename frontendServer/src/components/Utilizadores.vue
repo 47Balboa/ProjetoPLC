@@ -21,7 +21,7 @@
                 <v-img v-else src="../assets/default_avatar.jpg"></v-img>
               </v-avatar>
             </v-col>
-            <v-btn v-if="hasSent(i.id)" color="success" @click="sendRequest(i)">Adicionar</v-btn>
+            <v-btn v-if="!sentRequests.includes(i.id)" color="success" @click="sendRequest(i)">Adicionar</v-btn>
             <v-btn v-else disabled color="grey"> Adicionado </v-btn>
             
           </v-card>
@@ -47,18 +47,6 @@ export default {
     sentRequests: []
   }),
   methods: {
-    hasSent(friendid){
-      if(this.sentRequests.length == 0){
-        return true
-      }
-      else {
-        for(var i = 0; i<this.sentRequests.length;i++)
-          if(this.sentRequests[i] === friendid)
-            return false
-        
-        return true
-      }
-    },
     sendRequest(i) {
       const url = "http://localhost:3061/users/sendRequest";
 
@@ -67,8 +55,14 @@ export default {
           Authorization: "Bearer " + this.getToken
         }
       };
-      axios.post(url,{friendid: i},config)
-      this.$forceUpdate
+      axios.post(url,{friendid: i},config).then(() => {
+         
+      
+        this.sentRequests.push(i.id);
+        // eslint-disable-next-line no-console
+        console.log(" " + this.sentRequests + "    id: " + i)
+      })
+      
     },
     hasAvatar(i) {
       if (i.avatar == null || i.avatar === undefined) return false;
@@ -82,8 +76,8 @@ export default {
     NavigationDrawer
   },
   mounted: function() {
+    
     const url = "http://localhost:3061/users";
-
     let config = {
       headers: {
         Authorization: "Bearer " + this.getToken
@@ -91,8 +85,11 @@ export default {
     };
     axios.get(url, config).then(res => {
       this.items = res.data.data.filter(function(item){
-        return item.id !== res.data.user.id
+        if(item.id !== res.data.user.id && !res.data.user.friends.includes(item.id) )
+          return true;
+        else return false;
       })
+     
       if(res.data.user.sentFriendRequests.length !==0)
         this.sentRequests = res.data.user.sentFriendRequests
     });

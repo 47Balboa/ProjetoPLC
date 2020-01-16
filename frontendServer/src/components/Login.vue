@@ -1,13 +1,13 @@
 <template>
   <v-container class="fill-height" fluid>
     <v-row align="center" justify="center">
-      <v-col cols="12" sm="8" md="5" lg="4">
+      <v-col cols="12" sm="8" md="8" lg="6">
         <v-card class="elevation-12">
           <v-toolbar color="purple" dark flat>
             <v-toolbar-title>Login</v-toolbar-title>
             <v-spacer />
             <v-tooltip bottom>
-              <template v-slot:activator="{ on }"></template>
+              
               <span>Source</span>
             </v-tooltip>
             <v-tooltip right>
@@ -36,6 +36,7 @@
                 type="text"
               />
               <v-text-field
+              
                 v-model="password"
                 id="password"
                 label="Password"
@@ -46,7 +47,7 @@
             </v-form>
           </v-card-text>
           <v-card-actions>
-            <v-btn @click="submit()" color="purple">Login</v-btn>
+            <v-btn @click="submit()" v-on:keyup.enter="onEnter" color="purple">Login</v-btn>
             <v-spacer />
             <v-btn to="/register">Sign Up</v-btn>
           </v-card-actions>
@@ -82,7 +83,7 @@ export default {
           switch (response.status) {
             case 200:
               this.setToken(response.data.token);
-              
+              this.$root.$emit('entered')
               this.$router.push("/home");
               break;
             default:

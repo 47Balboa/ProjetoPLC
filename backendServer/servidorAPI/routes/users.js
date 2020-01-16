@@ -5,25 +5,22 @@ var passport = require('passport')
 const jwt = require('jsonwebtoken')
 const fs = require('fs')
 var wws = require('../websockets/socket')
+var Messages = require('../controllers/messages')
 
 
 const privateKey = fs.readFileSync('./keys/privatekey.key', 'utf-8')
-const publicKey = fs.readFileSync('./keys/publickey.key', 'utf-8')
+
 
 const { uploadI, uploadF } = require('./../multer/mlt')
 
 /* GET users listing. */
 router.get('/', passport.authenticate('jwt', { session: false }),function (req, res, next) {
   Users.listar().then(dados => {
-   
     res.status(200).jsonp({data: dados,user:req.user})
   }).catch(erro => {
     res.status(500).jsonp(erro)
   })
 });
-
-
-
 
 router.get('/user', passport.authenticate('jwt', { session: false }), function (req, res) {
   res.status(200).jsonp({ user: req.user })
@@ -34,7 +31,6 @@ router.get('/user', passport.authenticate('jwt', { session: false }), function (
 
 router.get('/image', passport.authenticate('jwt', { session: false }), function (req, res) {
   var path = req.user.nome + '/' + req.user.avatar
-  console.log("user:" + req.user + "   s: " + req.user.avatar)
   if (path != null || path !== undefined) {
     console.log("path: " + path)
     res.status(200).jsonp({ path: 'http://localhost:3061/static/uploads/' + path });
@@ -49,7 +45,6 @@ router.post('/image', passport.authenticate('jwt', { session: false }), uploadI.
 
 router.post('/login', passport.authenticate('local', { session: false }), function (req, res) {
   jwt.sign({ user: req.user }, privateKey, { expiresIn: '2h', algorithm: 'RS256' }, (err, tokengo) => {
-
     res.status(200).jsonp({ user: req.user, token: tokengo });
   })
 });
@@ -70,7 +65,29 @@ router.post('/register', function (req, res, next) {
   })
 })
 
-// -------- FRIEND ROUTER -------
+// --------------------- Messages -------------------------
+
+router.post('/sendMessage',passport.authenticate('jwt',{session:false}),function(req,res){
+
+  var newMessage = {
+    id: req.user.id,
+    content: req.body.content,
+    timestamp: req.body.timestamp,
+    participantId: req.body.participantId
+  }
+  console.log('newMessage');
+  Messages.addMessage(newMessage).then(dados=>{
+    res.status(200).jsonp({message: "sent"})
+  })
+})
+
+router.get('/getMessage',passport.authenticate('jwt',{session:false}),function(req,res){
+  Messages.getMessages(req.user.id).then(dados=>{
+    res.status(200).jsonp(dados)
+  })
+})
+
+// --------------------- FRIEND ROUTER --------------------
 
 router.get('/friends', passport.authenticate('jwt', { session: false }), function (req, res) {
   if (req.user.friends.length > 0) {
@@ -84,9 +101,8 @@ router.get('/friends', passport.authenticate('jwt', { session: false }), functio
 })
 
 router.get('/getFriendsRequests',passport.authenticate('jwt', { session: false }), function (req, res) {
-  
   Users.getFriendRequests(req.user.friendsRequests).then(dados => {
-   
+    console.log(dados)
     res.status(200).jsonp(dados)
   }).catch(erro => {
     res.status(500).jsonp(erro)
@@ -105,7 +121,7 @@ router.get('/friendRequests',passport.authenticate('jwt', { session: false }), f
 })
 
 router.post('/sendRequest', passport.authenticate('jwt', { session: false }), function (req, res) {
-  console.log(req.body.friendid.id + " --- " + req.user.id)
+  console.log("ID "+ req.user.id + "----FRIENDID: " +req.body.friendid.id)
   if (Users.sendRequest(req.user.id, req.body.friendid.id)) {
     res.status(200).jsonp({sentRequests: req.user.sentFriendRequests })
   }
