@@ -18,7 +18,6 @@ passport.use(new LocalStrategy({
     passwordField: 'password'
 },
     function (email, password, done) {
-        console.log("este e o email: " +email + " e esta a pass: "+password)
         Users.getUser(email).then(dados => {
             var user = dados;
             if(bcrypt.compareSync(password,user.password)){
@@ -34,13 +33,17 @@ passport.use(new LocalStrategy({
     }
 ));
 
+var extractFromQS = function(req){
+    var token = null
+    if(req.query && req.query.token) token = req.query.token
+    return token
+  }
 
 passport.use(new JWTStrategy({
-    jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+    jwtFromRequest: ExtractJWT.fromExtractors([extractFromQS,ExtractJWT.fromAuthHeaderAsBearerToken()]),
     secretOrKey: publicKey
 },
     function (jwtPayload, done) {
-        console.log("lista ")
         Users.getUser(jwtPayload.user.email).then(dados => {
             var user = dados;
             return done(null,user);

@@ -48,7 +48,7 @@ export default {
   }),
   methods: {
     sendRequest(i) {
-      const url = "http://localhost:3061/users/sendRequest";
+      const url = "http://217.69.12.70:3061/users/sendRequest";
 
       let config = {
         headers: {
@@ -69,7 +69,7 @@ export default {
       else return true;
     },
     auxiliar(i) {
-      return "http://localhost:3061/uploads/" + i.nome + "/avatar/" + i.avatar;
+      return "http://217.69.12.70:3061/uploads/" + i.nome + "/avatar/" + i.avatar;
     }
   },
   components: {
@@ -77,7 +77,7 @@ export default {
   },
   mounted: function() {
     
-    const url = "http://localhost:3061/users";
+    const url = "http://217.69.12.70:3061/users";
     let config = {
       headers: {
         Authorization: "Bearer " + this.getToken

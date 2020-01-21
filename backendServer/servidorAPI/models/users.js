@@ -9,7 +9,6 @@ var userSchema = new mongoose.Schema({
     email: {type:String, required: true},
     avatar:  String,
     dataNasc: String,
-    curso: String,
     morada: String,
     posts: [String],
     sentFriendRequests: [String],

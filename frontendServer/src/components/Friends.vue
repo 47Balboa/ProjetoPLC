@@ -38,15 +38,14 @@ export default {
     items: []
   }),methods:{
     auxiliar(i){
-      return "http://localhost:3061/uploads/" + i.nome + '/avatar/' + i.avatar
+      return "http://217.69.12.70:3061/uploads/" + i.nome + '/avatar/' + i.avatar
     }
   },
   components: {
     NavigationDrawer
   },
   mounted: function() {
-     const url = "http://localhost:3061/users/friends";
-     
+     const url = "http://217.69.12.70:3061/users/friends";
      let config = {
         headers: {
           Authorization:

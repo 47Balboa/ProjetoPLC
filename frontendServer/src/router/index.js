@@ -8,6 +8,8 @@ import Friends from '../components/Friends.vue'
 import store from '../store/modules/token';
 import Utilizadores from '../components/Utilizadores.vue'
 import Dummy from '../components/Dummy.vue'
+import Register from '../components/Register.vue'
+
 
 Vue.use(VueRouter)
 
@@ -23,12 +25,18 @@ const isAuthenticated = (to, from, next) => {
 
 
 const routes = [
- 
+
+  
   {
     path: '/home',
     name: 'home',
     component: Home,
     beforeEnter: isAuthenticated
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: Register,
   },
   {
     path: '/dummy',

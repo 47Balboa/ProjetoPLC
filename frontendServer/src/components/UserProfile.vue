@@ -13,6 +13,7 @@
           <v-card-text class="text-center">
             <h5 class="category text-gray font-weight-thin mb-3">CEO / CO-FOUNDER</h5>
             <h1 class="card-title font-weight-bold ma-3">{{name}}</h1>
+            <h5 class="card-title font-weight-bold ma-3">{{bio}}</h5>
             <p
               class="card-description font-weight-light"
             >Don't be scared of the truth because we need to restart the human foundation in truth And I love you like Kanye loves Kanye I love Rick Owens’ bed design but the back is...</p>
@@ -37,20 +38,23 @@
 import axios from "axios";
 import NavigationDrawer from "./../components/NavigationDrawer";
 import { mapGetters } from "vuex";
+import moment from 'moment';
 
 export default {
   computed: mapGetters(["getToken"]),
   data:()=>({
-    name: "",
+    name: "Miguel",
+    bio: "ola eu siouy alunio fasdf efsdvhksfa",
     idA: "",
     curso: "",
-    src: "scene"
+    src: "scene",
+    date: moment(),
   }),
   components: {
     NavigationDrawer
   },
   mounted: function() {
-     const url = "http://localhost:3061/users/user";
+     const url = "http://217.69.12.70:3061/users/user";
      
      let config = {
         headers: {
@@ -63,7 +67,7 @@ export default {
        this.name = res.data.user.nome;
        this.idA = res.data.user.id;
        this.curso = res.data.user.curso;
-       this.src = "http://localhost:3061/uploads/" + res.data.user.nome + '/avatar/' + res.data.user.avatar 
+       this.src = "http://217.69.12.70:3061/uploads/" + res.data.user.nome + '/avatar/' + res.data.user.avatar 
      })
     
 
@@ -73,7 +77,7 @@ export default {
       document.getElementById("fileUpload").click()
     },
     uploadImage(event) {
-      const url = "http://localhost:3061/users/image";
+      const url = "http://217.69.12.70:3061/users/image";
       let data = new FormData();
       data.append("image", event.target.files[0]);
       let config = {

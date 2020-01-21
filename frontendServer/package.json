@@ -19,6 +19,7 @@
     "math": "0.0.3",
     "mixin": "^0.2.0",
     "moment": "^2.24.0",
+    "uuid": "^3.4.0",
     "vue": "^2.6.10",
     "vue-moment": "^4.1.0",
     "vue-native-websocket": "^2.0.13",

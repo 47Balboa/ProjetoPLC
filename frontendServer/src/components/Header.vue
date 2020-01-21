@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-app-bar app src="../assets/background-header.jpg" color="deep-purple accent-4">
-      <router-link to="/">
+      <router-link to="/home">
         <v-img
           alt="Logo"
           class="shrink mr-2"
@@ -15,8 +15,9 @@
         <v-toolbar-title style="font-size:2em">ClassBin</v-toolbar-title>
       </router-link>
       <v-spacer></v-spacer>
-      <div v-if="user.length===0"/>
-      <v-menu v-else
+      <div v-if="user.length===0" />
+      <v-menu
+        v-else
         :close-on-content-click="false"
         :absolute="absolute"
         :open-on-hover="openOnHover"
@@ -28,8 +29,8 @@
             <v-icon>mdi-bell</v-icon>
           </v-btn>
         </template>
-        
-        <v-list >
+
+        <v-list>
           <v-list-item v-for="(item, index) in items" :key="index">
             <v-list-item-avatar>
               <v-img v-if="hasAvatar(item)" :src="auxiliar(item)"></v-img>
@@ -47,17 +48,19 @@
           </v-list-item>
         </v-list>
       </v-menu>
-      
+
       <v-btn v-if="user.length===0" to="/login">
         <span>Sign In</span>
         <v-icon>mdi-login</v-icon>
       </v-btn>
-
-          <v-avatar class="ma-2" v-else size='40' to="/profile" link>
-              <v-img v-if="hasAvatar(user[0])" :src="auxiliar(user[0])" ></v-img>
-              <v-img v-else src="../assets/default_avatar.jpg" to="/profile" link></v-img>
-          </v-avatar>
-          <h2 class="newsl" to="/profile" link v-if="user.length!==0">{{user[0].nome}}</h2>    
+      <v-avatar class="ma-2" v-else size="40" to="/profile" link>
+        <v-img v-if="hasAvatar(user[0])" :src="auxiliar(user[0])"></v-img>
+        <v-img v-else src="../assets/default_avatar.jpg" to="/profile" link></v-img>
+      </v-avatar>
+      <h2 class="newsl" to="/profile" link v-if="user.length!==0">{{user[0].nome}}</h2>
+      <v-btn class="ma-2" v-if="user.length!==0" to="/login">
+        <v-icon>mdi-logout</v-icon>
+      </v-btn>
     </v-app-bar>
   </div>
 </template>
@@ -73,7 +76,7 @@ export default {
 
   methods: {
     getFriendsRequests() {
-      const url = "http://localhost:3061/users/getFriendsRequests";
+      const url = "http://217.69.12.70:3061/users/getFriendsRequests";
       let config = {
         headers: {
           Authorization: "Bearer " + this.getToken
@@ -83,15 +86,15 @@ export default {
         return (this.items = res.data);
       });
     },
-    acceptRequest(i,index) {
-      const url = "http://localhost:3061/users/acceptRequest";
+    acceptRequest(i, index) {
+      const url = "http://217.69.12.70:3061/users/acceptRequest";
       let config = {
         headers: {
           Authorization: "Bearer " + this.getToken
         }
       };
       axios.post(url, { friendid: i }, config).then(() => {
-        this.$delete(this.items,index)
+        this.$delete(this.items, index);
       });
     },
     hasAvatar(i) {
@@ -99,35 +102,37 @@ export default {
       else return true;
     },
     auxiliar(i) {
-      return "http://localhost:3061/uploads/" + i.nome + "/avatar/" + i.avatar;
+      return (
+        "http://217.69.12.70:3061/uploads/" + i.nome + "/avatar/" + i.avatar
+      );
     }
   },
   mounted: function() {
     this.$root.$on("entered", () => {
-      const url = "http://localhost:3061/users/user";
+      const url = "http://217.69.12.70:3061/users/user";
       let config = {
         headers: {
           Authorization: "Bearer " + this.getToken
         }
       };
       axios.get(url, config).then(res => {
-        this.user.push(res.data.user)
+        this.user.push(res.data.user);
         // eslint-disable-next-line no-console
         console.log("asdfasdf   " + JSON.stringify(res.data));
       });
     });
-    const url = "http://localhost:3061/users/getFriendsRequests";
-      let config = {
-        headers: {
-          Authorization: "Bearer " + this.getToken
-        }
-      };
-      axios.get(url, config).then(res => {
-        this.items = res.data.filter(function(item) {
-          return item.id !== res.data;
-        });
-        // eslint-disable-next-line no-console
+    const url = "http://217.69.12.70:3061/users/getFriendsRequests";
+    let config = {
+      headers: {
+        Authorization: "Bearer " + this.getToken
+      }
+    };
+    axios.get(url, config).then(res => {
+      this.items = res.data.filter(function(item) {
+        return item.id !== res.data;
       });
+      // eslint-disable-next-line no-console
+    });
   },
   name: "Header",
   data: () => ({
@@ -140,8 +145,8 @@ export default {
 </script>
 
 <style scoped>
-.newsl{
-  color:whitesmoke
+.newsl {
+  color: whitesmoke;
 }
 .toolbar-title {
   color: inherit;

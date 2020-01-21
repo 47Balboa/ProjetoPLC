@@ -93,24 +93,16 @@ export default {
           inputText = inputText.slice(0, inputLen - 1);
         }
         let message = {
-          content: "olaaaaa",
-          participantId: 11111,
+          content: inputText,
+          participantId: this.myself.id,
           timestamp: moment(),
           uploaded: false,
           viewed: false
         };
-        const url = "http://localhost:3061/users";
-        let config = {
-          headers: {
-            Authorization: "Bearer " + this.getToken
-          }
-        };
-        axios.get(url, config).then(res => {
-          if(res.status===200){
+
             this.onMessageSubmit(message);
             this.newMessage(message);
-          }
-        });
+
       }
     },
     handleType: function(e) {

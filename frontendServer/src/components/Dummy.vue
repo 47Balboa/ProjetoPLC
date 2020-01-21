@@ -1,65 +1,162 @@
 <template>
-<v-container>
-  <v-row>
-    <v-col cols="4" md="4" lg="4">
-      <NavigationDrawer/>
-    </v-col>
-    <v-col>
-  <v-container>
-    <v-row>
-      <v-col col="12" md="10" lg="10">
-        <v-card>
-          <v-form ref="form" v-model="valid" lazy-validation>
-            <v-text-field v-model="name" :counter="10" :rules="nameRules" label="Name" required></v-text-field>
-            <v-textarea outlined name="input-7-4" label="Description" value="Write here WELELELE"></v-textarea>
-            <v-btn color="success" @click="chooseFile()" class="font-weight-light">UploadIMa</v-btn>
-            <input
-              type="file"
-              accept="audio/*,video/*,image/*,media_type"
-              @change="uploadFile"
-              id="fileUpload"
-              hidden
-              multiple
-            />
-            <v-list>
-              <v-list-item v-for="i in files" :key="i">
-                <v-list-item-subtitle>{{files}} </v-list-item-subtitle>
-              </v-list-item>
-            </v-list>
-          </v-form>
-        </v-card>
+  <v-container class="grey lighten-5 pa-0" grid-list-md fluid>
+    <v-row no-gutters>
+      <v-col cols="2">
+        <NavigationDrawer />
+      </v-col>
+      <v-col>
+        <div class="team">
+          <h1 class="subheading grey--text">Team</h1>
+          <v-container class="my-5">
+            <v-row dense>
+              <v-col cols="12">
+                <v-card elevation="12" flat class="text-xs-center ma-3">
+                  <v-form ref="form" v-model="valid" lazy-validation>
+                    <v-list-item>
+                      <v-list-item-content>
+                        <v-col>
+                          <v-select
+                            :items="groups"
+                            v-model="itemSelected"
+                            label="Individual"
+                            outlined
+                            return-object
+                          ></v-select>
+                        </v-col>
+                      </v-list-item-content>
+
+                      <v-spacer></v-spacer>
+
+                      <v-menu offset-y>
+                        <template v-slot:activator="{ on }">
+                          <v-btn fab text small v-on="on">
+                            <v-icon>mdi-chevron-down</v-icon>
+                          </v-btn>
+                        </template>
+                        <v-list>
+                          <v-list-item v-for="link  in links" :key="link.text">
+                            <v-list-item-title>{{link.text}}</v-list-item-title>
+                          </v-list-item>
+                        </v-list>
+                      </v-menu>
+                    </v-list-item>
+
+                    <v-textarea
+                      v-model="textSent"
+                      background-color="white"
+                      color="black"
+                      label="Post"
+                      auto-grow
+                      outlined
+                    ></v-textarea>
+                    <v-card-actions>
+                      <v-file-input
+                        v-model="files"
+                        color="deep-purple accent-4"
+                        counter
+                        label="File input"
+                        multiple
+                        placeholder="Select your files"
+                        prepend-icon="mdi-paperclip"
+                        outlined
+                        :show-size="1000"
+                      >
+                        <template v-slot:selection="{ index, text }">
+                          <v-chip
+                            v-if="index < 2"
+                            color="deep-purple accent-4"
+                            dark
+                            label
+                            small
+                          >{{ text }}</v-chip>
+
+                          <span
+                            v-else-if="index === 2"
+                            class="overline grey--text text--darken-3 mx-2"
+                          >+{{ files.length - 2 }} File(s)</span>
+                        </template>
+                      </v-file-input>
+                      <v-spacer></v-spacer>
+                      <v-btn
+                        color="success"
+                        @click="submitToServer"
+                        class="font-weight-light"
+                      >Submit</v-btn>
+                    </v-card-actions>
+                  </v-form>
+                </v-card>
+              </v-col>
+            </v-row>
+          </v-container>
+        </div>
       </v-col>
     </v-row>
   </v-container>
-    </v-col>
-  </v-row>
-</v-container>
 </template>
+
 <script>
-import NavigationDrawer from './NavigationDrawer'
+import NavigationDrawer from "./NavigationDrawer";
+import axios from "axios";
+import moment from "moment";
+import uuid from "uuid";
+import {mapGetters} from 'vuex'
 
 export default {
+computed: mapGetters(["getToken"]),
+  methods: {
+    submitToServer() {
+      const url = "http://localhost:3061/posts/addPost";
+      const url2 = "http://localhost:3061/posts/addPostFiles";
+      let config = {
+        headers: {
+          Authorization: "Bearer " + this.getToken
+        }
+      };
+      let config2 = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: "Bearer " + this.getToken
+        }
+      };
+      let onlyOne = new FormData();
+      let formData = new FormData();
+      for (var i = 0; i < this.files.length; i++) {
+        let file = this.files[i];
+        formData.append("files", file);
+      }
+      var genId = uuid();
+      onlyOne.append('file',this.files[0])
+      onlyOne.append('id', genId)
+
+
+      
+      let post = {
+        id: genId,
+        grupo: this.itemSelected,
+        date: moment(),
+        text: this.textSent,
+        classificadores: ["shit"]
+      };
+      axios.post(url, post, config).then(() => {
+        axios.post(url2,formData,config2);
+      });
+    }
+  },
   components: {
     NavigationDrawer
   },
-  methods:{
-    chooseFile(){
-      document.getElementById("fileUpload").click()
-    },
-    uploadFile(event){
-      
-      
-      if(this.files == null){
-        var list = event.target.files
-        this.files = list
-      }
-      else this.files.push(event.target.files)
-    }
-  },
   data() {
     return {
-      count: 0,
-      files: ["uma string", "duas"],
+      files: [],
+      textSent: "",
+      itemSelected: "",
+      groups: ["Individual", "PRI"],
+      show: false,
+      links: [
+        { icon: "share", text: "Share" },
+        { icon: "report", text: "Report" },
+        { icon: "save", text: "Save" }
+      ]
     };
   }
 };

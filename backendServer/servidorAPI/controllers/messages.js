@@ -6,6 +6,6 @@ module.exports.addMessage = (message) => {
     return men.save();
 }
 
-module.exports.getMessages = id =>{
-    return Messages.find({id:id}).exec();
+module.exports.getMessages = (id,friendid) =>{
+   return Messages.find({$or: [{id: id}, {participantId: id}]}).sort({timestamp: 1}).exec();
 }

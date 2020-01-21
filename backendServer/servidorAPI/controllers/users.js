@@ -5,6 +5,19 @@ module.exports.listar = () => {
     return Users.find().exec();
 }
 
+function removeA(arr) {
+    var what, a = arguments, L = a.length, ax;
+    if(arr === undefined)
+        return undefined
+    while (L > 1 && arr.length) {
+        what = a[--L];
+        while ((ax= arr.indexOf(what)) !== -1) {
+            arr.splice(ax, 1);
+        }
+    }
+    return arr;
+}
+
 module.exports.addUser = user => {
     user.password = bcrypt.hashSync(user.password, 6);
     var novo = new Users(user);
@@ -12,10 +25,7 @@ module.exports.addUser = user => {
 }
 
 module.exports.changeAvatar = (id, path) => {
-    return Users.update({ id: id }, { avatar: path }, function (err
-        , resp) {
-        console.log(resp);
-    })
+    return Users.update({ id: id }, { avatar: path }).exec()
 }
 
 module.exports.getUserId = id => {
@@ -34,63 +44,49 @@ module.exports.getFriendRequests = lista => {
     return Users.find({ id: { $in: lista } }).exec()
 }
 
-module.exports.acceptRequest = (id, friendid) => {
-    return Users.findOne({ id: id }, function (err, usr) {
-        for (i in usr.friends) {
-            if (usr.friends[i] === friendid)
+module.exports.acceptRequest = async (id, friendid) => {
+   const usr1 = await Users.findOne({ id: id });
+    Users.findOne({ id: friendid }).then(usr2 => {
+        if (usr1.friends.includes(friendid) || usr2.friends.includes(friendid)) {
+            return false;
+        }
+        else if(!usr2.sentFriendRequests.includes(id) || !usr1.friendsRequests.includes(friendid)){
                 return false;
         }
-        for (i in usr.friendsRequests) {
-            if (usr.friendsRequests[i] === friendid) {
-                usr.friendsRequests.splice(i, 1)
-                usr.friends.push(friendid);
-                for (i in usr.sentFriendRequests)
-                    if (usr.sentFriendRequests[i] == id)
-                        usr.sentFriendRequests.splice(i, 1)
-                Users.findOne({ id: friendid }, function (err, usr2) {
-                    for (i in usr2.friendsRequests)
-                        if (usr2.friendsRequests[i] == id)
-                            usr2.friendRequests.splice(i, 1)
-                    for (i in usr2.sentFriendRequests)
-                        if (usr2.sentFriendRequests[i] == id)
-                            usr2.sentFriendRequests.splice(i, 1)
-                    usr2.friends.push(id);
-                    console.log("usr: " + usr2)
-                    usr.save()
-                    usr2.save()
-                    return true
-                })
+        else{
+            usr2.friends.push(id)
+            usr1.friends.push(friendid)
+            removeA(usr1.friendsRequests,friendid)
+            removeA(usr2.sentFriendRequests,id)
+            console.log("user2: " + usr2.sentFriendRequests)
+            if(usr1.sentFriendRequests.includes(friendid) !== undefined){
+                removeA(usr1.sentFriendRequests,friendid)
             }
+            if(usr2.friendsRequests.includes(id)){
+                removeA(usr2.friendRequests,id)
+            }
+            usr2.save();
+            usr1.save();
+            return true;
         }
-    })
+    });
+    
 }
 
-module.exports.sendRequest = (id, friendid) => {
-    return Users.findOne({ id: id }, function (err, usr1) {
-        Users.findOne({id:friendid},function(error, usr2){
-                for (i in usr2.friendsRequests) {
-                    if (usr2.friendsRequests[i] === id)
-                        return false;
-                }
-                for(i in usr1.sentFriendRequests){
-                    if(usr1.sentFriendRequests[i]==friendid)
-                        return false;
-                }
-                for (i in usr1.friends) {
-                    if (usr1.friends[i] === id)
-                        return false;
-                }
-                for (i in usr2.friends) {
-                    if (usr2.friends[i] === id)
-                        return false;
-                }
-                console.log("usr2" + usr2.email)
-                console.log("usr1" + usr1.email)
-                usr2.friendsRequests.push(id)
-                usr1.sentFriendRequests.push(friendid)
-                usr2.save();
-                usr1.save();
-                return true;
-        })
-    })
-}
+module.exports.sendRequest = async (id, friendid) => {
+    const usr1 = await Users.findOne({ id: id });
+     Users.findOne({ id: friendid }).then(usr2 => {
+         if (usr1.sentFriendRequests.includes(friendid) || usr1.friends.includes(friendid) || usr2.friendsRequests.includes(id)) {
+             return false;
+         }
+         else{
+             usr2.friendsRequests.push(id)
+             usr1.sentFriendRequests.push(friendid)
+             usr2.save();
+             usr1.save();
+             console.log("Registei: "+usr1 + " - " +usr2)
+             return true;
+         }
+     });
+     
+ }

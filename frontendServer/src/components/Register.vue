@@ -4,7 +4,7 @@
       <v-col cols="12" sm="8" md="8" lg="6">
         <v-card class="elevation-12">
           <v-toolbar color="purple" dark flat>
-            <v-toolbar-title>Login</v-toolbar-title>
+            <v-toolbar-title>Register</v-toolbar-title>
             <v-spacer />
             <v-tooltip bottom>
               
@@ -32,6 +32,22 @@
                 id="email"
                 label="Email"
                 name="email"
+                prepend-icon="mdi-email"
+                type="text"
+              />
+               <v-text-field
+                v-model="nome"
+                id="nome"
+                label="Nome"
+                name="nome"
+                prepend-icon="mdi-account"
+                type="text"
+              />
+               <v-text-field
+                v-model="id"
+                id="id"
+                label="Numero aluno"
+                name="id"
                 prepend-icon="mdi-email"
                 type="text"
               />
@@ -75,7 +91,9 @@ export default {
     submit() {
       Socket.send("mensagem");
       axios
-        .post("http://217.69.12.70:3061/users/login", {
+        .post("http://217.69.12.70:3061/users/register", {
+          id: this.id,
+          nome: this.nome,
           email: this.email,
           password: this.password
         })

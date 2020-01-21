@@ -5,7 +5,7 @@ var postsSchema = new mongoose.Schema({
     text: String,
     ficheiros: [String],
     classificadores: {type: [String],required:true},
-    data: String,
+    date: String,
     grupo: String,
     comments: [String],
     contentType: String,
