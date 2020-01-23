@@ -4,9 +4,15 @@ module.exports.listar=()=>{
     return Posts.find().exec();
 }
 
-module.exports.createPost=post=>{
-    var novo = new Posts(post);
+module.exports.createPost=(post,id)=>{
+    newPost = Object.assign({},post,{author: id})
+    console.log(newPost)
+    var novo = new Posts(newPost);
     return novo.save();
+}
+
+module.exports.addFile = (id, file) => {
+    
 }
 
 module.exports.getPost = id => {

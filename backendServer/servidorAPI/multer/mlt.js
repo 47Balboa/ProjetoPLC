@@ -4,6 +4,7 @@ const uuid = require('uuid/v4')
 const util = require('util')
 
 var Users = require('../controllers/users')
+var Posts = require('../controllers/posts')
 
 
 const Imagestorage = multer.diskStorage({
@@ -28,7 +29,8 @@ const Imagestorage = multer.diskStorage({
 
 const Filestorage = multer.diskStorage({
     destination: (req, file,cb) => {
-        const dir = './post'
+        const dir = './post/'
+        console.log("dir " + dir)
         fs.exists(dir, exist => {
             if (!exist) {
                 return fs.mkdir(dir, error => cb(error, dir))
@@ -37,9 +39,10 @@ const Filestorage = multer.diskStorage({
         })
     },
     filename: (req, file, cb) => {
-        console.log("file")
+        console.log("->" + req.user.id)
         var path = req.user.nome + uuid() + ".txt"
-        cb(null, path)
+        console.log("->" + req.user.id)
+        return cb(null, path)
     }
 })
 

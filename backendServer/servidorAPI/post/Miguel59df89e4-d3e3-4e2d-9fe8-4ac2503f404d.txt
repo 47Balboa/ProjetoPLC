@@ -1,5 +1,0 @@
-<!doctype HTML>
-	<html>
-	<h1> Titutlo</h1>
-</html>
-</doctype>

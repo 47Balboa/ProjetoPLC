@@ -2,8 +2,9 @@ const mongoose = require('mongoose')
 
 var postsSchema = new mongoose.Schema({
     id: {type: String, required: true},
+    author: {type: String, required: true},
     text: String,
-    ficheiros: [String],
+    ficheiros: [],
     classificadores: {type: [String],required:true},
     date: String,
     grupo: String,

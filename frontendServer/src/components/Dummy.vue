@@ -126,7 +126,8 @@ computed: mapGetters(["getToken"]),
       }
       var genId = uuid();
       onlyOne.append('file',this.files[0])
-      onlyOne.append('id', genId)
+      formData.append('id', genId)
+      formData.append('author', genId)
 
 
       
