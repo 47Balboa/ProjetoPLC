@@ -28,7 +28,7 @@ export default {
     ]
   }),
   mounted: function() {
-    const url = "http://localhost:3061/posts";
+    const url = "https://api.manuelmariamoreno.pt/posts";
     let config = {
         headers: {
           Authorization:

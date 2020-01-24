@@ -28,7 +28,7 @@ export default {
 <style scoped>
 .theme {
   line-height: 1.4;
-  background: #477e76;
+  background: #e5e5e5;
   box-sizing: border-box;
   margin: 0;
   padding: 0;

@@ -48,7 +48,7 @@ export default {
   }),
   methods: {
     sendRequest(i) {
-      const url = "http://217.69.12.70:3061/users/sendRequest";
+      const url = "https://api.manuelmariamoreno.pt/users/sendRequest";
 
       let config = {
         headers: {
@@ -69,7 +69,7 @@ export default {
       else return true;
     },
     auxiliar(i) {
-      return "http://217.69.12.70:3061/uploads/" + i.nome + "/avatar/" + i.avatar;
+      return "https://api.manuelmariamoreno.pt/uploads/" + i.nome + "/avatar/" + i.avatar;
     }
   },
   components: {
@@ -77,7 +77,7 @@ export default {
   },
   mounted: function() {
     
-    const url = "http://217.69.12.70:3061/users";
+    const url = "https://api.manuelmariamoreno.pt/users";
     let config = {
       headers: {
         Authorization: "Bearer " + this.getToken

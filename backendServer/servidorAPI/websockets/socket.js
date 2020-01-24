@@ -2,6 +2,7 @@ var WebSocketServer = require('websocket').server;
 
 var ws = null;
 var count = 0;
+var CLIENTS = [];
 
 exports.ws = function () {
   return ws;
@@ -18,9 +19,9 @@ exports.initialize = function (server) {
     console.log("requestado")
   })
   ws.on('connect', function connection(wss) {
-    console.log("cliente conectado")
+    
     wss.on('message', function incoming(message){
-      console.log(" a mensagem: " + message)
+      console.log(" a mensagem: " + JSON.stringify(message))
     })
   });
   

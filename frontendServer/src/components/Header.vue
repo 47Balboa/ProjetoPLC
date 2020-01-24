@@ -76,7 +76,7 @@ export default {
 
   methods: {
     getFriendsRequests() {
-      const url = "http://217.69.12.70:3061/users/getFriendsRequests";
+      const url = "https://api.manuelmariamoreno.pt/users/getFriendsRequests";
       let config = {
         headers: {
           Authorization: "Bearer " + this.getToken
@@ -87,7 +87,7 @@ export default {
       });
     },
     acceptRequest(i, index) {
-      const url = "http://217.69.12.70:3061/users/acceptRequest";
+      const url = "https://api.manuelmariamoreno.pt/users/acceptRequest";
       let config = {
         headers: {
           Authorization: "Bearer " + this.getToken
@@ -103,13 +103,13 @@ export default {
     },
     auxiliar(i) {
       return (
-        "http://217.69.12.70:3061/uploads/" + i.nome + "/avatar/" + i.avatar
+        "https://api.manuelmariamoreno.pt/uploads/" + i.nome + "/avatar/" + i.avatar
       );
     }
   },
   mounted: function() {
     this.$root.$on("entered", () => {
-      const url = "http://217.69.12.70:3061/users/user";
+      const url = "https://api.manuelmariamoreno.pt/users/user";
       let config = {
         headers: {
           Authorization: "Bearer " + this.getToken
@@ -121,7 +121,7 @@ export default {
         console.log("asdfasdf   " + JSON.stringify(res.data));
       });
     });
-    const url = "http://217.69.12.70:3061/users/getFriendsRequests";
+    const url = "https://api.manuelmariamoreno.pt/users/getFriendsRequests";
     let config = {
       headers: {
         Authorization: "Bearer " + this.getToken

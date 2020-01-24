@@ -54,7 +54,7 @@ export default {
     NavigationDrawer
   },
   mounted: function() {
-     const url = "http://217.69.12.70:3061/users/user";
+     const url = "https://api.manuelmariamoreno.pt/users/user";
      
      let config = {
         headers: {
@@ -67,7 +67,7 @@ export default {
        this.name = res.data.user.nome;
        this.idA = res.data.user.id;
        this.curso = res.data.user.curso;
-       this.src = "http://217.69.12.70:3061/uploads/" + res.data.user.nome + '/avatar/' + res.data.user.avatar 
+       this.src = "https://api.manuelmariamoreno.pt/uploads/" + res.data.user.nome + '/avatar/' + res.data.user.avatar 
      })
     
 
@@ -77,7 +77,7 @@ export default {
       document.getElementById("fileUpload").click()
     },
     uploadImage(event) {
-      const url = "http://217.69.12.70:3061/users/image";
+      const url = "https://api.manuelmariamoreno.pt/users/image";
       let data = new FormData();
       data.append("image", event.target.files[0]);
       let config = {

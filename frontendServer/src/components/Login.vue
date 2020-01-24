@@ -61,7 +61,7 @@
 <script>
 import axios from "axios";
 import { mapMutations } from "vuex";
-import Socket from "../store/modules/socket";
+
 
 export default {
   data() {
@@ -73,7 +73,7 @@ export default {
   methods: {
     ...mapMutations(["setToken"]),
     submit() {
-      Socket.send("mensagem");
+      
       axios
         .post("https://api.manuelmariamoreno.pt/users/login", {
           email: this.email,

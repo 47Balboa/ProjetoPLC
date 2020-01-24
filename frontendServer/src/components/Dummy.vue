@@ -105,8 +105,8 @@ export default {
 computed: mapGetters(["getToken"]),
   methods: {
     submitToServer() {
-      const url = "http://localhost:3061/posts/addPost";
-      const url2 = "http://localhost:3061/posts/addPostFiles";
+      const url = "https://api.manuelmariamoreno.pt/posts/addPost";
+      const url2 = "https://api.manuelmariamoreno.pt/posts/addPostFiles";
       let config = {
         headers: {
           Authorization: "Bearer " + this.getToken

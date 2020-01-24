@@ -1,6 +1,6 @@
 import Vue from "vue"
 
-const socket = new WebSocket("ws://localhost:3061")
+const socket = new WebSocket("wss://api.manuelmariamoreno.pt")
 
 const emitter = new Vue({
   methods:{

@@ -5,7 +5,7 @@
         <v-container class="my-5">
           <v-row dense>
             <v-col cols="12">
-              <v-card flat class="text-xs-center ma-3">
+              <v-card elevation="10" flat class="text-xs-center ma-3">
                 <v-list-item>
                   <v-list-item-avatar>
                     <v-img
@@ -46,6 +46,7 @@
                 </v-list-item>
 
                 <v-textarea
+                  class="ma-3"
                   background-color="white"
                   color="black"
                   def
@@ -102,7 +103,7 @@ export default {
     ...mapGetters(["getToken"])
   },
   mounted: function() {
-    const url = "http://localhost:3061/users/user/" + this.post.author;
+    const url = "https://api.manuelmariamoreno.pt/users/user/" + this.post.author;
     let config = {
       headers: {
         Authorization: "Bearer " + this.getToken
@@ -118,7 +119,7 @@ export default {
   methods: {
     addLike(i) {
       if (!this.userLikes.includes(i.id)) {
-        const url = "http://localhost:3061/users/user/" + this.post.author;
+        const url = "https://api.manuelmariamoreno.pt/users/user/" + this.post.author;
         let config = {
           headers: {
             Authorization: "Bearer " + this.getToken
@@ -138,7 +139,7 @@ export default {
     },
     auxiliar(i) {
       return (
-        "http://217.69.12.70:3061/uploads/" + i.nome + "/avatar/" + i.avatar
+        "https://api.manuelmariamoreno.pt/uploads/" + i.nome + "/avatar/" + i.avatar
       );
     }
   },
