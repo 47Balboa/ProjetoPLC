@@ -1,6 +1,10 @@
 .DS_Store
 node_modules
+backendServer/servidorAPI/node_modules
+frontendServer/node_modules/*
+frontendServer/dist
 /dist
+uploads
 
 # local env files
 .env.local
@@ -19,3 +23,5 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
+frontendServer/node_modules/core-js/internals/well-known-symbol.js
+frontendServer/node_modules/uuid/lib/rng-browser.js

@@ -4,21 +4,14 @@
       <v-col cols="12" sm="8" md="8" lg="6">
         <v-card class="elevation-12">
           <v-toolbar color="purple" dark flat>
-            <v-toolbar-title>Login</v-toolbar-title>
+            <v-toolbar-title>Register</v-toolbar-title>
             <v-spacer />
             <v-tooltip bottom>
-              
               <span>Source</span>
             </v-tooltip>
             <v-tooltip right>
               <template v-slot:activator="{ on }">
-                <v-btn
-                  icon
-                  large
-                  href="https://codepen.io/johnjleider/pen/pMvGQO"
-                  target="_blank"
-                  v-on="on"
-                >
+                <v-btn icon large target="_blank" v-on="on">
                   <v-icon>mdi-codepen</v-icon>
                 </v-btn>
               </template>
@@ -36,7 +29,30 @@
                 type="text"
               />
               <v-text-field
-              
+                v-model="nome"
+                id="nome"
+                label="Nome"
+                name="nome"
+                prepend-icon="mdi-account"
+                type="text"
+              />
+              <v-text-field
+                v-model="id"
+                id="id"
+                label="Numero aluno"
+                name="id"
+                prepend-icon="mdi-email"
+                type="text"
+              />
+              <v-select
+                :items="items"
+                v-model="itemsSelected"
+                label="Grupos"
+                outlined
+                multiple
+                return-object
+              ></v-select>
+              <v-text-field
                 v-model="password"
                 id="password"
                 label="Password"
@@ -47,9 +63,11 @@
             </v-form>
           </v-card-text>
           <v-card-actions>
-            <v-btn @click="submit()" v-on:keyup.enter="onEnter" color="purple">Login</v-btn>
+            <v-btn to="/login" v-on:keyup.enter="onEnter" color="purple"
+              >Login</v-btn
+            >
             <v-spacer />
-            <v-btn to="/register">Sign Up</v-btn>
+            <v-btn @click="submit()">Sign Up</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -57,34 +75,40 @@
   </v-container>
 </template>
 
-
 <script>
 import axios from "axios";
 import { mapMutations } from "vuex";
-
+import Socket from "../store/modules/socket";
 
 export default {
   data() {
     return {
       email: "",
-      password: ""
+      password: "",
+      nome: "",
+      id: "",
+      itemsSelected: [],
+      items: ["PRI", "GCS"]
     };
   },
   methods: {
     ...mapMutations(["setToken"]),
     submit() {
-      
+      Socket.send("mensagem");
       axios
-        .post("https://api.manuelmariamoreno.pt/users/login", {
+        .post("https://api.manuelmariamoreno.pt/users/register", {
+          id: this.id,
+          nome: this.nome,
           email: this.email,
-          password: this.password
+          password: this.password,
+          groups: this.itemsSelected
         })
         .then(response => {
           switch (response.status) {
             case 200:
               this.setToken(response.data.token);
-              this.$root.$emit('entered')
-              this.$router.push("/home");
+              this.$root.$emit("entered");
+              this.$router.push("/");
               break;
             default:
               this.$router.push("/");

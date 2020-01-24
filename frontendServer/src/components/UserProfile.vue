@@ -1,96 +1,94 @@
 <template>
-  <v-container fill-height fluid grid-list-xl>
-    <v-layout justify-center wrap>
-      <v-flex xs12 md8>
-        <material-card color="green" title="Edit Profile" text="Complete your profile">
-          <v-form>
-            <v-container py-0>
-              <v-layout wrap>
-                <v-flex xs12 md4>
-                  <v-text-field label="Company (disabled)" disabled />
-                </v-flex>
-                <v-flex xs12 md4>
-                  <v-text-field class="purple-input" label="User Name" />
-                </v-flex>
-                <v-flex xs12 md4>
-                  <v-text-field label="Email Address" class="purple-input" />
-                </v-flex>
-                <v-flex xs12 md6>
-                  <v-text-field label="First Name" class="purple-input" />
-                </v-flex>
-                <v-flex xs12 md6>
-                  <v-text-field label="Last Name" class="purple-input" />
-                </v-flex>
-                <v-flex xs12 md12>
-                  <v-text-field label="Adress" class="purple-input" />
-                </v-flex>
-                <v-flex xs12 md4>
-                  <v-text-field label="City" class="purple-input" />
-                </v-flex>
-                <v-flex xs12 md4>
-                  <v-text-field label="Country" class="purple-input" />
-                </v-flex>
-                <v-flex xs12 md4>
-                  <v-text-field class="purple-input" label="Postal Code" type="number" />
-                </v-flex>
-                <v-flex xs12>
-                  <v-textarea
-                    class="purple-input"
-                    label="About Me"
-                    value="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-                  />
-                </v-flex>
-                <v-flex xs12 text-xs-right>
-                  <input
+  <v-row min-height="100%" class="mb-0">
+    <v-col class="pa-0" cols="8" lg="2">
+      <NavigationDrawer />
+    </v-col>
+    <v-col>
+      <v-layout justify-center class="pa-10">
+      <v-flex justify-center xs12 md4>
+        <material-card class="v-card-profile">
+          <v-avatar slot="offset" class="mx-auto d-block" size="200">
+            <img :src="src" />
+          </v-avatar>
+          <v-card-text class="text-center">
+            <h5 class="category text-gray font-weight-thin mb-3">CEO / CO-FOUNDER</h5>
+            <h1 class="card-title font-weight-bold ma-3">{{name}}</h1>
+            <h5 class="card-title font-weight-bold ma-3">{{bio}}</h5>
+            <p
+              class="card-description font-weight-light"
+            >Don't be scared of the truth because we need to restart the human foundation in truth And I love you like Kanye loves Kanye I love Rick Owens’ bed design but the back is...</p>
+            <v-btn color="success" @click="chooseFile()" class="font-weight-light">UploadIMa</v-btn>
+             <input
                     class="mx-0 font-weight-light"
                     type="file"
                     accept="image/*"
                     @change= "uploadImage($event)"
-                    id="file-input"
+                    id="fileUpload"
+                    hidden
                   >
-                </v-flex>
-              </v-layout>
-            </v-container>
-          </v-form>
-        </material-card>
-      </v-flex>
-      <v-flex xs12 md4>
-        <material-card class="v-card-profile">
-          <v-avatar slot="offset" class="mx-auto d-block" size="130">
-            <img src="https://demos.creative-tim.com/vue-material-dashboard/img/marc.aba54d65.jpg" />
-          </v-avatar>
-          <v-card-text class="text-xs-center">
-            <h6 class="category text-gray font-weight-thin mb-3">CEO / CO-FOUNDER</h6>
-            <h4 class="card-title font-weight-light">Alec Thompson</h4>
-            <p
-              class="card-description font-weight-light"
-            >Don't be scared of the truth because we need to restart the human foundation in truth And I love you like Kanye loves Kanye I love Rick Owens’ bed design but the back is...</p>
-            <v-btn color="success" round class="font-weight-light">Follow</v-btn>
           </v-card-text>
         </material-card>
       </v-flex>
-    </v-layout>
-  </v-container>
+      </v-layout>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
+import NavigationDrawer from "./../components/NavigationDrawer";
+import { mapGetters } from "vuex";
+import moment from 'moment';
 
 export default {
+  computed: mapGetters(["getToken"]),
+  data:()=>({
+    name: "Miguel",
+    bio: "ola eu siouy alunio fasdf efsdvhksfa",
+    idA: "",
+    curso: "",
+    src: "scene",
+    date: moment(),
+  }),
+  components: {
+    NavigationDrawer
+  },
+  mounted: function() {
+     const url = "https://api.manuelmariamoreno.pt/users/user";
+     
+     let config = {
+        headers: {
+          Authorization:
+            "Bearer " +
+            this.getToken
+            }
+     }
+     axios.get(url,config).then(res => {
+       this.name = res.data.user.nome;
+       this.idA = res.data.user.id;
+       this.curso = res.data.user.curso;
+       this.src = "https://api.manuelmariamoreno.pt/uploads/" + res.data.user.nome + '/avatar/' + res.data.user.avatar 
+     })
+    
+
+  },
   methods: {
+    chooseFile(){
+      document.getElementById("fileUpload").click()
+    },
     uploadImage(event) {
-      const url = "http://localhost:3061/users/image";
+      const url = "https://api.manuelmariamoreno.pt/users/image";
       let data = new FormData();
       data.append("image", event.target.files[0]);
       let config = {
         headers: {
           "Content-Type": "image/png",
-          'Authorization':
+          Authorization:
             "Bearer " +
-            "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InBvc3RzIjpbXSwiZnJpZW5kcyI6W10sImZyaWVuZHNSZXF1ZXN0cyI6WyIxMTExMSJdLCJjb21tZW50cyI6W10sIl9pZCI6IjVlMDEzZWIzZjE3Nzg4MGVhYzJmZjk2OSIsImVtYWlsIjoiZW1haWxUZXN0ZSIsInBhc3N3b3JkIjoiJDJhJDA2JC5lMlMuNFFoTFYzTzJxRE5tanpkQU9yNHFSVkNXVlVaNHZOL2Qudm9VR044YzByN0d6a3NLIiwibm9tZSI6IlRhbGlHIiwiaWQiOiI2NzcxMyIsIl9fdiI6MX0sImlhdCI6MTU3NzMzMTE1NiwiZXhwIjoxNTc3MzM4MzU2fQ.Alhqu76SjDRaKlM0F9XDAJYpE0YJo_UKxjViNqeDcPTm5bNLrZsBMSPrVVkV5QXVOEEhgBlXmiDrxUvkCZ1bcg"
-        }
+            this.getToken
+            }
       };
-      axios.post(url, data, config)
+      axios.post(url, data, config);
     }
   }
 };

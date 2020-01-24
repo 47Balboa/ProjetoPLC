@@ -1,5 +1,6 @@
 const passport = require('passport');
 const passportJWT = require("passport-jwt");
+const passportFB = require("passport-facebook")
 const Users = require('../controllers/users')
 const ExtractJWT = passportJWT.ExtractJwt;
 const bcrypt = require('bcryptjs')
@@ -10,12 +11,13 @@ const publicKey = fs.readFileSync('./keys/publickey.key','utf-8')
 const LocalStrategy = require('passport-local').Strategy;
 const JWTStrategy = passportJWT.Strategy;
 
+
+
 passport.use(new LocalStrategy({
     usernameField: 'email',
     passwordField: 'password'
 },
     function (email, password, done) {
-        console.log("este e o email: " +email + " e esta a pass: "+password)
         Users.getUser(email).then(dados => {
             var user = dados;
             if(bcrypt.compareSync(password,user.password)){
@@ -31,9 +33,14 @@ passport.use(new LocalStrategy({
     }
 ));
 
+var extractFromQS = function(req){
+    var token = null
+    if(req.query && req.query.token) token = req.query.token
+    return token
+  }
 
 passport.use(new JWTStrategy({
-    jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+    jwtFromRequest: ExtractJWT.fromExtractors([extractFromQS,ExtractJWT.fromAuthHeaderAsBearerToken()]),
     secretOrKey: publicKey
 },
     function (jwtPayload, done) {

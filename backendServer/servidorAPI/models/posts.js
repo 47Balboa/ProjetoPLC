@@ -1,17 +1,20 @@
 const mongoose = require('mongoose')
 
 var postsSchema = new mongoose.Schema({
-    autor: {type: String, required: true},
+    id: {type: String, required: true},
+    author: {type: String, required: true},
     text: String,
-    ficheiros: [String],
+    ficheiros: [],
     classificadores: {type: [String],required:true},
-    data: String,
+    date: String,
     grupo: String,
     comments: [String],
     contentType: String,
     descricao: String,
     dataEvento: String,
-    localEvento: String
+    localEvento: String,
+    likes: [String],
+    title: String,
 })
 
 module.exports = mongoose.model('posts', postsSchema)
