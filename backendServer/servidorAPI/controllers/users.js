@@ -24,6 +24,13 @@ module.exports.addUser = user => {
     return novo.save();
 }
 
+module.exports.addLike = (id, postId) => {
+    return Users.findOne({id: id}).then(user => {
+        user.likes.push(postId)
+        user.save()
+    })
+}
+
 module.exports.changeAvatar = (id, path) => {
     return Users.update({ id: id }, { avatar: path }).exec()
 }

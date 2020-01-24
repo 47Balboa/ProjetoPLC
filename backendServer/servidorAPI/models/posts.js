@@ -12,7 +12,9 @@ var postsSchema = new mongoose.Schema({
     contentType: String,
     descricao: String,
     dataEvento: String,
-    localEvento: String
+    localEvento: String,
+    likes: [String],
+    title: String,
 })
 
 module.exports = mongoose.model('posts', postsSchema)

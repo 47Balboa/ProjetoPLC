@@ -129,14 +129,14 @@ computed: mapGetters(["getToken"]),
       formData.append('id', genId)
       formData.append('author', genId)
 
-
       
       let post = {
         id: genId,
         grupo: this.itemSelected,
         date: moment(),
         text: this.textSent,
-        classificadores: ["shit"]
+        classificadores: ["PRI"],
+        likes: 0
       };
       axios.post(url, post, config).then(() => {
         axios.post(url2,formData,config2);

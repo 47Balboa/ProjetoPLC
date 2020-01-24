@@ -27,8 +27,7 @@ export default () => {
             },
             setMessages: (state, messages) => {
                 messages.map(message => {
-                    //eslint-disable-next-line no-console
-                    console.log(message) 
+
                     message.timestamp = moment(message.timestamp).toISOString();
                     message.myself = message.participantId !== state.myself.id;
                 });

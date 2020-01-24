@@ -11,10 +11,12 @@ var userSchema = new mongoose.Schema({
     dataNasc: String,
     morada: String,
     posts: [String],
+    groups: [String],
     sentFriendRequests: [String],
     friends: [String],
     friendsRequests: [String],
-    comments: [String]
+    comments: [String],
+    likes: [String]
 })
 
 module.exports = mongoose.model('users', userSchema)

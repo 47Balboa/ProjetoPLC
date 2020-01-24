@@ -22,6 +22,14 @@ router.get('/', passport.authenticate('jwt', { session: false }),function (req, 
   })
 });
 
+router.get('/user/:id', passport.authenticate('jwt', { session: false }), function (req, res) {
+  Users.getUserId(req.params.id).then(dados=>{
+    res.status(200).jsonp({user: dados})
+  }).catch(() => {
+    res.status(500).jsonp({error: "error"})
+  })
+})
+
 router.get('/user', passport.authenticate('jwt', { session: false }), function (req, res) {
   res.status(200).jsonp({ user: req.user })
 })

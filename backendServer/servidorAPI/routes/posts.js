@@ -8,12 +8,13 @@ var fsync = require('fs-sync')
 
 /* GET home page. */
 router.get('/', passport.authenticate('jwt', { session: false }), function (req, res, next) {
-  Posts.listar().then(dados => res.status(200).jsonp(dados))
+  Posts.listar(req.user).then(dados => res.status(200).jsonp(dados))
     .catch(error => res.status(500).jsonp(error))
 });
 
 
-router.get('/:id', function (req, res) {
+
+router.get('/:id', passport.authenticate('jwt', { session: false }),function (req, res) {
   Posts.getPost(req.params.id).then(dados => res.status(200).jsonp(dados))
     .catch(error => res.status(500).jsonp(error))
 })
@@ -56,7 +57,7 @@ router.post('/addPostFiles', passport.authenticate('jwt', { session: false }), u
           }
           post.save();
           console.log(post)
-          return res.status(200)
+          return res.status(200).jsonp({message: "added files"})
         })
       }
     })

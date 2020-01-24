@@ -75,7 +75,7 @@ export default {
     submit() {
       Socket.send("mensagem");
       axios
-        .post("http://217.69.12.70:3061/users/login", {
+        .post("https://api.manuelmariamoreno.pt/users/login", {
           email: this.email,
           password: this.password
         })
