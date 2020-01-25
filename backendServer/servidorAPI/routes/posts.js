@@ -14,7 +14,7 @@ router.get('/', passport.authenticate('jwt', { session: false }), function (req,
 
 
 
-router.get('/:id', passport.authenticate('jwt', { session: false }),function (req, res) {
+router.get('/:id', passport.authenticate('jwt', { session: false }), function (req, res) {
   Posts.getPost(req.params.id).then(dados => res.status(200).jsonp(dados))
     .catch(error => res.status(500).jsonp(error))
 })
@@ -34,6 +34,9 @@ router.post('/addPostFile', passport.authenticate('jwt', { session: false }), up
 
 })
 
+router.get('/like/:id', passport.authenticate('jwt', { session: false }), function (req, res) {
+  Posts.addLike(req.params.id, req.user.id).then(dados => res.status(200)).catch(error => res.status(500))
+})
 
 router.post('/addPostFiles', passport.authenticate('jwt', { session: false }), uploadF.array('files'), function (req, res) {
   Posts.getPost(req.body.id).then(post => {
@@ -46,22 +49,22 @@ router.post('/addPostFiles', passport.authenticate('jwt', { session: false }), u
             var oldPath = __dirname + '/../post/' + req.files[i].filename
             var newPath = folderpath + '/' + req.files[i].filename
             fs.rename(oldPath, newPath, function (_error) {
-              if(_error) throw _error
-             })
+              if (_error) throw _error
+            })
             let f = {
               name: req.files[i].originalname,
               path: newPath
             }
             post.ficheiros.push(f);
-            
+
           }
           post.save();
           console.log(post)
-          return res.status(200).jsonp({message: "added files"})
+          return res.status(200).jsonp({ message: "added files" })
         })
       }
     })
-  }).catch(error => { return res.status(200).jsonp({message: "error"}) })
+  }).catch(error => { return res.status(200).jsonp({ message: "error" }) })
 })
 
 

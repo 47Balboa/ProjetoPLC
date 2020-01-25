@@ -56,7 +56,7 @@
                   outlined
                 ></v-textarea>
                 <v-card-actions>
-                  <h4 class="ma-0">{{ this.post.likes }}</h4>
+                  <h4 class="ma-0">{{ this.post.likes.length }}</h4>
                   <v-btn @click="addLike(i)" fab text small>
                     <v-icon color="pink">mdi-heart</v-icon>
                   </v-btn>
@@ -120,17 +120,16 @@ export default {
     addLike(i) {
       if (!this.userLikes.includes(i.id)) {
         const url = "https://api.manuelmariamoreno.pt/users/user/" + this.post.author;
+
         let config = {
           headers: {
             Authorization: "Bearer " + this.getToken
           }
         };
         
-        axios.post(url, config).then(() => {
-          this.userLikes.push(i.id)
+        axios.get(url, config).then(dados => {
+          axios.get(url,dados)
         });
-
-        
       }
     },
     hasAvatar(i) {

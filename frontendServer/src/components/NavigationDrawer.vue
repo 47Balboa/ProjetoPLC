@@ -30,6 +30,7 @@ export default {
     items: [
       ["mdi-home", "Complexity","/complex"],
       ["mdi-home", "Home","/home"],
+      ["mdi-home", "testing","/testing"],
       ["mdi-account", "Profile","/profile"],
       ["mdi-email", "Messages","/chat"],
       ["mdi-account-multiple-check", "Friends","/friends"],

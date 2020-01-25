@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import UserProfile from '../components/UserProfile.vue'
+import UserProfile1 from '../components/UserProfile1.vue'
 import TesteChat from '../components/TesteChat.vue'
 import Friends from '../components/Friends.vue'
 import store from '../store/modules/token';
@@ -31,6 +32,12 @@ const routes = [
     path: '/home',
     name: 'home',
     component: Home,
+    beforeEnter: isAuthenticated
+  },
+  {
+    path: '/testing',
+    name: 'testing',
+    component: UserProfile1,
     beforeEnter: isAuthenticated
   },
   {

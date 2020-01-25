@@ -33,6 +33,9 @@ export default () => {
                 });
                 state.messages = messages;
             },
+            deleteMessages: (state) => {
+                state.messages = []
+            },
             setChatTitle: (state, title) => {
                 state.chatTitle = title;
             },

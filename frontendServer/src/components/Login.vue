@@ -7,7 +7,6 @@
             <v-toolbar-title>Login</v-toolbar-title>
             <v-spacer />
             <v-tooltip bottom>
-              
               <span>Source</span>
             </v-tooltip>
             <v-tooltip right>
@@ -36,7 +35,6 @@
                 type="text"
               />
               <v-text-field
-              
                 v-model="password"
                 id="password"
                 label="Password"
@@ -47,7 +45,9 @@
             </v-form>
           </v-card-text>
           <v-card-actions>
-            <v-btn @click="submit()" v-on:keyup.enter="onEnter" color="purple">Login</v-btn>
+            <v-btn @click="submit()" v-on:keyup.enter="onEnter" color="purple"
+              >Login</v-btn
+            >
             <v-spacer />
             <v-btn to="/register">Sign Up</v-btn>
           </v-card-actions>
@@ -57,11 +57,10 @@
   </v-container>
 </template>
 
-
 <script>
 import axios from "axios";
-import { mapMutations } from "vuex";
-
+import { mapMutations,mapGetters } from "vuex";
+import Socket from "../store/modules/socket";
 
 export default {
   data() {
@@ -70,8 +69,15 @@ export default {
       password: ""
     };
   },
+  mounted: function(){
+    if(this.loggedIn){
+      this.$root.$emit("entered");
+      this.$router.push("/home");
+    }
+  },
   methods: {
     ...mapMutations(["setToken"]),
+    ...mapGetters(['loggedIn']),
     submit() {
       
       axios
@@ -83,7 +89,11 @@ export default {
           switch (response.status) {
             case 200:
               this.setToken(response.data.token);
-              this.$root.$emit('entered')
+              var mssge = {
+                token: response.data.token
+              };
+              Socket.send(JSON.stringify(mssge));
+              this.$root.$emit("entered");
               this.$router.push("/home");
               break;
             default:

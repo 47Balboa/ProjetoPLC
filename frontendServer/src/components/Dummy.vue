@@ -136,7 +136,6 @@ computed: mapGetters(["getToken"]),
         date: moment(),
         text: this.textSent,
         classificadores: ["PRI"],
-        likes: 0
       };
       axios.post(url, post, config).then(() => {
         axios.post(url2,formData,config2);

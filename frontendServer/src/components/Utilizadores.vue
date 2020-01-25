@@ -35,6 +35,7 @@
 <script>
 import NavigationDrawer from "./../components/NavigationDrawer";
 import axios from "axios";
+import Socket from '../store/modules/socket'
 import { mapGetters } from "vuex";
 
 export default {
@@ -59,8 +60,10 @@ export default {
          
       
         this.sentRequests.push(i.id);
-        // eslint-disable-next-line no-console
-        console.log(" " + this.sentRequests + "    id: " + i)
+        var mssge = {
+          id: i.id
+        }
+        Socket.send(JSON.stringify(mssge))
       })
       
     },

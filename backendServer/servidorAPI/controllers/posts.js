@@ -13,6 +13,13 @@ module.exports.addLike=(postid, userid)=>{
     })
 }
 
+module.exports.unlike=(postid, userid)=>{
+    return Posts.findOne({id: postid}).then(post => {
+        post.likes.splice(userid, 1)
+        post.save()
+    })
+}
+
 module.exports.createPost=(post,id)=>{
     newPost = Object.assign({},post,{author: id})
     var novo = new Posts(newPost);

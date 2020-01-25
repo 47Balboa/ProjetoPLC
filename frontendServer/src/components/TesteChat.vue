@@ -9,6 +9,7 @@
           <v-col class="pa-0">
             <Chat
               v-if="flag"
+              :key="newChat"
               :participants="participants"
               :myself="myself"
               :messages="messages"
@@ -107,14 +108,17 @@ export default {
         name: u.nome,
         id: u.id,
       }]
+      
       this.myself = {
         name: dados.data.usr.nome,
         id: dados.data.usr.id
       }
       this.user = u
       this.messages = dados.data.messages
+      this.toLoad = dados.data.messages
       this.chatTitle = u.name
       this.flag = 1
+      this.newChat++;
     })
     }
   },
@@ -136,65 +140,14 @@ export default {
         console.log("message " + e);
       },
       user: null,
+      newChat: 0,
       flag: false,
       visible: true,
       participants: [
-        {
-          name: "Arnaldo",
-          id: 1
-        },
-        {
-          name: "José",
-          id: 2
-        }
       ],
       myself: {
-        name: "Matheus S.",
-        id: 3
       },
       messages: [
-        {
-          content: "received messages",
-          myself: false,
-          participantId: 1,
-          timestamp: {
-            year: 2019,
-            month: 3,
-            day: 5,
-            hour: 20,
-            minute: 10,
-            second: 3,
-            millisecond: 123
-          }
-        },
-        {
-          content: "sent messages",
-          myself: true,
-          participantId: 3,
-          timestamp: {
-            year: 2019,
-            month: 4,
-            day: 5,
-            hour: 19,
-            minute: 10,
-            second: 3,
-            millisecond: 123
-          }
-        },
-        {
-          content: "other received messages",
-          myself: false,
-          participantId: 2,
-          timestamp: {
-            year: 2019,
-            month: 5,
-            day: 5,
-            hour: 10,
-            minute: 10,
-            second: 3,
-            millisecond: 123
-          }
-        }
       ],
       chatTitle: "",
       placeholder: "send your message",
@@ -230,38 +183,6 @@ export default {
       asyncMode: false,
       users: [],
       toLoad: [
-        {
-          content: "Hey, John Doe! How are you today?",
-          myself: false,
-          participantId: 2,
-          timestamp: {
-            year: 2011,
-            month: 3,
-            day: 5,
-            hour: 10,
-            minute: 10,
-            second: 3,
-            millisecond: 123
-          },
-          uploaded: true,
-          viewed: true
-        },
-        {
-          content: "Hey, Adam! I'm feeling really fine this evening.",
-          myself: true,
-          participantId: 3,
-          timestamp: {
-            year: 2010,
-            month: 0,
-            day: 5,
-            hour: 19,
-            minute: 10,
-            second: 3,
-            millisecond: 123
-          },
-          uploaded: true,
-          viewed: true
-        }
       ],
       scrollBottom: {
         messageSent: true,
