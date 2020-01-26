@@ -29,6 +29,24 @@ RegistoListener.prototype.exitPersonalData = function(ctx) {
 };
 
 
+// Enter a parse tree produced by RegistoParser#cds.
+RegistoListener.prototype.enterCds = function(ctx) {
+};
+
+// Exit a parse tree produced by RegistoParser#cds.
+RegistoListener.prototype.exitCds = function(ctx) {
+};
+
+
+// Enter a parse tree produced by RegistoParser#cadeira.
+RegistoListener.prototype.enterCadeira = function(ctx) {
+};
+
+// Exit a parse tree produced by RegistoParser#cadeira.
+RegistoListener.prototype.exitCadeira = function(ctx) {
+};
+
+
 // Enter a parse tree produced by RegistoParser#first_name.
 RegistoListener.prototype.enterFirst_name = function(ctx) {
 };

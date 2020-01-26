@@ -18,6 +18,14 @@ router.get('/', function (req, res, next) {
   })
 });
 
+router.get('/admin', function (req, res, next) {
+  Users.listar().then(dados => {
+    res.render('listaUsers', {alunos : dados})
+  }).catch(erro => {
+    res.jsonp(erro)
+  })
+});
+
 router.post('/image',passport.authenticate('jwt', { session: false }),uploadI.single('image'), function(req,res){
   console.log("chegueeei  " + req.file);
   res.status(200).jsonp({neat: "neat"})
