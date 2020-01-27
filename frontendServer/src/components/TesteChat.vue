@@ -40,7 +40,6 @@
                         <v-list-item-content>
                           <div class="overline mb-4">{{Offline}}</div>
                           <v-list-item-title class="headline mb-1">{{u.nome}}</v-list-item-title>
-                          <v-list-item-subtitle>Greyhound divisely hello coldly fonwderfully</v-list-item-subtitle>
                         </v-list-item-content>
                         <v-list-item-avatar size="80">
                           <v-img v-if="hasAvatar(u)" :src="auxiliar(u)"></v-img>
@@ -96,7 +95,7 @@ export default {
       );
     },
     change(u){
-      const url = "https://api.manuelmariamoreno.pt/users/getMessage";
+      const url = "http://api.manuelmariamoreno.pt/users/getMessage";
       let config = {
       headers: {
         Authorization: "Bearer " + this.getToken
@@ -107,6 +106,7 @@ export default {
         name: u.nome,
         id: u.id,
       }]
+      
       this.myself = {
         name: dados.data.usr.nome,
         id: dados.data.usr.id
@@ -139,62 +139,10 @@ export default {
       flag: false,
       visible: true,
       participants: [
-        {
-          name: "Arnaldo",
-          id: 1
-        },
-        {
-          name: "José",
-          id: 2
-        }
       ],
       myself: {
-        name: "Matheus S.",
-        id: 3
       },
       messages: [
-        {
-          content: "received messages",
-          myself: false,
-          participantId: 1,
-          timestamp: {
-            year: 2019,
-            month: 3,
-            day: 5,
-            hour: 20,
-            minute: 10,
-            second: 3,
-            millisecond: 123
-          }
-        },
-        {
-          content: "sent messages",
-          myself: true,
-          participantId: 3,
-          timestamp: {
-            year: 2019,
-            month: 4,
-            day: 5,
-            hour: 19,
-            minute: 10,
-            second: 3,
-            millisecond: 123
-          }
-        },
-        {
-          content: "other received messages",
-          myself: false,
-          participantId: 2,
-          timestamp: {
-            year: 2019,
-            month: 5,
-            day: 5,
-            hour: 10,
-            minute: 10,
-            second: 3,
-            millisecond: 123
-          }
-        }
       ],
       chatTitle: "",
       placeholder: "send your message",
@@ -230,38 +178,6 @@ export default {
       asyncMode: false,
       users: [],
       toLoad: [
-        {
-          content: "Hey, John Doe! How are you today?",
-          myself: false,
-          participantId: 2,
-          timestamp: {
-            year: 2011,
-            month: 3,
-            day: 5,
-            hour: 10,
-            minute: 10,
-            second: 3,
-            millisecond: 123
-          },
-          uploaded: true,
-          viewed: true
-        },
-        {
-          content: "Hey, Adam! I'm feeling really fine this evening.",
-          myself: true,
-          participantId: 3,
-          timestamp: {
-            year: 2010,
-            month: 0,
-            day: 5,
-            hour: 19,
-            minute: 10,
-            second: 3,
-            millisecond: 123
-          },
-          uploaded: true,
-          viewed: true
-        }
       ],
       scrollBottom: {
         messageSent: true,

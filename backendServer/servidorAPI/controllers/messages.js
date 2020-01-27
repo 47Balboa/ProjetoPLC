@@ -7,5 +7,5 @@ module.exports.addMessage = (message) => {
 }
 
 module.exports.getMessages = (id,friendid) =>{
-   return Messages.find({$or: [{id: id}, {participantId: id}]}).sort({timestamp: 1}).exec();
+   return Messages.find({$or: [{$and: [{id: id}, {participantId: friendid}]},{$and: [{id: friendid}, {participantId: id}]}]}).sort({timestamp: 1}).exec();
 }

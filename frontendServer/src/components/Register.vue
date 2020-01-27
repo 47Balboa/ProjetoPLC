@@ -108,7 +108,7 @@ export default {
             case 200:
               this.setToken(response.data.token);
               this.$root.$emit("entered");
-              this.$router.push("/");
+              this.$router.push("/home");
               break;
             default:
               this.$router.push("/");

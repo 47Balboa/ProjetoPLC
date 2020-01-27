@@ -125,6 +125,7 @@
                 this.setMyself(this.myself);
             },
             messages() {
+                this.deleteMessages()
                 this.setMessages(this.messages);
             },
             placeholder() {
@@ -132,12 +133,14 @@
             },
             chatTitle() {
                 this.setChatTitle(this.chatTitle);
-            }
+            },
+            
         },
         beforeCreate() {
             this.$store = store();
         },
         created() {
+            this.deleteMessages();
             this.setParticipants(this.participants);
             this.setMyself(this.myself);
             this.setMessages(this.messages);
@@ -146,6 +149,7 @@
         },
         methods: {
             ...mapMutations([
+                'deleteMessages',
                 'setParticipants',
                 'setMyself',
                 'setMessages',

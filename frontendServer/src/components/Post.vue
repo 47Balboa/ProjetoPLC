@@ -8,16 +8,15 @@
               <v-card elevation="10" flat class="text-xs-center ma-3">
                 <v-list-item>
                   <v-list-item-avatar>
-                    <v-img
-                      v-if="hasAvatar(this.user)"
-                      :src="auxiliar(this.user)"
-                    ></v-img>
+                    <v-img v-if="hasAvatar(this.user)" :src="auxiliar(this.user)"></v-img>
                     <v-img v-else src="../assets/default_avatar.jpg"></v-img>
                   </v-list-item-avatar>
                   <v-list-item-content>
-                    <v-list-item-title class="headline">{{
+                    <v-list-item-title class="headline">
+                      {{
                       user.nome
-                    }}</v-list-item-title>
+                      }}
+                    </v-list-item-title>
                     <v-list-item-subtitle>{{ this.date }}</v-list-item-subtitle>
                   </v-list-item-content>
                   <v-list-item-content>
@@ -55,8 +54,16 @@
                   auto-grow
                   outlined
                 ></v-textarea>
+                <v-row v-if="post.ficheiros.length !== 0">
+                  <v-col v-for="i in post.ficheiros" :key="i">
+                    <v-btn @click="download(i)" class="ma-2" rounded outlined>
+                      <v-icon left>mdi-paperclip</v-icon>
+                      {{i.name}}
+                    </v-btn>
+                  </v-col>
+                </v-row>
                 <v-card-actions>
-                  <h4 class="ma-0">{{ this.post.likes }}</h4>
+                  <h4 class="ma-0">{{ this.post.likes.length }}</h4>
                   <v-btn @click="addLike(i)" fab text small>
                     <v-icon color="pink">mdi-heart</v-icon>
                   </v-btn>
@@ -103,7 +110,8 @@ export default {
     ...mapGetters(["getToken"])
   },
   mounted: function() {
-    const url = "https://api.manuelmariamoreno.pt/users/user/" + this.post.author;
+    const url =
+      "https://api.manuelmariamoreno.pt/users/user/" + this.post.author;
     let config = {
       headers: {
         Authorization: "Bearer " + this.getToken
@@ -112,25 +120,46 @@ export default {
     axios.get(url, config).then(dados => {
       this.user = dados.data.user;
       moment.locale();
-    
+
       this.date = moment(this.post.date).format("MMM D , h:mm a");
     });
   },
   methods: {
+    download(i) {
+      const url = "https://api.manuelmariamoreno.pt/posts/download";
+      let config = {
+        responseType: "blob",
+        headers: {
+          Authorization: "Bearer " + this.getToken
+        }
+      };
+      let body = {
+        id: this.post.id,
+        file: i.name
+      };
+      axios.post(url, body, config).then(response => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download","download"); //or any other extension
+        document.body.appendChild(link);
+        link.click();
+      });
+    },
     addLike(i) {
       if (!this.userLikes.includes(i.id)) {
-        const url = "https://api.manuelmariamoreno.pt/users/user/" + this.post.author;
+        const url =
+          "https://api.manuelmariamoreno.pt/users/user/" + this.post.author;
+
         let config = {
           headers: {
             Authorization: "Bearer " + this.getToken
           }
         };
-        
-        axios.post(url, config).then(() => {
-          this.userLikes.push(i.id)
-        });
 
-        
+        axios.get(url, config).then(dados => {
+          axios.get(url, dados);
+        });
       }
     },
     hasAvatar(i) {
@@ -139,7 +168,10 @@ export default {
     },
     auxiliar(i) {
       return (
-        "https://api.manuelmariamoreno.pt/uploads/" + i.nome + "/avatar/" + i.avatar
+        "https://api.manuelmariamoreno.pt/uploads/" +
+        i.nome +
+        "/avatar/" +
+        i.avatar
       );
     }
   },

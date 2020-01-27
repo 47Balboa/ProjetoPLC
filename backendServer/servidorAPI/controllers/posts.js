@@ -3,7 +3,9 @@ var Posts = require('../models/posts')
 module.exports.listar=user=>{
     var index = user.groups.indexOf('Individual')
     var groups = user.groups.splice(index,1)
-    return Posts.find({$or: [{grupo: {$in: groups}},{author: user.id}]}).sort({date: 1}).exec()
+    var friendGroups = user.groups
+    friendGroups.push('Individual')
+    return Posts.find({$or: [{grupo: {$in: groups}},{author: user.id},{$and: [{author: {$in: user.friends},grupo: {$in: friendGroups}}]}]}).sort({date: -1}).exec()
 }
 
 module.exports.addLike=(postid, userid)=>{
@@ -11,6 +13,17 @@ module.exports.addLike=(postid, userid)=>{
         post.likes.push(userid)
         post.save()
     })
+}
+
+module.exports.unlike=(postid, userid)=>{
+    return Posts.findOne({id: postid}).then(post => {
+        post.likes.splice(userid, 1)
+        post.save()
+    })
+}
+
+module.exports.getUserPosts=(groups,userid)=>{
+    return Posts.find({$and: [{author: userid,grupo: {$in: groups}}]})
 }
 
 module.exports.createPost=(post,id)=>{

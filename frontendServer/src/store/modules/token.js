@@ -12,8 +12,8 @@ const getters = {
 
 
 const mutations = {
-    setToken: (state, token) => state.token = token,
-    removeToken: (state) => state.token = null
+    setToken: (state, token) => {state.token = token;localStorage.setItem('access_token',token)},
+    removeToken: (state) => {localStorage.removeItem('access_token');state.token = null;}
 }
 
 export default {

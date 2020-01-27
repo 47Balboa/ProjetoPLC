@@ -6,7 +6,7 @@
       </v-col>
       <v-col>
         <div class="team">
-          <h1 class="subheading grey--text">Team</h1>
+          <h1 class="subheading grey--text ma-2">Create a Post</h1>
           <v-container class="my-5">
             <v-row dense>
               <v-col cols="12">
@@ -18,7 +18,7 @@
                           <v-select
                             :items="groups"
                             v-model="itemSelected"
-                            label="Individual"
+                            label="Grupo"
                             outlined
                             return-object
                           ></v-select>
@@ -48,6 +48,7 @@
                       label="Post"
                       auto-grow
                       outlined
+                      class="ma-2"
                     ></v-textarea>
                     <v-card-actions>
                       <v-file-input
@@ -81,6 +82,7 @@
                         color="success"
                         @click="submitToServer"
                         class="font-weight-light"
+                        
                       >Submit</v-btn>
                     </v-card-actions>
                   </v-form>
@@ -136,7 +138,6 @@ computed: mapGetters(["getToken"]),
         date: moment(),
         text: this.textSent,
         classificadores: ["PRI"],
-        likes: 0
       };
       axios.post(url, post, config).then(() => {
         axios.post(url2,formData,config2);
@@ -145,13 +146,23 @@ computed: mapGetters(["getToken"]),
   },
   components: {
     NavigationDrawer
+  },mounted: function() {
+    const url = "https://api.manuelmariamoreno.pt/users/user";
+    let config = {
+        headers: {
+          Authorization: "Bearer " + this.getToken
+        }
+      };
+      axios.get(url,config).then(dados=>{
+        this.groups = dados.data.user.groups
+      })
   },
   data() {
     return {
       files: [],
       textSent: "",
       itemSelected: "",
-      groups: ["Individual", "PRI"],
+      groups: [],
       show: false,
       links: [
         { icon: "share", text: "Share" },

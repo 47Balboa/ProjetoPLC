@@ -1,3 +1,4 @@
+
 <template>
   <v-container class="grey lighten-5 pa-0" grid-list-md fluid>
     <v-row no-gutters>
@@ -8,7 +9,7 @@
         <v-row>
           <v-col cols="8">
             <div v-for="i in items" :key="i">
-              <Post :post="i" />
+              <Post :post="i"/>
             </div>
           </v-col>
           <v-col cols="4">
@@ -95,19 +96,10 @@
                         <div>Sou..., nasci...., nos tempos livres facço... e gosto muito de ...</div>
                       </v-card-text>
                       <div align="center">
-                        <v-btn
-                          color="success"
-                          @click="chooseFile()"
-                          class="font-weight-light"
-                        >UploadAvatar</v-btn>
-                        <input
-                          class="mx-0 font-weight-light"
-                          type="file"
-                          accept="image/*"
-                          @change="uploadImage($event)"
-                          id="fileUpload"
-                          hidden
-                        />
+                        <v-btn text class="grey">
+                          <v-icon>mdi-account-edit</v-icon>
+                          <span>Adicionar</span>
+                        </v-btn>
                       </div>
                     </div>
                   </v-card>
@@ -123,52 +115,72 @@
 
 <script>
 import axios from "axios";
-import NavigationDrawer from "./../components/NavigationDrawer";
-import Post from "./../components/Post";
-import { mapGetters } from "vuex";
-import moment from "moment";
+import NavigationDrawer from './NavigationDrawer'
+import Post from './Post'
+import {mapGetters} from 'vuex'
 
 export default {
-  computed: mapGetters(["getToken"]),
-  data: () => ({
-    name: "Miguel",
-    bio: "ola eu siouy alunio fasdf efsdvhksfa",
-    id: "",
-    email: "",
-    date: moment(),
-    items: []
-  }),
+  computed: {
+    ...mapGetters(["getToken"])
+  },
   components: {
-    Post,
-    NavigationDrawer
+    NavigationDrawer,
+    Post
+  },
+  data() {
+    return {
+      modal_cadeiras: false,
+      modal_grupos: false,
+      itemss: [
+        { uc: "PRI", grupo: "MIEI 4ºano" },
+        { uc: "GCS", grupo: "Engenheria Informática" },
+        { uc: "AA", grupo: "Bestas MIEI" }
+      ],
+      items:[],
+      email: "",
+      nome: "",
+      id: "",
+      user: null,
+      show: false,
+      links: [
+        { icon: "share", text: "Share" },
+        { icon: "report", text: "Report" },
+        { icon: "save", text: "Save" }
+      ]
+    };
   },
   mounted: function() {
-    const url = "https://api.manuelmariamoreno.pt/users/user";
-    
+
+    const url = "https://api.manuelmariamoreno.pt/users/user/"+this.$route.params.id;
+    const url1 = "https://api.manuelmariamoreno.pt/posts/user/"+this.$route.params.id;
     let config = {
       headers: {
-        Authorization: "Bearer " + this.getToken
+        Authorization:
+          "Bearer " +
+          this.getToken
       }
     };
     axios.get(url, config).then(res => {
       this.nome = res.data.user.nome;
       this.id = res.data.user.id;
-      this.email = res.data.user.email
-      this.user = res.data.user;
+      this.user = res.data.user
+      this.email = res.data.user.email;
       this.src =
-        "https://api.manuelmariamoreno.pt/uploads/" +
+        "http://217.69.12.70:3061/uploads/" +
         res.data.user.nome +
         "/avatar/" +
         res.data.user.avatar;
-        const url1 = "https://api.manuelmariamoreno.pt/posts/user/"+this.user.id;
-    axios.get(url1,config).then(dados=>{
-      this.items = dados.data
-    })
     });
+ 
+     axios.get(url1,config).then(dados => {
+       this.items = dados.data
+       
+       
+     })
     
   },
   methods: {
-    hasAvatar(i) {
+     hasAvatar(i) {
       if (i.avatar == null || i.avatar === undefined) return false;
       else return true;
     },
@@ -179,22 +191,8 @@ export default {
         "/avatar/" +
         i.avatar
       );
-    },
-    chooseFile() {
-      document.getElementById("fileUpload").click();
-    },
-    uploadImage(event) {
-      const url = "https://api.manuelmariamoreno.pt/users/image";
-      let data = new FormData();
-      data.append("image", event.target.files[0]);
-      let config = {
-        headers: {
-          "Content-Type": "image/png",
-          Authorization: "Bearer " + this.getToken
-        }
-      };
-      axios.post(url, data, config);
-    }
+  }
   }
 };
 </script>
+
