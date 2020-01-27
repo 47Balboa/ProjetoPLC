@@ -21,16 +21,15 @@ const Imagestorage = multer.diskStorage({
     },
     filename: (req, file, cb) => {
         var path = req.user.nome + uuid() + ".png"
-        Users.changeAvatar(req.user.id,path).then(x => cb(null, path ))
-        .catch(error => cb(null, error))
-        
+        Users.changeAvatar(req.user.id, path).then(x => cb(null, path))
+            .catch(error => cb(null, error))
+
     }
 })
 
 const Filestorage = multer.diskStorage({
-    destination: (req, file,cb) => {
+    destination: (req, file, cb) => {
         const dir = './post/'
-        console.log("dir " + dir)
         fs.exists(dir, exist => {
             if (!exist) {
                 return fs.mkdir(dir, error => cb(error, dir))
@@ -39,14 +38,31 @@ const Filestorage = multer.diskStorage({
         })
     },
     filename: (req, file, cb) => {
-        console.log("->" + req.user.id)
+
         var path = req.user.nome + uuid() + ".txt"
-        console.log("->" + req.user.id)
         return cb(null, path)
     }
 })
 
+const UserRegister = multer.diskStorage({
+    destination: (req, file, cb) => {
+        const dir = './register/'
+        fs.exists(dir, exist => {
+            if (!exist) {
+                return fs.mkdir(dir, error => cb(error, dir))
+            }
+            return cb(null, dir)
+        })
+    },
+    filename: (req, file, cb) => {
+        var path = uuid() + ".txt"
+        return cb(null, path)
+    }
 
-const uploadImages =  multer({ storage: Imagestorage });
+})
+
+
+const uploadImages = multer({ storage: Imagestorage });
 exports.uploadI = uploadImages;
 exports.uploadF = multer({ storage: Filestorage })
+exports.uploadU = multer({storage: UserRegister})

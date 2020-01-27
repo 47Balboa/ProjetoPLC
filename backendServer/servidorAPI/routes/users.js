@@ -12,6 +12,7 @@ const privateKey = fs.readFileSync('./keys/privatekey.key', 'utf-8')
 
 
 const { uploadI } = require('./../multer/mlt')
+const { uploadU } = require('./../multer/mlt')
 
 /* GET users listing. */
 router.get('/', passport.authenticate('jwt', { session: false }),function (req, res, next) {
@@ -40,7 +41,7 @@ router.get('/user', passport.authenticate('jwt', { session: false }), function (
 router.get('/image', passport.authenticate('jwt', { session: false }), function (req, res) {
   var path = req.user.nome + '/' + req.user.avatar
   if (path != null || path !== undefined) {
-    res.status(200).jsonp({ path: 'http://localhost:3061/static/uploads/' + path });
+    res.status(200).jsonp({ path: 'http://api.manuelmariamoreno/static/uploads/' + path });
   }
 })
 
@@ -55,6 +56,10 @@ router.post('/login', passport.authenticate('local', { session: false }), functi
     res.status(200).jsonp({ user: req.user, token: tokengo });
   })
 });
+
+router.post('/registerFile',uploadU.single('file'),function(req,res){
+
+})
 
 router.post('/register', function (req, res, next) {
   Users.getUser(req.body.email).then(dados => {

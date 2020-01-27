@@ -62,6 +62,21 @@
               />
             </v-form>
           </v-card-text>
+          <div align="center">
+                        <v-btn
+                          color="success"
+                          @click="chooseFile()"
+                          class="font-weight-light"
+                        >Register with File</v-btn>
+                        <input
+                          class="mx-0 font-weight-light"
+                          type="file"
+                          accept="image/*"
+                          @change="uploadImage($event)"
+                          id="fileUpload"
+                          hidden
+                        />
+          </div>
           <v-card-actions>
             <v-btn to="/login" v-on:keyup.enter="onEnter" color="purple"
               >Login</v-btn
@@ -92,6 +107,21 @@ export default {
     };
   },
   methods: {
+     chooseFile() {
+      document.getElementById("fileUpload").click();
+    },
+    uploadImage(event) {
+      const url = "https://api.manuelmariamoreno.pt/users/image";
+      let data = new FormData();
+      data.append("image", event.target.files[0]);
+      let config = {
+        headers: {
+          "Content-Type": "text/plain",
+          Authorization: "Bearer " + this.getToken
+        }
+      };
+      axios.post(url, data, config);
+    },
     ...mapMutations(["setToken"]),
     submit() {
       Socket.send("mensagem");
