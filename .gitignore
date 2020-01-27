@@ -1,7 +1,8 @@
 .DS_Store
 node_modules
 backendServer/servidorAPI/node_modules
-frontendServer/node_modules/*
+
+frontendServer/node_modules
 frontendServer/dist
 /dist
 uploads
