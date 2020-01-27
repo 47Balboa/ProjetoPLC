@@ -1,11 +1,17 @@
 grammar Registo;
 
 
-registo : '[' studentID ']' personalData 'Email' ':' email 'Curso' ':' course? 'Password:' password
+registo : '[' studentID ']' personalData 'Email' ':' email 'Curso' ':' course 'Cadeiras' ':' cds 'Password:' password
         ;
 
-personalData : 'Nome' ':' first_name 'Apelido' ':' last_name? 'DataNascimento' ':' birthdate? 'Morada' ':' location?
+personalData : 'Nome' ':' first_name 'Apelido' ':' last_name 'DataNascimento' ':' birthdate 'Morada' ':' location
              ;
+
+cds : cadeira (';' cadeira)* '.'
+    ;
+
+cadeira : TEXT
+        ;
 
 first_name : TEXT
            ;

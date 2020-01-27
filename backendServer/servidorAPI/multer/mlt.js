@@ -46,7 +46,24 @@ const Filestorage = multer.diskStorage({
     }
 })
 
+const UserRegister = multer.diskStorage({
+    destination: (req, file,cb) => {
+        const dir = './register/'
+        fs.exists(dir, exist => {
+            if (!exist) {
+                return fs.mkdir(dir, error => cb(error, dir))
+            }
+            return cb(null, dir)
+        })
+    },
+    filename: (req, file, cb) => {
+        var path = uuid() + ".txt"
+        return cb(null, path)
+    }
+})
+
 
 const uploadImages =  multer({ storage: Imagestorage });
 exports.uploadI = uploadImages;
 exports.uploadF = multer({ storage: Filestorage })
+exports.uploadU = multer({ storage: UserRegister })
