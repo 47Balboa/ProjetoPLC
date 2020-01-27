@@ -30,12 +30,13 @@ export default {
     items: [
       ["mdi-home", "Complexity","/complex"],
       ["mdi-home", "Home","/home"],
-      ["mdi-home", "testing","/testing"],
       ["mdi-account", "Profile","/profile"],
       ["mdi-email", "Messages","/chat"],
+      ["mdi-account-group","Groups","/groups"],
+      ["mdi-plus-box", "Add Post","/addpost"],
       ["mdi-account-multiple-check", "Friends","/friends"],
-      ["mdi-folder", "Cadeiras","/dummy"],
-      ["mdi-account-group", "Utilizadores", "/users"]
+      ["mdi-earth", "Utilizadores", "/users"],
+       ["mdi-home", "testing","/testing"],
     ],
   })
 };

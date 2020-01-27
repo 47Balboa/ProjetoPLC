@@ -18,6 +18,16 @@ router.get('/:id', passport.authenticate('jwt', { session: false }), function (r
   Posts.getPost(req.params.id).then(dados => res.status(200).jsonp(dados))
     .catch(error => res.status(500).jsonp(error))
 })
+
+router.get('/user/:id',passport.authenticate('jwt',{session: false}),function(req,res){
+  if(req.user.friends.includes(req.params.id) || req.user.id === req.params.id){
+    req.user.groups.push('Individual')
+  }
+  Posts.getUserPosts(req.user.groups,req.params.id).then(dados => {
+    res.status(200).jsonp(dados)
+  }).catch(error => res.status(500).jsonp("error"))
+})
+
 router.post('/addPostFile', passport.authenticate('jwt', { session: false }), uploadF.single('file'), function (req, res) {
   var oldPath = __dirname + '/../post/' + req.file.filename
   var folderpath = __dirname + '/../post/' + req.body.id
@@ -31,7 +41,17 @@ router.post('/addPostFile', passport.authenticate('jwt', { session: false }), up
       res.status(200)
     }
   })
+})
 
+router.post('/download', passport.authenticate('jwt', { session: false }),function(req,res){
+  console.log("welelele " + req.body.id)
+  Posts.getPost(req.body.id).then(dados=>{
+    for(i in dados.ficheiros){
+      if(i.name === req.body.file){
+        res.status(200).download(i.path)
+      }
+    }
+  })
 })
 
 router.get('/like/:id', passport.authenticate('jwt', { session: false }), function (req, res) {
@@ -45,7 +65,6 @@ router.post('/addPostFiles', passport.authenticate('jwt', { session: false }), u
       if (!exist) {
         fs.mkdir(folderpath, error => {
           for (i in req.files) {
-            console.log("entrei " + i)
             var oldPath = __dirname + '/../post/' + req.files[i].filename
             var newPath = folderpath + '/' + req.files[i].filename
             fs.rename(oldPath, newPath, function (_error) {

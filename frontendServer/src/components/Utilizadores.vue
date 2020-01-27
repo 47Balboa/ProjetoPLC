@@ -15,8 +15,8 @@
             v-for="i in items"
           >
             <v-col cols="12">
-              <h2 align="center">{{i.nome}}</h2>
-              <v-avatar class="ma-4 outline" size="100">
+              <h2 @click="goToProfile(i)" align="center">{{i.nome}}</h2>
+              <v-avatar @click="goToProfile(i)" class="ma-4 outline" size="100">
                 <v-img v-if="hasAvatar(i)" :src="auxiliar(i)"></v-img>
                 <v-img v-else src="../assets/default_avatar.jpg"></v-img>
               </v-avatar>
@@ -48,6 +48,9 @@ export default {
     sentRequests: []
   }),
   methods: {
+    goToProfile(i){
+      this.$router.push({name: "testing",params: i})
+    },
     sendRequest(i) {
       const url = "https://api.manuelmariamoreno.pt/users/sendRequest";
 

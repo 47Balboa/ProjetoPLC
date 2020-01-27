@@ -15,15 +15,12 @@
         <v-toolbar-title style="font-size:2em">ClassBin</v-toolbar-title>
       </router-link>
       <v-spacer></v-spacer>
-      <h4>{{ this.notifications }}</h4>
+      <h2 v-if="user.length !== 0" class="ma-3 text--lighten-5">{{ this.notifications }}</h2>
       <div v-if="user.length === 0" />
       <v-menu
         v-else
         :close-on-content-click="false"
-        :absolute="absolute"
-        :open-on-hover="openOnHover"
-        :offset-x="offsetX"
-        :offset-y="offsetY"
+
       >
         <template v-slot:activator="{ on }">
           <v-btn @click="getFriendsRequests" color="primary" dark v-on="on">
@@ -46,7 +43,6 @@
           </v-list-item>
         </v-list>
       </v-menu>
-
       <v-btn v-if="this.user.length===0" to="/">
         <span>Sign In</span>
         <v-icon>mdi-login</v-icon>
@@ -77,9 +73,8 @@ export default {
     signOut() {
       this.removeToken;
       this.$delete(this.user,0)
-      this.removeToken()
+      this.$router.go(0)
       this.$nextTick()
-      
     },
     getFriendsRequests() {
       const url = "https://api.manuelmariamoreno.pt/users/getFriendsRequests";
@@ -155,6 +150,10 @@ export default {
 <style scoped>
 .newsl {
   color: whitesmoke;
+}
+h2{
+  color: whitesmoke;
+  font-weight: bold;
 }
 .toolbar-title {
   color: inherit;

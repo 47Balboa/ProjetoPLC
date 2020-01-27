@@ -71,13 +71,15 @@ export default {
   },
   mounted: function(){
     if(this.loggedIn){
+      //eslint-disable-next-line no-console
+      console.log("this -> "+this.loggedIn)
       this.$root.$emit("entered");
       this.$router.push("/home");
     }
   },
   methods: {
     ...mapMutations(["setToken"]),
-    ...mapGetters(['loggedIn']),
+    ...mapGetters(["loggedIn"]),
     submit() {
       
       axios

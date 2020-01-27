@@ -46,8 +46,8 @@ const routes = [
     component: Register,
   },
   {
-    path: '/dummy',
-    name: 'dummy',
+    path: '/addpost',
+    name: 'addpost',
     component: Dummy,
     beforeEnter: isAuthenticated
   },

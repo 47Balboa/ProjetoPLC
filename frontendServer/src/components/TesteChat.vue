@@ -9,7 +9,6 @@
           <v-col class="pa-0">
             <Chat
               v-if="flag"
-              :key="newChat"
               :participants="participants"
               :myself="myself"
               :messages="messages"
@@ -41,7 +40,6 @@
                         <v-list-item-content>
                           <div class="overline mb-4">{{Offline}}</div>
                           <v-list-item-title class="headline mb-1">{{u.nome}}</v-list-item-title>
-                          <v-list-item-subtitle>Greyhound divisely hello coldly fonwderfully</v-list-item-subtitle>
                         </v-list-item-content>
                         <v-list-item-avatar size="80">
                           <v-img v-if="hasAvatar(u)" :src="auxiliar(u)"></v-img>
@@ -97,7 +95,7 @@ export default {
       );
     },
     change(u){
-      const url = "https://api.manuelmariamoreno.pt/users/getMessage";
+      const url = "http://api.manuelmariamoreno.pt/users/getMessage";
       let config = {
       headers: {
         Authorization: "Bearer " + this.getToken
@@ -115,10 +113,8 @@ export default {
       }
       this.user = u
       this.messages = dados.data.messages
-      this.toLoad = dados.data.messages
       this.chatTitle = u.name
       this.flag = 1
-      this.newChat++;
     })
     }
   },
@@ -140,7 +136,6 @@ export default {
         console.log("message " + e);
       },
       user: null,
-      newChat: 0,
       flag: false,
       visible: true,
       participants: [

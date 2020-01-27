@@ -20,6 +20,7 @@ function removeA(arr) {
 
 module.exports.addUser = user => {
     user.password = bcrypt.hashSync(user.password, 6);
+    user.groups.push('Individual')
     var novo = new Users(user);
     return novo.save();
 }
