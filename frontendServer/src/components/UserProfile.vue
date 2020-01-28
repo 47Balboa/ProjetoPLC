@@ -12,7 +12,7 @@
             </div>
           </v-col>
           <v-col cols="4">
-            <v-card class="mx-auto" max-width="600" tile>
+            <v-card v-if="this.flag===0" class="mx-auto" max-width="600" tile>
               <v-img class="pa-4" height="100%" src="/capa2.png">
                 <v-row align="center" class="fill-height">
                   <v-col align-content="center" class="pa-0" cols="12">
@@ -23,12 +23,17 @@
                   </v-col>
                   <v-card flat class="text-xs-center ma-3">
                     <v-list-item>
-                      <v-list-item-title class="headline">{{nome}}</v-list-item-title>
+                      <v-list-item-title class="headline">{{nome}} {{apelido}}</v-list-item-title>
                     </v-list-item>
 
                     <div class="pa-1">
                       <v-icon>mdi-home</v-icon>
-                      <span>Morada</span>
+                      <span>{{morada}}</span>
+                    </div>
+
+                    <div class="pa-1">
+                      <v-icon>mdi-calendar</v-icon>
+                      <span>{{dataNasc}}</span>
                     </div>
 
                     <div class="pa-1">
@@ -42,64 +47,19 @@
                     </div>
 
                     <div class="pa-1">
-                      <v-btn
-                        fab
-                        text
-                        small
-                        class="pl-11"
-                        @click.stop="modal_cadeiras =!modal_cadeiras"
-                      >
-                        <v-icon>mdi-notebook-multiple</v-icon>
-                        <span>Cadeiras</span>
-                      </v-btn>
-                      <v-dialog v-model="modal_cadeiras" max-width="290">
-                        <v-card>
-                          <v-card-title class="headline">Cadeiras</v-card-title>
-
-                          <v-list>
-                            <v-list-item v-for="(item, i) in items" :key="i">
-                              <v-list-item-content>
-                                <v-list-item-title v-text="item.uc"></v-list-item-title>
-                              </v-list-item-content>
-                            </v-list-item>
-                          </v-list>
-                        </v-card>
-                      </v-dialog>
-                    </div>
-
-                    <div>
-                      <v-btn fab text small class="pl-11" @click.stop="modal_grupos =!modal_grupos">
-                        <v-icon>mdi-account-group</v-icon>
-                        <span>Grupos</span>
-                      </v-btn>
-                      <v-dialog v-model="modal_grupos" max-width="290">
-                        <v-card>
-                          <v-card-title class="headline">Grupos</v-card-title>
-
-                          <v-list>
-                            <v-list-item v-for="(item, i) in itemss" :key="i">
-                              <v-list-item-content>
-                                <v-list-item-title v-text="item.grupo"></v-list-item-title>
-                              </v-list-item-content>
-                            </v-list-item>
-                          </v-list>
-                        </v-card>
-                      </v-dialog>
-                    </div>
-
-                    <div class="pa-1">
                       <v-icon>mdi-comment-text-outline</v-icon>
-
-                      <span>Bio</span>
+                      <span>Biografia</span>
                       <v-card-text flat class="text-xs-center ma-3">
-                        <div>Sou..., nasci...., nos tempos livres facço... e gosto muito de ...</div>
+                        <span>{{bio}}</span>
                       </v-card-text>
                       <div align="center">
+                        <v-btn color="primary" @click="editarPerfil()">Editar Perfil</v-btn>
+
                         <v-btn
                           color="success"
                           @click="chooseFile()"
                           class="font-weight-light"
-                        >UploadAvatar</v-btn>
+                        >Upload Avatar</v-btn>
                         <input
                           class="mx-0 font-weight-light"
                           type="file"
@@ -110,6 +70,75 @@
                         />
                       </div>
                     </div>
+                  </v-card>
+                </v-row>
+              </v-img>
+            </v-card>
+            <v-card v-else class="mx-auto" max-width="600" tile>
+              <v-img class="pa-4" height="100%" src="/capa2.png">
+                <v-row align="center" class="fill-height">
+                  <v-col align-content="center" class="pa-0" cols="12">
+                    <v-avatar class="profile align-center" color="grey" size="150" roundtile>
+                      <v-img v-if="hasAvatar(user)" :src="auxiliar(user)"></v-img>
+                      <v-img v-else src="../assets/default_avatar.jpg" to="/profile" link></v-img>
+                    </v-avatar>
+                  </v-col>
+                  <v-card flat class="text-xs-center ma-3">
+                    <v-text-field
+                      v-model="nome"
+                      id="nome"
+                      label="Nome"
+                      name="nome"
+                      prepend-icon="mdi-account"
+                      type="text"
+                    />
+                    <v-text-field
+                      v-model="apelido"
+                      id="apelido"
+                      label="Apelido"
+                      name="apelido"
+                      prepend-icon="mdi-account"
+                      type="text"
+                    />
+                    <v-text-field
+                      v-model="morada"
+                      id="morada"
+                      label="Morada"
+                      name="morada"
+                      prepend-icon="mdi-home"
+                      type="text"
+                    />
+                    <v-text-field
+                      v-model="dataNasc"
+                      id="dataNas"
+                      label="Data Nascimento(DD-MM-YYYY)"
+                      name="dataNasc"
+                      prepend-icon="mdi-calendar"
+                      type="text"
+                    />
+                    <v-text-field
+                      v-model="email"
+                      id="email"
+                      label="Email"
+                      name="email"
+                      prepend-icon="mdi-email"
+                      type="text"
+                    />
+                    <v-text-field
+                      v-model="bio"
+                      id="bio"
+                      label="Biografia"
+                      name="bio"
+                      prepend-icon="mdi-comment-text-outline"
+                      type="text"
+                    />
+
+                    <div class="pa-1">
+                      <div align="center">
+                        <v-btn color="primary" @click="guardar()">Guardar</v-btn>
+                      </div>
+                    </div>
+                    
                   </v-card>
                 </v-row>
               </v-img>
@@ -131,10 +160,14 @@ import moment from "moment";
 export default {
   computed: mapGetters(["getToken"]),
   data: () => ({
-    name: "Miguel",
-    bio: "ola eu siouy alunio fasdf efsdvhksfa",
+    name: "",
+    apelido: "",
+    bio: "ola!",
     id: "",
     email: "",
+    morada: "",
+    dataNasc: "",
+    flag: 0,
     date: moment(),
     items: []
   }),
@@ -144,7 +177,7 @@ export default {
   },
   mounted: function() {
     const url = "https://api.manuelmariamoreno.pt/users/user";
-    
+
     let config = {
       headers: {
         Authorization: "Bearer " + this.getToken
@@ -152,22 +185,31 @@ export default {
     };
     axios.get(url, config).then(res => {
       this.nome = res.data.user.nome;
+      this.apelido = res.data.user.apelido;
+      this.dataNasc = res.data.user.dataNasc;
       this.id = res.data.user.id;
-      this.email = res.data.user.email
+      this.email = res.data.user.email;
       this.user = res.data.user;
+      this.morada = res.data.user.morada;
       this.src =
         "https://api.manuelmariamoreno.pt/uploads/" +
         res.data.user.nome +
         "/avatar/" +
         res.data.user.avatar;
-        const url1 = "https://api.manuelmariamoreno.pt/posts/user/"+this.user.id;
-    axios.get(url1,config).then(dados=>{
-      this.items = dados.data
-    })
+      const url1 =
+        "https://api.manuelmariamoreno.pt/posts/user/" + this.user.id;
+      axios.get(url1, config).then(dados => {
+        this.items = dados.data;
+      });
     });
-    
   },
   methods: {
+    guardar() {
+      this.flag = 0;
+    },
+    editarPerfil() {
+      this.flag = 1;
+    },
     hasAvatar(i) {
       if (i.avatar == null || i.avatar === undefined) return false;
       else return true;
