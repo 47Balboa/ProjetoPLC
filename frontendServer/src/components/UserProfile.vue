@@ -28,29 +28,34 @@
 
                     <div class="pa-1">
                       <v-icon>mdi-home</v-icon>
-                      <span>{{morada}}</span>
+                      <span> {{morada}}</span>
                     </div>
 
                     <div class="pa-1">
                       <v-icon>mdi-calendar</v-icon>
-                      <span>{{dataNasc}}</span>
+                      <span> {{dataNasc}}</span>
                     </div>
 
                     <div class="pa-1">
                       <v-icon>mdi-account-card-details</v-icon>
-                      <span>{{id}}</span>
+                      <span> {{this.user.id}}</span>
                     </div>
 
                     <div class="pa-1">
                       <v-icon>mdi-email</v-icon>
-                      <span>{{email}}</span>
+                      <span> {{email}}</span>
+                    </div>
+
+                    <div class="pa-1">
+                      <v-icon>mdi-school</v-icon>
+                      <span> {{curso}}</span>
                     </div>
 
                     <div class="pa-1">
                       <v-icon>mdi-comment-text-outline</v-icon>
                       <span>Biografia</span>
                       <v-card-text flat class="text-xs-center ma-3">
-                        <span>{{bio}}</span>
+                        <span> {{bio}}</span>
                       </v-card-text>
                       <div align="center">
                         <v-btn color="primary" @click="editarPerfil()">Editar Perfil</v-btn>
@@ -125,6 +130,14 @@
                       type="text"
                     />
                     <v-text-field
+                      v-model="curso"
+                      id="curso"
+                      label="Curso"
+                      name="curso"
+                      prepend-icon="mdi-school"
+                      type="text"
+                    />
+                    <v-text-field
                       v-model="bio"
                       id="bio"
                       label="Biografia"
@@ -162,11 +175,12 @@ export default {
   data: () => ({
     name: "",
     apelido: "",
-    bio: "ola!",
+    bio: "Olá!",
     id: "",
     email: "",
     morada: "",
     dataNasc: "",
+    curso: "",
     flag: 0,
     date: moment(),
     items: []
@@ -187,10 +201,11 @@ export default {
       this.nome = res.data.user.nome;
       this.apelido = res.data.user.apelido;
       this.dataNasc = res.data.user.dataNasc;
-      this.id = res.data.user.id;
       this.email = res.data.user.email;
-      this.user = res.data.user;
       this.morada = res.data.user.morada;
+      this.curso = res.data.user.curso;
+      this.bio = res.data.user.bio;
+      this.user = res.data.user;
       this.src =
         "https://api.manuelmariamoreno.pt/uploads/" +
         res.data.user.nome +
@@ -205,6 +220,35 @@ export default {
   },
   methods: {
     guardar() {
+      const url = "http://localhost:3061/users/" + this.user.id;
+      let config = {
+        headers: {
+          Authorization: "Bearer " + this.getToken
+        }
+      };
+      axios.put(url, {
+          _id: this.user._id,
+          id: this.user.id,
+          nome: this.nome,
+          apelido: this.apelido,
+          email: this.email,
+          password: this.user.password,
+          curso: this.curso,
+          avatar: this.user.avatar,
+          groups: this.user.groups,
+          dataNasc: this.dataNasc,
+          morada: this.morada,
+          sentFriendRequests: this.user.sentFriendRequests,
+          friendRequests: this.user.friendRequests,
+          friends: this.user.friends,
+          comments: this.user.comments,
+          likes: this.user.likes,
+          bio: this.bio
+        }, config)
+      .then(dados =>{
+        if(dados.status == 200)
+          this.$router.push("/profile");
+      })
       this.flag = 0;
     },
     editarPerfil() {
