@@ -1,0 +1,9 @@
+[005]
+Nome: "Ana"
+Apelido: "Pereira"
+DataNascimento: 12-10-1998
+Morada: "Braga"
+Email: "Ana"
+Curso: "Engenharia Informática"
+Cadeiras: "GCS";"PRI".
+Password: "12345"

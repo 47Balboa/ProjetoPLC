@@ -1,5 +1,6 @@
 import Vue from "vue"
 
+
 const socket = new WebSocket("ws://localhost:3061")
 
 const emitter = new Vue({

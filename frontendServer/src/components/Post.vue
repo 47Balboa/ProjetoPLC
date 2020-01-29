@@ -38,7 +38,7 @@
                     </template>
                     <v-list>
                       <v-list-item v-for="link in links" :key="link.text">
-                        <v-list-item-title>{{ link.text }}</v-list-item-title>
+                        <v-list-item-title @click="exportPost()">{{ link.text }}</v-list-item-title>
                       </v-list-item>
                     </v-list>
                   </v-menu>
@@ -125,23 +125,36 @@ export default {
     });
   },
   methods: {
-    download(i) {
-      const url = "https://api.manuelmariamoreno.pt/posts/download";
+    exportPost(){
+      const url = "http://localhost:3061/posts/exportPost/"+ this.post.id
       let config = {
         responseType: "blob",
         headers: {
           Authorization: "Bearer " + this.getToken
         }
       };
-      let body = {
-        id: this.post.id,
-        file: i.name
-      };
-      axios.post(url, body, config).then(response => {
+      axios.get(url, config).then(response => {
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement("a");
         link.href = url;
-        link.setAttribute("download","download"); //or any other extension
+        link.setAttribute("download",this.post.id+".txt"); //or any other extension
+        document.body.appendChild(link);
+        link.click();
+      })
+  },
+    download(i) {
+      const url = "https://api.manuelmariamoreno.pt/posts/download/"+ this.post.id + '/' + i.name;
+      let config = {
+        responseType: "blob",
+        headers: {
+          Authorization: "Bearer " + this.getToken
+        }
+      };
+      axios.get(url, config).then(response => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download",i.name); //or any other extension
         document.body.appendChild(link);
         link.click();
       });
@@ -190,7 +203,7 @@ export default {
       links: [
         { icon: "share", text: "Share" },
         { icon: "report", text: "Report" },
-        { icon: "save", text: "Save" }
+        { icon: "Export", text: "Export" }
       ]
     };
   }

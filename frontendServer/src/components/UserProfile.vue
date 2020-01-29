@@ -124,8 +124,9 @@
 <script>
 import axios from "axios";
 import NavigationDrawer from "./../components/NavigationDrawer";
-import Post from "./../components/Post";
+
 import { mapGetters } from "vuex";
+import Post from "./../components/Post";
 import moment from "moment";
 
 export default {
@@ -144,7 +145,6 @@ export default {
   },
   mounted: function() {
     const url = "https://api.manuelmariamoreno.pt/users/user";
-    
     let config = {
       headers: {
         Authorization: "Bearer " + this.getToken
@@ -175,7 +175,7 @@ export default {
     auxiliar(i) {
       return (
         "https://api.manuelmariamoreno.pt/uploads/" +
-        i.nome +
+        i.id +
         "/avatar/" +
         i.avatar
       );

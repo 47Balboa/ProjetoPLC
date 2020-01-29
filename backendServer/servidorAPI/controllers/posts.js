@@ -1,11 +1,12 @@
 var Posts = require('../models/posts')
 
 module.exports.listar=user=>{
+    var friendGroups = user.groups
+    
     var index = user.groups.indexOf('Individual')
     var groups = user.groups.splice(index,1)
-    var friendGroups = user.groups
-    friendGroups.push('Individual')
-    return Posts.find({$or: [{grupo: {$in: groups}},{author: user.id},{$and: [{author: {$in: user.friends},grupo: {$in: friendGroups}}]}]}).sort({date: -1}).exec()
+    
+    return Posts.find({$or: [{grupo: {$in: user.groups}},{author: user.id},{$and: [{author: {$in: user.friends},grupo: "Individual" }]}]}).sort({date: -1}).exec()
 }
 
 module.exports.addLike=(postid, userid)=>{

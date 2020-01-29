@@ -1,0 +1,18 @@
+{
+  ficheiros: [
+    {
+      name: 'backups.txt',
+      path: '/root/routes/../post/01ddfec3-daa6-4440-9ad1-fecf083a857c/Ana876ad3ef-ac62-42f9-a5ce-1785a6164307.txt'
+    }
+  ],
+  classificadores: [ 'teste' ],
+  comments: [],
+  likes: [],
+  _id: 5e2f2da388c850001d4a1804,
+  id: '01ddfec3-daa6-4440-9ad1-fecf083a857c',
+  grupo: 'PRI',
+  date: '2020-01-27T18:36:19.384Z',
+  text: 'asdfasdf',
+  author: '005',
+  __v: 1
+}

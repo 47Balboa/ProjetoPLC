@@ -7,7 +7,9 @@ var groupsSchema = new mongoose.Schema({
     admins: {type: [String], required: true},
     members: [String],
     requests: [String],
-    private: Boolean
+    private: String,
+    descricao: String,
+    isDiscipline: {type: String, required: true},
 
 })
 

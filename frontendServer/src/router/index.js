@@ -3,13 +3,17 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import UserProfile from '../components/UserProfile.vue'
+import CreateGroup from '../components/CreateGroup.vue'
 import UserProfile1 from '../components/UserProfile1.vue'
 import TesteChat from '../components/TesteChat.vue'
 import Friends from '../components/Friends.vue'
 import store from '../store/modules/token';
 import Utilizadores from '../components/Utilizadores.vue'
 import Dummy from '../components/Dummy.vue'
+import Groups from '../components/Groups.vue'
 import Register from '../components/Register.vue'
+
+import GroupProfile from '../components/GroupProfile.vue'
 
 
 Vue.use(VueRouter)
@@ -36,8 +40,26 @@ const routes = [
   },
   {
     path: '/testing',
-    name: 'testing',
+    name: 'userprofile',
     component: UserProfile1,
+    beforeEnter: isAuthenticated
+  },
+  {
+    path: '/grouprofile',
+    name: 'groupprofile',
+    component: GroupProfile,
+    beforeEnter: isAuthenticated
+  },
+  {
+    path: '/createGroup',
+    name: 'createGroup',
+    component: CreateGroup,
+    beforeEnter: isAuthenticated
+  },
+  {
+    path: '/groups',
+    name: 'groups',
+    component: Groups,
     beforeEnter: isAuthenticated
   },
   {

@@ -63,9 +63,9 @@ router.post('/login', passport.authenticate('local', { session: false }), functi
 
 
 router.post('/registerFile', uploadU.single('file'), function(req,res){
-  console.log("---->" + req.path)
+  console.log("---->" + req.file.path)
 
-  fs.readFile(req.path, function(erro,dados){
+  fs.readFile(__dirname + '/../'+ req.file.path, function(erro,dados){
     if(erro) throw erro
 
     var input = dados.toString();

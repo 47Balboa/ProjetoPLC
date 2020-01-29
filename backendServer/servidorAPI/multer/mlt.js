@@ -20,7 +20,7 @@ const Imagestorage = multer.diskStorage({
         })
     },
     filename: (req, file, cb) => {
-        var path = req.user.nome + uuid() + ".png"
+        var path = req.user.id + uuid() + ".png"
         Users.changeAvatar(req.user.id,path).then(x => cb(null, path ))
         .catch(error => cb(null, error))
         

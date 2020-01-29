@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var Posts = require('../controllers/posts')
 var passport = require('passport')
+var uuid = require('uuid')
 const { uploadF, uploadFs } = require('./../multer/mlt')
 var fs = require('fs')
 var fsync = require('fs-sync')
@@ -43,12 +44,24 @@ router.post('/addPostFile', passport.authenticate('jwt', { session: false }), up
   })
 })
 
-router.post('/download', passport.authenticate('jwt', { session: false }),function(req,res){
-  console.log("welelele " + req.body.id)
-  Posts.getPost(req.body.id).then(dados=>{
+router.get('/exportPost/:idpost',passport.authenticate('jwt', { session: false }),function(req,res){
+  Posts.getPost(req.params.idpost).then(dados=>{
+    var filePath = __dirname+"/../tmp/"+uuid()
+    fs.writeFile(filePath,dados,function(err){
+      if(!err){
+        res.download(filePath)
+      }
+    })
+  })
+})
+
+router.get('/download/:idpost/:filename', passport.authenticate('jwt', { session: false }),function(req,res){
+
+  Posts.getPost(req.params.idpost).then(dados=>{
+    console.log("i e" + dados)
     for(i in dados.ficheiros){
-      if(i.name === req.body.file){
-        res.status(200).download(i.path)
+      if(dados.ficheiros[i].name=== req.params.filename){
+        res.download(dados.ficheiros[i].path)
       }
     }
   })

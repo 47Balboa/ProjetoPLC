@@ -36,7 +36,6 @@ export default {
       ["mdi-plus-box", "Add Post","/addpost"],
       ["mdi-account-multiple-check", "Friends","/friends"],
       ["mdi-earth", "Utilizadores", "/users"],
-       ["mdi-home", "testing","/testing"],
     ],
   })
 };

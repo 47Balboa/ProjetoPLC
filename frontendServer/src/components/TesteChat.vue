@@ -95,7 +95,7 @@ export default {
       );
     },
     change(u){
-      const url = "http://api.manuelmariamoreno.pt/users/getMessage";
+      const url = "https://api.manuelmariamoreno.pt/users/getMessage";
       let config = {
       headers: {
         Authorization: "Bearer " + this.getToken

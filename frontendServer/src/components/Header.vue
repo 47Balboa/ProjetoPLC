@@ -17,11 +17,7 @@
       <v-spacer></v-spacer>
       <h2 v-if="user.length !== 0" class="ma-3 text--lighten-5">{{ this.notifications }}</h2>
       <div v-if="user.length === 0" />
-      <v-menu
-        v-else
-        :close-on-content-click="false"
-
-      >
+      <v-menu v-else :close-on-content-click="false">
         <template v-slot:activator="{ on }">
           <v-btn @click="getFriendsRequests" color="primary" dark v-on="on">
             <v-icon>mdi-bell</v-icon>
@@ -29,7 +25,38 @@
         </template>
 
         <v-list>
+          <v-list-item v-for="(group, ind) in groups" :key="ind">
+            <v-list-item v-for="(request, dex) in group.requests" :key="dex">
+    
+            <v-list-item-content>
+              <v-list-item-title >{{this.usersRequested[0].nome}} quer se juntar ao grupo {{group.nome}}</v-list-item-title>
+            </v-list-item-content>
+            <v-list-item-avatar>
+              <v-img v-if="hasAvatar(group)" :src="auxiliar(group)"></v-img>
+              <v-img v-else src="../assets/default_group.png"></v-img>
+            </v-list-item-avatar>
+            
+            <v-divider class="ma-3" :inset="inset" vertical></v-divider>
+            <v-btn x-small >Adicionar</v-btn>
+            <h5 @click="reject()" class="ma-1 text--primary" text-color="blue">Rejeitar</h5>
+            
+
+            
+            </v-list-item>
+          </v-list-item>
           <v-list-item v-for="(item, index) in items" :key="index">
+            <v-list-item-avatar>
+              <v-img v-if="hasAvatar(item)" :src="auxiliar(item)"></v-img>
+              <v-img v-else src="../assets/default_avatar.jpg"></v-img>
+            </v-list-item-avatar>
+            <v-list-item-content>
+              <v-list-item-title>{{item}} quer se juntar ao grupo {{item}}</v-list-item-title>
+            </v-list-item-content>
+
+            <v-divider class="ma-3" :inset="inset" vertical></v-divider>
+            <v-btn x-small @click="acceptRequest(item, index)">Adicionar</v-btn>
+            <h5 @click="reject()" class="ma-1 text--primary" text-color="blue">Rejeitar</h5>
+
             <v-list-item-avatar>
               <v-img v-if="hasAvatar(item)" :src="auxiliar(item)"></v-img>
               <v-img v-else src="../assets/default_avatar.jpg"></v-img>
@@ -72,9 +99,9 @@ export default {
   methods: {
     signOut() {
       this.removeToken;
-      this.$delete(this.user,0)
-      this.$router.go(0)
-      this.$nextTick()
+      this.$delete(this.user, 0);
+      this.$router.go(0);
+      this.$nextTick();
     },
     getFriendsRequests() {
       const url = "https://api.manuelmariamoreno.pt/users/getFriendsRequests";
@@ -84,7 +111,42 @@ export default {
         }
       };
       axios.get(url, config).then(res => {
+        this.getGroupRequests();
         return (this.items = res.data);
+      });
+    },
+   async getUser(id)  {
+      const url = "https://api.manuelmariamoreno.pt/users/user/" + id;
+      let config = {
+        headers: {
+          Authorization: "Bearer " + this.getToken
+        }
+      };
+      axios.get(url, config).then(res => {
+        var ss =  res.data.user
+        this.usersRequested.push(ss);
+        return ss;
+      });
+    },
+    getGroupRequests() {
+      const url = "http://localhost:3061/groups/getRequest";
+      let config = {
+        headers: {
+          Authorization: "Bearer " + this.getToken
+        }
+      };
+      axios.get(url, config).then(res => {
+        
+        for(var aux= 0; aux < res.data.length;aux++){
+          for(var aux2=0; aux2 < res.data[aux].requests.length; aux2++){
+            this.getUser(res.data[aux].requests[aux2]).then(() => {
+
+            })
+              
+          }
+        }
+        this.groups = res.data
+        
       });
     },
     acceptRequest(i, index) {
@@ -99,7 +161,8 @@ export default {
       });
     },
     hasAvatar(i) {
-      if (i.avatar == null || i.avatar === undefined) return false;
+      
+      if (i.avatar == null || i.avatar === undefined || i.avatar === "") return false;
       else return true;
     },
     auxiliar(i) {
@@ -142,7 +205,9 @@ export default {
     number: 0,
     var1: [],
     items: [],
-    user: []
+    user: [],
+    groups: [],
+    usersRequested: []
   })
 };
 </script>
@@ -151,7 +216,7 @@ export default {
 .newsl {
   color: whitesmoke;
 }
-h2{
+h2 {
   color: whitesmoke;
   font-weight: bold;
 }

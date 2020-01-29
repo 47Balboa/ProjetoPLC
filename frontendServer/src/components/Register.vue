@@ -62,10 +62,18 @@
               />
             </v-form>
           </v-card-text>
+          <div align="center">
+            <v-btn color="success" @click="chooseFile()" class="font-weight-light">UploadAvatar</v-btn>
+            <input
+              class="mx-0 font-weight-light"
+              type="file"
+              @change="uploadImage($event)"
+              id="fileUpload"
+              hidden
+            />
+          </div>
           <v-card-actions>
-            <v-btn to="/login" v-on:keyup.enter="onEnter" color="purple"
-              >Login</v-btn
-            >
+            <v-btn to="/login" v-on:keyup.enter="onEnter" color="purple">Login</v-btn>
             <v-spacer />
             <v-btn @click="submit()">Sign Up</v-btn>
           </v-card-actions>
@@ -92,6 +100,26 @@ export default {
     };
   },
   methods: {
+    chooseFile() {
+      document.getElementById("fileUpload").click();
+    },
+    uploadImage(event) {
+      const url = "http://localhost:3061/users/registerFile";
+      let data = new FormData();
+      data.append("file", event.target.files[0]);
+      let config = {
+        headers: {
+          "Content-Type": "multipart/formdata"
+        }
+      };
+      axios.post(url, data, config).then(res => {
+        if (res.status === 200) {
+          this.$router.push("/");
+        } else {
+          this.$router.push("/register");
+        }
+      });
+    },
     ...mapMutations(["setToken"]),
     submit() {
       Socket.send("mensagem");

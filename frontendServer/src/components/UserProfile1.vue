@@ -166,7 +166,7 @@ export default {
       this.user = res.data.user
       this.email = res.data.user.email;
       this.src =
-        "http://217.69.12.70:3061/uploads/" +
+        "https://api.manuelmariamoreno.pt/uploads/" +
         res.data.user.nome +
         "/avatar/" +
         res.data.user.avatar;
