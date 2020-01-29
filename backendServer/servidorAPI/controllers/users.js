@@ -1,6 +1,7 @@
 var Users = require('../models/users')
 var bcrypt = require('bcryptjs')
 
+
 module.exports.listar = () => {
     return Users.find().exec();
 }
@@ -98,3 +99,8 @@ module.exports.sendRequest = async (id, friendid) => {
      });
      
  }
+
+
+module.exports.alterar = (id, novo) => {
+    return Users.findOneAndUpdate({id: id}, novo, {new: true});
+}
