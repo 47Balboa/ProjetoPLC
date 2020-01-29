@@ -39,6 +39,13 @@ router.get('/user', passport.authenticate('jwt', { session: false }), function (
   res.status(200).jsonp({ user: req.user })
 })
 
+router.put('/:id', passport.authenticate('jwt', { session: false }), function (req, res) {
+  console.log(req.body)
+  Users.alterar(req.params.id,req.body)
+    .then(dados => res.status(200).jsonp(dados))
+    .catch(erro => res.status(500).jsonp(erro))
+})
+
 
 //ainda nao sei como enviar a imagem logo por isso faço 2 pedidos
 
@@ -63,7 +70,6 @@ router.post('/login', passport.authenticate('local', { session: false }), functi
 
 
 router.post('/registerFile', uploadU.single('file'), function(req,res){
-  console.log("---->" + req.file.path)
 
   fs.readFile(__dirname + '/../'+ req.file.path, function(erro,dados){
     if(erro) throw erro
@@ -107,6 +113,7 @@ router.post('/registerFile', uploadU.single('file'), function(req,res){
               avatar : null,
               dataNasc : data,
               curso : curso,
+              bio: "",
               morada : local,
               posts : [],
               groups: gps,

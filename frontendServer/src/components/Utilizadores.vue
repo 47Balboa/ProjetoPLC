@@ -60,7 +60,7 @@ export default {
         }
       };
       axios.post(url,{friendid: i},config).then(() => {
-         
+
       
         this.sentRequests.push(i.id);
         var mssge = {
