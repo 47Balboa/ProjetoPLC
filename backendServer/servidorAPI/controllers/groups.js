@@ -1,5 +1,5 @@
 var Groups = require('../models/groups')
-var Users = require('../controllers/users')
+var Users = require('../models/users')
 var uuid = require('uuid')
 
 module.exports.getAllGroups = user => {
@@ -11,10 +11,19 @@ module.exports.listar = () => {
 }
 
 module.exports.createGroup = (user, group) => {
-    var lista = [user.id];
-    var groupCompleted = Object.assign({}, group, { admins: lista, id: uuid(),isDiscipline: "false",avatar:"" })
-    var groupToObject = new Groups(groupCompleted)
-    return groupToObject.save()
+    return Groups.findOne({nome: group.nome}).then(data => {
+        Users.findOne({id: user.id}).then(dados => {
+            var lista = [user.id];
+            var auxi = uuid()
+            var groupCompleted = Object.assign({}, group, { admins: lista, id: auxi,isDiscipline: "false",avatar:"" })
+            var groupToObject = new Groups(groupCompleted)
+            dados.groups.push(group.nome)
+            dados.save();
+            return groupToObject.save()
+           })
+
+    })
+   
    
 }
 
@@ -24,7 +33,6 @@ module.exports.getRequests = user => {
 }
 
 module.exports.receiveRequests = (id, groupid) => {
-    console.log("cheguei")
     return Groups.findOne({ id: groupid }).then(dados => {
         if (dados.private === "true" && dados.isDiscipline === "false") {
             if (dados.requests.includes(id)) {
@@ -33,8 +41,8 @@ module.exports.receiveRequests = (id, groupid) => {
             else {
                 console.log("cheguei")
                 dados.requests.push(id);
-                dados.save();
-                return true;
+               return dados.save();
+                
             }
         }
     })
@@ -43,9 +51,9 @@ module.exports.receiveRequests = (id, groupid) => {
 
 
 module.exports.acceptRequest = (userid, memberid, groupid) => {
+    
     return Groups.findOne({ id: groupid }).then(dados => {
-        Users.findOne({ id: userid }).then(userdados => {
-            if (groupo.admin === userid) {
+            Users.findOne({ id: memberid }).then(userdados => {
                 if (dados.members.includes(memberid)) {
                     return false;
                 }
@@ -53,21 +61,26 @@ module.exports.acceptRequest = (userid, memberid, groupid) => {
                     dados.members.push(memberid);
                     var i = dados.requests.indexOf(memberid)
                     dados.requests.splice(i, 1);
-                    user.dados.groups.push(dados.id)
+                    userdados.groups.push(dados.id)
                     dados.save();
                     return true;
                 }
-            }
+            
         })
     })
 }
 
 module.exports.publicAcceptRequest = (userid,groupid) => {
     return Groups.findOne({ id: groupid }).then(dados => {
-        if(!dados.members.includes(userid)){
-            dados.members.push(userid)
-            dados.save();
-        }
+        Users.findOne({id: userid}).then(userdados => {
+            if(!dados.members.includes(userid)){
+                dados.members.push(userid)
+                userdados.groups.push(dados.nome)
+                userdados.save();
+                dados.save();
+            }
+        })
+        
     })
 
 }

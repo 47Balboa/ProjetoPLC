@@ -12,7 +12,8 @@ import Utilizadores from '../components/Utilizadores.vue'
 import Dummy from '../components/Dummy.vue'
 import Groups from '../components/Groups.vue'
 import Register from '../components/Register.vue'
-
+import CriarEvento from '../components/CriarEvento.vue'
+import Eventos from '../components/Eventos.vue'
 import GroupProfile from '../components/GroupProfile.vue'
 
 
@@ -39,8 +40,20 @@ const routes = [
     beforeEnter: isAuthenticated
   },
   {
+    path: '/criarEvento',
+    name: 'criarevento',
+    component: CriarEvento,
+    beforeEnter: isAuthenticated
+  },
+  {
+    path: '/eventos',
+    name: 'eventos',
+    component: Eventos,
+    beforeEnter: isAuthenticated
+  },
+  {
     path: '/testing',
-    name: 'userprofile',
+    name: 'testing',
     component: UserProfile1,
     beforeEnter: isAuthenticated
   },

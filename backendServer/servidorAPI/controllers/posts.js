@@ -24,7 +24,11 @@ module.exports.unlike=(postid, userid)=>{
 }
 
 module.exports.getUserPosts=(groups,userid)=>{
-    return Posts.find({$and: [{author: userid,grupo: {$in: groups}}]})
+    return Posts.find({$and: [{author: userid,grupo: {$in: groups}}]}).sort({date: -1})
+}
+
+module.exports.getGroupPosts=(groupname)=>{
+    return Posts.find({grupo: groupname}).exec()
 }
 
 module.exports.createPost=(post,id)=>{

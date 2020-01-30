@@ -35,6 +35,7 @@ export default {
       ["mdi-account-group","Groups","/groups"],
       ["mdi-plus-box", "Add Post","/addpost"],
       ["mdi-account-multiple-check", "Friends","/friends"],
+      ["mdi-calendar", "Eventos","/eventos"],
       ["mdi-earth", "Utilizadores", "/users"],
     ],
   })

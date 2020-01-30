@@ -19,13 +19,11 @@
                 :key="i"
                 v-for="i in cadeiras"
               >
-                <v-col cols="12">
-                  <h2 @click="goToProfile(i)" align="center">{{i.nome}}</h2>
-                  <v-avatar @click="goToProfile(i)" class="ma-4 outline" size="100">
-                    <v-img v-if="hasAvatar(i)" :src="auxiliar(i)"></v-img>
-                    <v-img v-else src="../assets/default_group.png"></v-img>
-                  </v-avatar>
-                </v-col>
+                <h2 @click="goToProfile(i)" align="center">{{i.nome}}</h2>
+                <v-avatar @click="goToProfile(i)" class="ma-4 outline" size="100">
+                  <v-img v-if="hasAvatar(i)" :src="auxiliar(i)"></v-img>
+                  <v-img v-else src="../assets/default_group.png"></v-img>
+                </v-avatar>
               </v-card>
             </v-row>
           </v-col>
@@ -34,7 +32,8 @@
           <v-col>
             <v-row>
               <h1 class="subheading grey--text">Grupos</h1>
-              <v-btn color="primary" @click="createGroup()">Criar grupo</v-btn>
+              <v-spacer/>
+              <v-btn class="ma-10" color="primary" @click="createGroup()">Criar grupo</v-btn>
             </v-row>
             <v-row>
               <v-card
@@ -46,28 +45,40 @@
                 v-for="j in groups"
               >
                 <v-col cols="12">
-                  <h2 @click="goToProfile(j)" align="center">{{j.nome}}</h2>
-                  <v-avatar @click="goToProfile(j)" class="ma-4 outline" size="100">
+                  <h2 @click="isPublic(j)" align="center">{{j.nome}}</h2>
+                  <v-avatar @click="isPublic(j)" class="ma-4 outline" size="100">
                     <v-img v-if="hasAvatar(j)" :src="auxiliar(j)"></v-img>
                     <v-img v-else src="../assets/default_group.png"></v-img>
                   </v-avatar>
-                  <h5 @click="goToProfile(j)" align="center">Private: {{j.private}}</h5>
+                  <h5 @click="isPublic(j)" align="center">Private: {{j.private}}</h5>
                 </v-col>
+
                 <div v-if="j.private === 'true'">
+                  <v-btn v-if="j.admins.includes(user.id)" disabled color="grey">Admin</v-btn>
                   <v-btn
-                    v-if="!j.requests.includes(user.id)"
+                    v-if="!j.requests.includes(user.id) && !j.admins.includes(user.id) && !j.members.includes(user.id)"
                     color="success"
                     @click="sendRequest(j)"
                   >Enviar Pedido</v-btn>
-                  <v-btn v-else disabled color="grey">Pedido enviado</v-btn>
-                </div>
+                  <v-btn
+                    v-if="j.requests.includes(user.id) && !j.admins.includes(user.id) && !j.members.includes(user.id)"
+                    disabled
+                    color="grey"
+                  >Pedido enviado</v-btn>
+                
+                <v-btn
+                    v-if="!j.requests.includes(user.id) && !j.admins.includes(user.id) && j.members.includes(user.id)"
+                    disabled
+                    color="grey"
+                  >Membro</v-btn>
+                  </div>
                 <div v-else>
                   <v-btn
                     v-if="!j.members.includes(user.id) && !j.admins.includes(user.id)"
                     color="success"
                     @click="addGroup(j)"
                   >Adicionar</v-btn>
-                  <v-btn v-else disabled color="grey">Adicionado</v-btn>
+                  <v-btn v-else disabled color="grey">Admin</v-btn>
                 </div>
               </v-card>
             </v-row>
@@ -97,12 +108,25 @@ export default {
     createGroup() {
       this.$router.push("/createGroup");
     },
-    goToProfile(i){
-      this.$router.push({name: "groupprofile",params: i})
+    goToProfile(i) {
+      this.$router.push({ name: "groupprofile", params: i });
+    },
+    isPublic(j) {
+      
+      if (j.private !== "true") {
+        this.goToProfile(j);
+        
+      }
+
+      if (j.members.includes(this.user.id) || j.admins.includes(this.user.id)) {
+        this.goToProfile(j);
+        //eslint-disable-next-line no-console
+      console.log(j.private);
+      }
     },
 
     sendRequest(i) {
-      const url = "http://localhost:3061/groups/sendRequest";
+      const url = "https://api.manuelmariamoreno.pt/groups/sendRequest";
       let config = {
         headers: {
           Authorization: "Bearer " + this.getToken
@@ -110,16 +134,18 @@ export default {
       };
       axios.post(url, { groupid: i.id }, config).then(() => {
         this.sentRequests.push(i.id);
+        i.requests.push(i.id)
+        this.$router.push("/groups");
       });
     },
     addGroup(i) {
-      const url = "http://localhost:3061/groups/publicRequest";
+      const url = "https://api.manuelmariamoreno.pt/groups/publicRequest";
       let config = {
         headers: {
           Authorization: "Bearer " + this.getToken
         }
       };
-      axios.post(url, {groupid: i.id}, config).then(() => {
+      axios.post(url, { groupid: i.id }, config).then(() => {
         this.sentRequests.push(i.id);
       });
     },
@@ -131,7 +157,7 @@ export default {
     auxiliar(i) {
       return (
         "https://api.manuelmariamoreno.pt/uploads/" +
-        i.nome +
+        i.id +
         "/avatar/" +
         i.avatar
       );
@@ -141,8 +167,8 @@ export default {
     NavigationDrawer
   },
   mounted: function() {
-    const url = "http://localhost:3061/users";
-    const url1 = "http://localhost:3061/groups";
+    const url = "https://api.manuelmariamoreno.pt/users";
+    const url1 = "https://api.manuelmariamoreno.pt/groups";
     let config = {
       headers: {
         Authorization: "Bearer " + this.getToken

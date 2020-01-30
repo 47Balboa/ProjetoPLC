@@ -75,7 +75,7 @@ export default {
       else return true;
     },
     auxiliar(i) {
-      return "https://api.manuelmariamoreno.pt/uploads/" + i.nome + "/avatar/" + i.avatar;
+      return "https://api.manuelmariamoreno.pt/uploads/" + i.id + "/avatar/" + i.avatar;
     }
   },
   components: {

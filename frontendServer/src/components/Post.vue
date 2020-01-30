@@ -7,7 +7,7 @@
             <v-col cols="12">
               <v-card elevation="10" flat class="text-xs-center ma-3">
                 <v-list-item>
-                  <v-list-item-avatar>
+                  <v-list-item-avatar @click="goToProfile(user)">
                     <v-img v-if="hasAvatar(this.user)" :src="auxiliar(this.user)"></v-img>
                     <v-img v-else src="../assets/default_avatar.jpg"></v-img>
                   </v-list-item-avatar>
@@ -21,8 +21,8 @@
                   </v-list-item-content>
                   <v-list-item-content>
                     <v-col>
-                      <v-btn text small>
-                        <v-icon>mdi-play</v-icon>
+                      <v-btn text>
+                        <v-icon>mdi-folder</v-icon>
                         <span>{{ post.grupo }}</span>
                       </v-btn>
                     </v-col>
@@ -72,6 +72,9 @@
                     <v-icon color="grey">mdi-comment</v-icon>
                   </v-btn>
                   <v-span>Comment</v-span>
+                  <v-spacer></v-spacer>
+                  <v-icon >mdi-play</v-icon>
+                  <span>{{this.post.classificador}}</span>
                 </v-card-actions>
                 <v-expand-transition>
                   <div v-show="show">
@@ -125,8 +128,15 @@ export default {
     });
   },
   methods: {
-    exportPost(){
-      const url = "http://localhost:3061/posts/exportPost/"+ this.post.id
+    goToProfile(user){
+      this.$router.push({name: "testing",params: user})
+    },
+    goToGroup(user){
+      this.$router.push({name: "testing",params: user})
+    },
+    exportPost() {
+      const url =
+        "https://api.manuelmariamoreno.pt/posts/exportPost/" + this.post.id;
       let config = {
         responseType: "blob",
         headers: {
@@ -137,13 +147,17 @@ export default {
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement("a");
         link.href = url;
-        link.setAttribute("download",this.post.id+".txt"); //or any other extension
+        link.setAttribute("download", this.post.id + ".txt"); //or any other extension
         document.body.appendChild(link);
         link.click();
-      })
-  },
+      });
+    },
     download(i) {
-      const url = "https://api.manuelmariamoreno.pt/posts/download/"+ this.post.id + '/' + i.name;
+      const url =
+        "https://api.manuelmariamoreno.pt/posts/download/" +
+        this.post.id +
+        "/" +
+        i.name;
       let config = {
         responseType: "blob",
         headers: {
@@ -154,7 +168,7 @@ export default {
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement("a");
         link.href = url;
-        link.setAttribute("download",i.name); //or any other extension
+        link.setAttribute("download", i.name); //or any other extension
         document.body.appendChild(link);
         link.click();
       });
@@ -182,7 +196,7 @@ export default {
     auxiliar(i) {
       return (
         "https://api.manuelmariamoreno.pt/uploads/" +
-        i.nome +
+        i.id +
         "/avatar/" +
         i.avatar
       );

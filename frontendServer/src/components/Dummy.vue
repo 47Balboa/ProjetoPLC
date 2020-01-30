@@ -227,7 +227,8 @@ export default {
       }
     };
     axios.get(url, config).then(dados => {
-      this.groups = dados.data.user.groups;
+      this.groups = dados.data.user.groups
+      
     });
   },
   data() {

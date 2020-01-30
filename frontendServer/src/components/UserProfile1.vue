@@ -187,7 +187,7 @@ export default {
     auxiliar(i) {
       return (
         "https://api.manuelmariamoreno.pt/uploads/" +
-        i.nome +
+        i.id +
         "/avatar/" +
         i.avatar
       );

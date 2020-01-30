@@ -71,6 +71,10 @@ router.get('/like/:id', passport.authenticate('jwt', { session: false }), functi
   Posts.addLike(req.params.id, req.user.id).then(dados => res.status(200)).catch(error => res.status(500))
 })
 
+router.get('/groupPosts/:nome', passport.authenticate('jwt', { session: false }), function (req, res) {
+  Posts.getGroupPosts(req.params.nome).then(dados => res.status(200).json(dados)).catch(error => res.status(500))
+})
+
 router.post('/addPostFiles', passport.authenticate('jwt', { session: false }), uploadF.array('files'), function (req, res) {
   Posts.getPost(req.body.id).then(post => {
     var folderpath = __dirname + '/../post/' + req.body.id

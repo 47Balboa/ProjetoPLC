@@ -40,6 +40,7 @@
                         <v-list-item-content>
                           <div class="overline mb-4">{{Offline}}</div>
                           <v-list-item-title class="headline mb-1">{{u.nome}}</v-list-item-title>
+                          <v-list-item-subtitle> Clicka para falares com...</v-list-item-subtitle>
                         </v-list-item-content>
                         <v-list-item-avatar size="80">
                           <v-img v-if="hasAvatar(u)" :src="auxiliar(u)"></v-img>
@@ -91,7 +92,7 @@ export default {
     },
     auxiliar(i) {
       return (
-        "https://api.manuelmariamoreno.pt/uploads/" + i.nome + "/avatar/" + i.avatar
+        "https://api.manuelmariamoreno.pt/uploads/" + i.id + "/avatar/" + i.avatar
       );
     },
     change(u){

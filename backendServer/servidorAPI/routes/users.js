@@ -151,7 +151,7 @@ router.post('/register', function (req, res, next) {
   Users.getUser(req.body.email).then(dados => {
     if (dados === null) {
       Users.addUser(req.body).then(v => {
-        var dir = './uploads/' + v.nome
+        var dir = './uploads/' + v.id
         fs.mkdir(dir,function(error,cena){
         });
         

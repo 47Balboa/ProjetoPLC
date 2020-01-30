@@ -33,6 +33,7 @@ router.get('/', passport.authenticate('jwt', { session: false }), function (req,
   });
 
   router.post('/acceptRequest', passport.authenticate('jwt', { session: false }), function (req, res, next) {
+    console.log(req.body.memberid)
     Groups.acceptRequest(req.user.id,req.body.memberid,req.body.groupid).then(dados => res.status(200).jsonp(dados))
       .catch(error => res.status(500).jsonp(error))
   });

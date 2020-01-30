@@ -208,7 +208,7 @@ export default {
       this.user = res.data.user;
       this.src =
         "https://api.manuelmariamoreno.pt/uploads/" +
-        res.data.user.nome +
+        res.data.user.id +
         "/avatar/" +
         res.data.user.avatar;
       const url1 =
@@ -220,7 +220,7 @@ export default {
   },
   methods: {
     guardar() {
-      const url = "http://localhost:3061/users/" + this.user.id;
+      const url = "https://api.manuelmariamoreno.pt/users/" + this.user.id;
       let config = {
         headers: {
           Authorization: "Bearer " + this.getToken
@@ -275,7 +275,7 @@ export default {
       data.append("image", event.target.files[0]);
       let config = {
         headers: {
-          "Content-Type": "image/png",
+          "Content-Type": "image/*",
           Authorization: "Bearer " + this.getToken
         }
       };

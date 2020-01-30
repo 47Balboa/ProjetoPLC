@@ -9,7 +9,7 @@ var Posts = require('../controllers/posts')
 
 const Imagestorage = multer.diskStorage({
     destination: (req, file, cb) => {
-        const dir = './uploads/' + req.user.nome + '/avatar'
+        const dir = './uploads/' + req.user.id + '/avatar'
         fs.exists(dir, exist => {
             if (!exist) {
                 return fs.mkdir(dir, error => {
@@ -20,7 +20,7 @@ const Imagestorage = multer.diskStorage({
         })
     },
     filename: (req, file, cb) => {
-        var path = req.user.id + uuid() + ".png"
+        var path = uuid() + file.originalname
         Users.changeAvatar(req.user.id,path).then(x => cb(null, path ))
         .catch(error => cb(null, error))
         
