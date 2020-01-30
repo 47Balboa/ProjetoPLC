@@ -65,7 +65,7 @@ export default {
     submit() {
       
       axios
-        .post("https://api.manuelmariamoreno.pt/users/login", {
+        .post("http://localhost:3061/users/login", {
           email: this.email,
           password: this.password
         })

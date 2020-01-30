@@ -52,7 +52,7 @@ export default {
       this.$router.push({name: "testing",params: i})
     },
     sendRequest(i) {
-      const url = "https://api.manuelmariamoreno.pt/users/sendRequest";
+      const url = "http://localhost:3061/users/sendRequest";
 
       let config = {
         headers: {
@@ -75,7 +75,7 @@ export default {
       else return true;
     },
     auxiliar(i) {
-      return "https://api.manuelmariamoreno.pt/uploads/" + i.id + "/avatar/" + i.avatar;
+      return "http://localhost:3061/uploads/" + i.id + "/avatar/" + i.avatar;
     }
   },
   components: {
@@ -83,7 +83,7 @@ export default {
   },
   mounted: function() {
     
-    const url = "https://api.manuelmariamoreno.pt/users";
+    const url = "http://localhost:3061/users";
     let config = {
       headers: {
         Authorization: "Bearer " + this.getToken

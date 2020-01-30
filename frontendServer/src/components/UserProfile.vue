@@ -191,7 +191,7 @@ export default {
     NavigationDrawer
   },
   mounted: function() {
-    const url = "https://api.manuelmariamoreno.pt/users/user";
+    const url = "http://localhost:3061/users/user";
     let config = {
       headers: {
         Authorization: "Bearer " + this.getToken
@@ -207,12 +207,12 @@ export default {
       this.bio = res.data.user.bio;
       this.user = res.data.user;
       this.src =
-        "https://api.manuelmariamoreno.pt/uploads/" +
+        "http://localhost:3061/uploads/" +
         res.data.user.id +
         "/avatar/" +
         res.data.user.avatar;
       const url1 =
-        "https://api.manuelmariamoreno.pt/posts/user/" + this.user.id;
+        "http://localhost:3061/posts/user/" + this.user.id;
       axios.get(url1, config).then(dados => {
         this.items = dados.data;
       });
@@ -220,7 +220,7 @@ export default {
   },
   methods: {
     guardar() {
-      const url = "https://api.manuelmariamoreno.pt/users/" + this.user.id;
+      const url = "http://localhost:3061/users/" + this.user.id;
       let config = {
         headers: {
           Authorization: "Bearer " + this.getToken
@@ -260,7 +260,7 @@ export default {
     },
     auxiliar(i) {
       return (
-        "https://api.manuelmariamoreno.pt/uploads/" +
+        "http://localhost:3061/uploads/" +
         i.id +
         "/avatar/" +
         i.avatar
@@ -270,7 +270,7 @@ export default {
       document.getElementById("fileUpload").click();
     },
     uploadImage(event) {
-      const url = "https://api.manuelmariamoreno.pt/users/image";
+      const url = "http://localhost:3061/users/image";
       let data = new FormData();
       data.append("image", event.target.files[0]);
       let config = {

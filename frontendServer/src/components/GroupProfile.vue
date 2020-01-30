@@ -137,10 +137,10 @@ export default {
   },
   mounted: function() {
     const url =
-      "https://api.manuelmariamoreno.pt/groups/" + this.$route.params.id;
-    const url1 = "https://api.manuelmariamoreno.pt/users/user/";
-    const url2 = "https://api.manuelmariamoreno.pt/users/user/";
-    const url3 = "https://api.manuelmariamoreno.pt/posts/groupPosts/";
+      "http://localhost:3061/groups/" + this.$route.params.id;
+    const url1 = "http://localhost:3061/users/user/";
+    const url2 = "http://localhost:3061/users/user/";
+    const url3 = "http://localhost:3061/posts/groupPosts/";
     let config = {
       headers: {
         Authorization: "Bearer " + this.getToken
@@ -196,7 +196,7 @@ export default {
   }),
   methods: {
     acceptRequest(req) {
-      const url = "https://api.manuelmariamoreno.pt/groups/acceptRequest";
+      const url = "http://localhost:3061/groups/acceptRequest";
       let config = {
         headers: {
           Authorization: "Bearer " + this.getToken
@@ -223,7 +223,7 @@ export default {
     },
     auxiliar(i) {
       return (
-        "https://api.manuelmariamoreno.pt/uploads/" +
+        "http://localhost:3061/uploads/" +
         i.id +
         "/avatar/" +
         i.avatar
@@ -233,7 +233,7 @@ export default {
       document.getElementById("fileUpload").click();
     },
     uploadImage(event) {
-      const url = "https://api.manuelmariamoreno.pt/users/image";
+      const url = "http://localhost:3061/users/image";
       let data = new FormData();
       data.append("image", event.target.files[0]);
       let config = {

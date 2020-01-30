@@ -55,7 +55,7 @@ export default {
     },
     auxiliar(i) {
       return (
-        "https://api.manuelmariamoreno.pt/uploads/" +
+        "http://localhost:3061/uploads/" +
         i.id +
         "/avatar/" +
         i.avatar
@@ -69,7 +69,7 @@ export default {
     NavigationDrawer
   },
   mounted: function() {
-    const url = "https://api.manuelmariamoreno.pt/users/friends";
+    const url = "http://localhost:3061/users/friends";
     let config = {
       headers: {
         Authorization: "Bearer " + this.getToken

@@ -72,7 +72,7 @@ export default {
     Chat
   },
   mounted: function() {
-    const url = "https://api.manuelmariamoreno.pt/users/friends";
+    const url = "http://localhost:3061/users/friends";
     let config = {
       headers: {
         Authorization: "Bearer " + this.getToken
@@ -92,11 +92,11 @@ export default {
     },
     auxiliar(i) {
       return (
-        "https://api.manuelmariamoreno.pt/uploads/" + i.id + "/avatar/" + i.avatar
+        "http://localhost:3061/uploads/" + i.id + "/avatar/" + i.avatar
       );
     },
     change(u){
-      const url = "https://api.manuelmariamoreno.pt/users/getMessage";
+      const url = "http://localhost:3061/users/getMessage";
       let config = {
       headers: {
         Authorization: "Bearer " + this.getToken
@@ -123,7 +123,7 @@ export default {
     return {
       onMessageSubmit: message => {
 
-        const url = "https://api.manuelmariamoreno.pt/users/sendMessage";
+        const url = "http://localhost:3061/users/sendMessage";
         let config = {
           headers: {
             Authorization: "Bearer " + this.getToken

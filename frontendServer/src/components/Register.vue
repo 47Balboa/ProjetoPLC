@@ -85,7 +85,7 @@ export default {
     submit() {
       Socket.send("mensagem");
       axios
-        .post("https://api.manuelmariamoreno.pt/users/register", {
+        .post("http://localhost:3061/users/register", {
           id: this.id,
           nome: this.nome,
           email: this.email,

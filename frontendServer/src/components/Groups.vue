@@ -126,7 +126,7 @@ export default {
     },
 
     sendRequest(i) {
-      const url = "https://api.manuelmariamoreno.pt/groups/sendRequest";
+      const url = "http://localhost:3061/groups/sendRequest";
       let config = {
         headers: {
           Authorization: "Bearer " + this.getToken
@@ -139,7 +139,7 @@ export default {
       });
     },
     addGroup(i) {
-      const url = "https://api.manuelmariamoreno.pt/groups/publicRequest";
+      const url = "http://localhost:3061/groups/publicRequest";
       let config = {
         headers: {
           Authorization: "Bearer " + this.getToken
@@ -156,7 +156,7 @@ export default {
     },
     auxiliar(i) {
       return (
-        "https://api.manuelmariamoreno.pt/uploads/" +
+        "http://localhost:3061/uploads/" +
         i.id +
         "/avatar/" +
         i.avatar
@@ -167,8 +167,8 @@ export default {
     NavigationDrawer
   },
   mounted: function() {
-    const url = "https://api.manuelmariamoreno.pt/users";
-    const url1 = "https://api.manuelmariamoreno.pt/groups";
+    const url = "http://localhost:3061/users";
+    const url1 = "http://localhost:3061/groups";
     let config = {
       headers: {
         Authorization: "Bearer " + this.getToken

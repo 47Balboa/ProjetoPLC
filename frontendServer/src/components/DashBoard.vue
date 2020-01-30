@@ -59,7 +59,7 @@ export default {
     flag: 0
   }),
   mounted: function() {
-    const url = "https://api.manuelmariamoreno.pt/posts";
+    const url = "http://localhost:3061/posts";
     let config = {
       headers: {
         Authorization: "Bearer " + this.getToken

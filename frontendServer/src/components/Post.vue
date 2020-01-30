@@ -114,7 +114,7 @@ export default {
   },
   mounted: function() {
     const url =
-      "https://api.manuelmariamoreno.pt/users/user/" + this.post.author;
+      "http://localhost:3061/users/user/" + this.post.author;
     const url2 = "http://localhost:3061/users/user"
     let config = {
       headers: {
@@ -141,7 +141,7 @@ export default {
     },
     exportPost() {
       const url =
-        "https://api.manuelmariamoreno.pt/posts/exportPost/" + this.post.id;
+        "http://localhost:3061/posts/exportPost/" + this.post.id;
       let config = {
         responseType: "blob",
         headers: {
@@ -159,7 +159,7 @@ export default {
     },
     download(i) {
       const url =
-        "https://api.manuelmariamoreno.pt/posts/download/" +
+        "http://localhost:3061/posts/download/" +
         this.post.id +
         "/" +
         i.name;
@@ -212,7 +212,7 @@ export default {
     },
     auxiliar(i) {
       return (
-        "https://api.manuelmariamoreno.pt/uploads/" +
+        "http://localhost:3061/uploads/" +
         i.id +
         "/avatar/" +
         i.avatar

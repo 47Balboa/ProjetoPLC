@@ -76,7 +76,7 @@ export default {
       this.$nextTick();
     },
     getFriendsRequests() {
-      const url = "https://api.manuelmariamoreno.pt/users/getFriendsRequests";
+      const url = "http://localhost:3061/users/getFriendsRequests";
       let config = {
         headers: {
           Authorization: "Bearer " + this.getToken
@@ -88,7 +88,7 @@ export default {
     },
    
     acceptRequest(i, index) {
-      const url = "https://api.manuelmariamoreno.pt/users/acceptRequest";
+      const url = "http://localhost:3061/users/acceptRequest";
       let config = {
         headers: {
           Authorization: "Bearer " + this.getToken
@@ -105,7 +105,7 @@ export default {
     },
     auxiliar(i) {
       return (
-        "https://api.manuelmariamoreno.pt/uploads/" +
+        "http://localhost:3061/uploads/" +
         i.id +
         "/avatar/" +
         i.avatar
@@ -114,7 +114,7 @@ export default {
   },
   mounted: function() {
     this.$root.$on("entered", () => {
-      const url = "https://api.manuelmariamoreno.pt/users/user";
+      const url = "http://localhost:3061/users/user";
       let config = {
         headers: {
           Authorization: "Bearer " + this.getToken
@@ -125,7 +125,7 @@ export default {
         this.number = 1;
       });
     });
-    const url = "https://api.manuelmariamoreno.pt/users/getFriendsRequests";
+    const url = "http://localhost:3061/users/getFriendsRequests";
     let config = {
       headers: {
         Authorization: "Bearer " + this.getToken

@@ -151,8 +151,8 @@ export default {
   },
   mounted: function() {
 
-    const url = "https://api.manuelmariamoreno.pt/users/user/"+this.$route.params.id;
-    const url1 = "https://api.manuelmariamoreno.pt/posts/user/"+this.$route.params.id;
+    const url = "http://localhost:3061/users/user/"+this.$route.params.id;
+    const url1 = "http://localhost:3061/posts/user/"+this.$route.params.id;
     let config = {
       headers: {
         Authorization:
@@ -166,7 +166,7 @@ export default {
       this.user = res.data.user
       this.email = res.data.user.email;
       this.src =
-        "https://api.manuelmariamoreno.pt/uploads/" +
+        "http://localhost:3061/uploads/" +
         res.data.user.nome +
         "/avatar/" +
         res.data.user.avatar;
@@ -186,7 +186,7 @@ export default {
     },
     auxiliar(i) {
       return (
-        "https://api.manuelmariamoreno.pt/uploads/" +
+        "http://localhost:3061/uploads/" +
         i.id +
         "/avatar/" +
         i.avatar

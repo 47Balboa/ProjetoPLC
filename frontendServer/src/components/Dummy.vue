@@ -161,8 +161,8 @@ export default {
   computed: mapGetters(["getToken"]),
   methods: {
     submitToServer() {
-      const url = "https://api.manuelmariamoreno.pt/posts/addPost";
-      const url2 = "https://api.manuelmariamoreno.pt/posts/addPostFiles";
+      const url = "http://localhost:3061/posts/addPost";
+      const url2 = "http://localhost:3061/posts/addPostFiles";
       let config = {
         headers: {
           Authorization: "Bearer " + this.getToken
@@ -206,7 +206,7 @@ export default {
     NavigationDrawer
   },
   mounted: function() {
-    const url = "https://api.manuelmariamoreno.pt/users/user";
+    const url = "http://localhost:3061/users/user";
     let config = {
       headers: {
         Authorization: "Bearer " + this.getToken

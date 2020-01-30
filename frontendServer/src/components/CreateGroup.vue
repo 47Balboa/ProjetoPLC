@@ -66,7 +66,7 @@ export default {computed: {
 },
     methods: {
         createGroup(){
-            const url = "https://api.manuelmariamoreno.pt/groups/createGroup";
+            const url = "http://localhost:3061/groups/createGroup";
       let config = {
         headers: {
           Authorization: "Bearer " + this.getToken
