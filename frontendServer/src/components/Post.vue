@@ -64,7 +64,7 @@
                 </v-row>
                 <v-card-actions>
                   <h4 class="ma-0">{{ this.post.likes.length }}</h4>
-                  <v-btn @click="addLike(i)" fab text small>
+                  <v-btn @click="addLike()" fab text small>
                     <v-icon color="pink">mdi-heart</v-icon>
                   </v-btn>
                   <v-span>Like</v-span>
@@ -115,6 +115,7 @@ export default {
   mounted: function() {
     const url =
       "https://api.manuelmariamoreno.pt/users/user/" + this.post.author;
+    const url2 = "http://localhost:3061/users/user"
     let config = {
       headers: {
         Authorization: "Bearer " + this.getToken
@@ -126,6 +127,10 @@ export default {
 
       this.date = moment(this.post.date).format("MMM D , h:mm a");
     });
+    axios.get(url2, config).then(dados2 => {
+      this.userSeeing = dados2.data.user;
+    });
+    this.userLikes = this.post.likes
   },
   methods: {
     goToProfile(user){
@@ -173,20 +178,32 @@ export default {
         link.click();
       });
     },
-    addLike(i) {
-      if (!this.userLikes.includes(i.id)) {
-        const url =
-          "https://api.manuelmariamoreno.pt/users/user/" + this.post.author;
-
-        let config = {
+    addLike() {
+      let data = new FormData()
+      if (!this.userLikes.includes(this.userSeeing.id)) {
+       const url ="http://localhost:3061/posts/giveLike/" + this.post.id;
+       let config = {
           headers: {
             Authorization: "Bearer " + this.getToken
           }
         };
 
-        axios.get(url, config).then(dados => {
-          axios.get(url, dados);
+        axios.post(url,data, config).then(() => {
+          this.userLikes.push(this.userSeeing.id)
         });
+        
+      }
+      else {
+        const url1 ="http://localhost:3061/posts/takeLike/" + this.post.id;
+        let config = {
+          headers: {
+            Authorization: "Bearer " + this.getToken
+          }
+        };
+        axios.post(url1, data,config).then(() => {
+          this.userLikes.splice(this.userLikes.indexOf(this.userSeeing.id),1)
+        });
+        
       }
     },
     hasAvatar(i) {
@@ -212,6 +229,7 @@ export default {
     return {
       userLikes: [],
       user: {},
+      userSeeing: {},
       date: "",
       show: false,
       links: [
