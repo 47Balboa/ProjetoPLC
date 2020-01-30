@@ -1,0 +1,9 @@
+[0988]
+Nome: "Diogo"
+Apelido: "Pereira"
+DataNascimento: 12-10-1998
+Morada: "Braga"
+Email: "Diogo"
+Curso: "Engenharia Informática"
+Cadeiras: "GCS";"PRI".
+Password: "12345"

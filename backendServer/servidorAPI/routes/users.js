@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Users = require('../controllers/users')
+var Groups = require('../controllers/groups')
 var passport = require('passport')
 const jwt = require('jsonwebtoken')
 const fs = require('fs')
@@ -142,6 +143,10 @@ router.post('/registerFile', uploadU.single('file'), function(req,res){
       else{
         res.status(401).jsonp({ status: "Email já existente!" })
       }
+    })
+    
+    gps.forEach(elem => {
+      Groups.addMember(nrAluno,elem)
     })
   })
 })

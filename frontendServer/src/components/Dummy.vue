@@ -32,28 +32,13 @@
                           <v-select
                             :items="classificadores"
                             v-model="classificadorSelected"
-                            label="Classificadores"
+                            label="Classificador"
                             outlined
-                            multiple
                             return-object
                           ></v-select>
                         </v-col>
                       </v-list-item-content>
 
-                      <v-spacer></v-spacer>
-
-                      <v-menu offset-y>
-                        <template v-slot:activator="{ on }">
-                          <v-btn fab text small v-on="on">
-                            <v-icon>mdi-chevron-down</v-icon>
-                          </v-btn>
-                        </template>
-                        <v-list>
-                          <v-list-item v-for="link  in links" :key="link.text">
-                            <v-list-item-title>{{link.text}}</v-list-item-title>
-                          </v-list-item>
-                        </v-list>
-                      </v-menu>
                     </v-list-item>
 
                     <v-textarea
@@ -205,7 +190,8 @@ export default {
         grupo: this.itemSelected,
         date: moment(),
         text: this.textSent,
-        classificadores: this.classificadorSelected
+        classificador: this.classificadorSelected,
+        contentType: this.typeSelected
       };
       axios.post(url, post, config).then(() => {
         axios.post(url2, formData, config2).then(res => {
@@ -237,8 +223,8 @@ export default {
       typeSelected: "Simples",
       tipos: ["Evento", "Simples", "Album", "Foto"],
       textSent: "",
-      classificadoresSelected: [],
-      classificadores: ["teste", "album"],
+      classificadorSelected: "",
+      classificadores:  ["Slides","Testes/Exames","Desporto","Apontamentos"],
       itemSelected: "",
       groups: [],
       show: false,

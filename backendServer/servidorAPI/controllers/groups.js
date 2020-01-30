@@ -39,7 +39,6 @@ module.exports.receiveRequests = (id, groupid) => {
                 return false;
             }
             else {
-                console.log("cheguei")
                 dados.requests.push(id);
                return dados.save();
                 
@@ -87,7 +86,7 @@ module.exports.publicAcceptRequest = (userid,groupid) => {
 
 module.exports.removeMember = (userid, memberid, groupid) => {
     return Groups.findOne({ id: groupid }).then(grupo => {
-        if (groupo.admin === userid) {
+        if (grupo.admin === userid) {
             var i = grupo.members.indexOf(memberid)
             dados.members.splice(i, 1);
         }
@@ -97,5 +96,14 @@ module.exports.removeMember = (userid, memberid, groupid) => {
 
 module.exports.getGroup = id => {
    return Groups.findOne({ id: id }).exec()
+}
+
+module.exports.addMember = (idMember, groupname) => {
+    return Groups.findOne({ nome: groupname }).then(grupo => {
+        if (!grupo.members.includes(idMember)) {
+            grupo.members.push(idMember);
+            return grupo.save()
+        }
+    })
 }
 
