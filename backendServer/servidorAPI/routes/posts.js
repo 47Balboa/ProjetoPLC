@@ -13,6 +13,13 @@ router.get('/', passport.authenticate('jwt', { session: false }), function (req,
     .catch(error => res.status(500).jsonp(error))
 });
 
+router.post('/giveLike/:id', passport.authenticate('jwt', { session: false }), function (req, res) {
+  Posts.addLike(req.params.id, req.user.id).then(dados => res.status(200).jsonp(dados)).catch(error => res.status(500))
+})
+
+router.post('/takeLike/:id', passport.authenticate('jwt', { session: false }), function (req, res) {
+  Posts.unlike(req.params.id, req.user.id).then(dados => res.status(200).jsonp(dados)).catch(error => res.status(500))
+})
 
 
 router.get('/:id', passport.authenticate('jwt', { session: false }), function (req, res) {
@@ -67,9 +74,7 @@ router.get('/download/:idpost/:filename', passport.authenticate('jwt', { session
   })
 })
 
-router.get('/like/:id', passport.authenticate('jwt', { session: false }), function (req, res) {
-  Posts.addLike(req.params.id, req.user.id).then(dados => res.status(200)).catch(error => res.status(500))
-})
+
 
 router.get('/groupPosts/:nome', passport.authenticate('jwt', { session: false }), function (req, res) {
   Posts.getGroupPosts(req.params.nome).then(dados => res.status(200).json(dados)).catch(error => res.status(500))

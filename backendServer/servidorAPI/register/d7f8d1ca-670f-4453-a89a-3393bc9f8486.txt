@@ -1,0 +1,11 @@
+[047]
+Nome: "Shahzod"
+Apelido: "Pereira"
+DataNascimento: 12-10-1998
+Morada: "Braga"
+Email: "Shahzod"
+Curso: "Engenharia Informática"
+Cadeiras: "GCS"
+		;
+"PRI".
+Password: "12345"
