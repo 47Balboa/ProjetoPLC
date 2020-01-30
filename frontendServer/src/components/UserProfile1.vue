@@ -24,76 +24,39 @@
                   </v-col>
                   <v-card flat class="text-xs-center ma-3">
                     <v-list-item>
-                      <v-list-item-title class="headline">{{nome}}</v-list-item-title>
+                      <v-list-item-title class="headline">{{nome}} {{apelido}}</v-list-item-title>
                     </v-list-item>
 
                     <div class="pa-1">
                       <v-icon>mdi-home</v-icon>
-                      <span>Morada</span>
+                      <span> {{morada}}</span>
+                    </div>
+
+                    <div class="pa-1">
+                      <v-icon>mdi-calendar</v-icon>
+                      <span> {{dataNasc}}</span>
                     </div>
 
                     <div class="pa-1">
                       <v-icon>mdi-account-card-details</v-icon>
-                      <span>{{id}}</span>
+                      <span> {{id}}</span>
                     </div>
 
                     <div class="pa-1">
                       <v-icon>mdi-email</v-icon>
-                      <span>{{email}}</span>
+                      <span> {{email}}</span>
                     </div>
 
                     <div class="pa-1">
-                      <v-btn
-                        fab
-                        text
-                        small
-                        class="pl-11"
-                        @click.stop="modal_cadeiras =!modal_cadeiras"
-                      >
-                        <v-icon>mdi-notebook-multiple</v-icon>
-                        <span>Cadeiras</span>
-                      </v-btn>
-                      <v-dialog v-model="modal_cadeiras" max-width="290">
-                        <v-card>
-                          <v-card-title class="headline">Cadeiras</v-card-title>
-
-                          <v-list>
-                            <v-list-item v-for="(item, i) in items" :key="i">
-                              <v-list-item-content>
-                                <v-list-item-title v-text="item.uc"></v-list-item-title>
-                              </v-list-item-content>
-                            </v-list-item>
-                          </v-list>
-                        </v-card>
-                      </v-dialog>
-                    </div>
-
-                    <div>
-                      <v-btn fab text small class="pl-11" @click.stop="modal_grupos =!modal_grupos">
-                        <v-icon>mdi-account-group</v-icon>
-                        <span>Grupos</span>
-                      </v-btn>
-                      <v-dialog v-model="modal_grupos" max-width="290">
-                        <v-card>
-                          <v-card-title class="headline">Grupos</v-card-title>
-
-                          <v-list>
-                            <v-list-item v-for="(item, i) in itemss" :key="i">
-                              <v-list-item-content>
-                                <v-list-item-title v-text="item.grupo"></v-list-item-title>
-                              </v-list-item-content>
-                            </v-list-item>
-                          </v-list>
-                        </v-card>
-                      </v-dialog>
+                      <v-icon>mdi-school</v-icon>
+                      <span> {{curso}}</span>
                     </div>
 
                     <div class="pa-1">
                       <v-icon>mdi-comment-text-outline</v-icon>
-
-                      <span>Bio</span>
+                      <span>Biografia</span>
                       <v-card-text flat class="text-xs-center ma-3">
-                        <div>Sou..., nasci...., nos tempos livres facço... e gosto muito de ...</div>
+                        <span> {{bio}}</span>
                       </v-card-text>
                       <div align="center">
                         <v-btn text class="grey">
@@ -129,24 +92,11 @@ export default {
   },
   data() {
     return {
-      modal_cadeiras: false,
-      modal_grupos: false,
-      itemss: [
-        { uc: "PRI", grupo: "MIEI 4ºano" },
-        { uc: "GCS", grupo: "Engenheria Informática" },
-        { uc: "AA", grupo: "Bestas MIEI" }
-      ],
       items:[],
       email: "",
       nome: "",
       id: "",
-      user: null,
-      show: false,
-      links: [
-        { icon: "share", text: "Share" },
-        { icon: "report", text: "Report" },
-        { icon: "save", text: "Save" }
-      ]
+      user: null
     };
   },
   mounted: function() {
@@ -162,9 +112,15 @@ export default {
     };
     axios.get(url, config).then(res => {
       this.nome = res.data.user.nome;
-      this.id = res.data.user.id;
-      this.user = res.data.user
+      this.apelido = res.data.user.apelido;
+      this.dataNasc = res.data.user.dataNasc;
       this.email = res.data.user.email;
+      this.morada = res.data.user.morada;
+      this.curso = res.data.user.curso;
+      this.bio = res.data.user.bio;
+      this.user = res.data.user;
+      this.id = res.data.user.id;
+
       this.src =
         "https://api.manuelmariamoreno.pt/uploads/" +
         res.data.user.nome +

@@ -1,0 +1,9 @@
+[05388]
+Nome: "Pedro"
+Apelido: "Gonçalves"
+DataNascimento: 08-01-1999
+Morada: "Guimarães"
+Email: "Pedro"
+Curso: "LCC"
+Cadeiras: "GCS";"PRI".
+Password: "12345"
